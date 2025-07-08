@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MATHesis{% if title %} – {{ title }}{% endif %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+
+
+</head>
+<body>
+
+<!-- Logo Header + Navigation -->
+<header class="site-header">
+  <div class="logo-container">
+    <img src="/assets/logo.png" class="logo-icon" />
+    <img src="/assets/logotype.svg" class="letter-logo" />
+  </div>
+
+  <nav class="site-nav">
+    <a href="/">Home</a>
+    <a href="/search/">Search</a>
+    <a href="/visualization/">Visualization</a>
+    <a href="/map/">Map</a>
+    <a href="/about/">About</a>
+  </nav>
+</header>
+
+
+  <main>
+    {{ content }}
+  </main>
+</body>
+</html>

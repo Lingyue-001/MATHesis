@@ -1,0 +1,856 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "六陰卦",
+        "name_pinyin": "liuyin gua",
+        "traditional_term_zh_simple": "坤策",
+        "meaning_en": "earth, softness, receptivity, stillness",
+        "meaning_zh_simple": "地，柔顺，承载，静止",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 52.",
+        "related_concepts_simple": "土,阴,坤",
+        "related_concepts": "土,陰,坤",
+        "traditional_term_en": "Chthonic Reckoning",
+        "traditional_term_pinyin": "kun ce",
+        "traditional_term_zh": "坤策",
+        "name_en": "Pure Yin Hexagram",
+        "name_zh_simple": "六阴卦",
+        "meaning_zh": "地，柔順，承載，靜止"
+      }
+    },
+    {
+      "id": "0",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Derived from 6 yin lines × 24 per line (Chthonic Reckoning).",
+        "name": "144",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 52.",
+        "label": "Number",
+        "cardURL": "/cards/144.html",
+        "value": 144
+      }
+    },
+    {
+      "id": "2",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Fourth power of yang number 3 (3⁴ = 81); used as Day Factor (日法之數) in lunation calculations, representing the harmonic unit for subdividing lunar cycles.",
+        "name": "81",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 40.",
+        "label": "Number",
+        "cardURL": "/cards/81.html",
+        "value": 81
+      }
+    },
+    {
+      "id": "3",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "黃鐘首九",
+        "name_pinyin": "huangzhong shou jiu",
+        "symbolic_meaning_en": "Day Factor. The fourth power of the yang number 3 (3⁴ = 81), representing the harmonic origin of the calendrical system. This number embodies the cosmological and harmonic basis for the construction of calendrical units.",
+        "system": "律历 system (harmonic-mathematical calendrical construction)",
+        "cullen_quote_en": "This number is the divisor of the fractional part of days in a (mean) lunation. As the text states, it is supposed to be derived from considerations of mathematical harmonics, for which the fundamental note is the one named ‘Yellow Bell’... The fourth power of the yang number 3 is 81, and when multiplied by 10... it represents the volume of the pitch pipe producing that note.",
+        "original_text_zh": "太始元元，黃鐘之首九自乘為律首之數，以得日法之分。",
+        "original_text_en": "At the Origin Initiation, the First 9 of the Yellow Bell multiplies itself, which is the number of the first pitchpipe; one obtains the Day Factor.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 40",
+        "name_en": "First Nine of the Yellow Bell",
+        "name_zh_simple": "黄钟首九"
+      }
+    },
+    {
+      "id": "12",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Concordance Factor (會法), the product of Day Factor (81) and Intercalation Factor (19). It represents the core numerical cycle in which solar and lunar rhythms are coordinated in calendrical computation.",
+        "name": "1539",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 41.",
+        "label": "Number",
+        "cardURL": "/cards/1539.html",
+        "value": 1539
+      }
+    },
+    {
+      "id": "5",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "大衍之象",
+        "name_pinyin": "dayan zhi xiang",
+        "symbolic_meaning_en": "Symbolic structure used to derive the Lunation Factor. Encodes operations on the number 49 and related values—including multiplication by 2, 3, and 4, followed by additions of 19 and 1, and final doubling—producing 2392 units of 1/81 days per lunation.",
+        "system": "象数 system (symbolic–algorithmic calendrical modeling)",
+        "cullen_quote_en": "The Lunation Factor 2392 is calculated through an extended symbolic chain: (49 × 2 × 3 × 4 + 19 + 1) × 2 = 2392. These numbers stem from the divinatory arithmetic of the Book of Change and cosmological construction in early Chinese thought… Extending the image of the Great Expansion, one obtains the Lunation Factor.",
+        "original_text_zh": "大衍之數五十，其用四十有九……倍之以二象二，三之以三象三，四之以四象四，加十九象閏，又加一象用一，復倍之象再揲之法，以成步法。",
+        "name": "大衍之象",
+        "original_text_en": "The number of the Great Expansion is 50; of these, 49 are used… this is doubled to represent 2, trebled for 3, quadrupled for 4, then 19 (symbolizing intercalation) is added, and 1 (symbolizing the ‘occupied one’) is added, then the whole is doubled for the two-handled manipulation. This yields the Lunation Factor.",
+        "source": "Han shu 21a, p. 983",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "name_en": "Image of the Great Expansion",
+        "name_zh_simple": "大衍之象"
+      }
+    },
+    {
+      "id": "4",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Lunation Factor (步法), represents the number of 1/81-day units per lunation, constructed through symbolic-numerical operations in the system of the Great Expansion.",
+        "name": "2392",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "label": "Number",
+        "cardURL": "/cards/2392.html",
+        "value": 2392
+      }
+    },
+    {
+      "id": "6",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Used as the terminal number of Heaven (天之終數) in symbolic calendrical construction; forms part of the Intercalation Factor when summed with 10.",
+        "name": "9",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "label": "Number",
+        "cardURL": "/cards/9.html",
+        "value": 9
+      }
+    },
+    {
+      "id": "8",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "天之终数",
+        "name_pinyin": "tian zhi zhong shu",
+        "meaning_en": "yang, Heaven, nine, terminal yang number",
+        "meaning_zh_simple": "阳, 天, 九, 阳数终点",
+        "cullen_quote_en": "9 and 10 are simply the last pair of numbers in the list, and when added they make 19. This is the number of civil years (1 Rule) containing seven intercalary months.",
+        "original_text_en": "Heaven is nine, Earth is ten; summing their terminal numbers yields nineteen.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "related_concepts_simple": "阳, 天, 九, 阳数终点",
+        "system": "阴阳 + 易象 system",
+        "related_concepts": "陽, 天, 九, 陽數終點",
+        "original_text_zh": "天九地十，终数相加得十九。",
+        "name": "天之終數",
+        "name_en": "Heaven's Terminal Number",
+        "name_zh_simple": "天之终数",
+        "meaning_zh": "陽, 天, 九, 陽數終點"
+      }
+    },
+    {
+      "id": "7",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Used as the terminal number of Earth (地之終數) in symbolic calendrical construction; forms part of the Intercalation Factor when summed with 9.",
+        "name": "10",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "label": "Number",
+        "cardURL": "/cards/10.html",
+        "value": 10
+      }
+    },
+    {
+      "id": "9",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "地之终数",
+        "name_pinyin": "di zhi zhong shu",
+        "meaning_en": "yin, Earth, ten, terminal yin number",
+        "meaning_zh_simple": "阴, 地, 十, 阴数终点",
+        "cullen_quote_en": "9 and 10 are simply the last pair of numbers in the list, and when added they make 19. This is the number of civil years (1 Rule) containing seven intercalary months.",
+        "original_text_en": "Heaven is nine, Earth is ten; summing their terminal numbers yields nineteen.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "related_concepts_simple": "阴, 地, 十, 阴数终点",
+        "system": "阴阳 + 易象 system",
+        "related_concepts": "陰, 地, 十, 陰數終點",
+        "original_text_zh": "天九地十，终数相加得十九。",
+        "name": "地之終數",
+        "name_en": "Earth's Terminal Number",
+        "name_zh_simple": "地之终数",
+        "meaning_zh": "陰, 地, 十, 陰數終點"
+      }
+    },
+    {
+      "id": "10",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "天地终数合",
+        "name_pinyin": "tiandi zhong shu he",
+        "meaning_en": "yang, yin, terminal numbers, union, intercalation",
+        "meaning_zh_simple": "阳, 阴, 终数, 合一, 闰法",
+        "cullen_quote_en": "9 and 10 are simply the last pair of numbers in the list, and when added they make 19. This is the number of civil years (1 Rule) containing seven intercalary months, making a total of 235 months. The pattern of intercalations repeats at this interval.",
+        "original_text_en": "Joining the ultimate numbers of Heaven and Earth, one obtains the Intercalation Factor.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "related_concepts_simple": "天九, 地十, 阳阴, 终数, 闰法",
+        "system": "陰陽 + 易象 + 歷法 system (yin–yang cosmology and calendrical intercalation)",
+        "related_concepts": "天九, 地十, 陽陰, 終數, 閏法",
+        "original_text_zh": "合天地之終數得閏法之數也。",
+        "name": "天地終數合",
+        "name_en": "Sum of Heaven and Earth Terminal Numbers",
+        "name_zh_simple": "天地终数合",
+        "meaning_zh": "陽, 陰, 終數, 合一, 閏法"
+      }
+    },
+    {
+      "id": "11",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Intercalation Factor (閏法之數), derived by summing the terminal numbers of Heaven (9) and Earth (10). It governs the cycle of seven intercalary months over every 19 solar years, reflecting the yin–yang reconciliation in calendrical cosmology.",
+        "name": "19",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "label": "Number",
+        "cardURL": "/cards/19.html",
+        "value": 19
+      }
+    },
+    {
+      "id": "13",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "三統",
+        "name_pinyin": "san tong",
+        "symbolic_meaning_en": "A calendrical system that coordinates three reckonings of time—celestial, terrestrial, and anthropic—based on the harmonizing cycle defined by the Concordance Factor (1539).",
+        "meaning_en": "triple time alignment: celestial, terrestrial, anthropic",
+        "cullen_quote_en": "The number 1539 is the foundational cycle for the three Concordances: celestial, terrestrial, and anthropic.",
+        "original_text_en": "The Day Factor is 81, the Intercalation Factor is 19; their product gives the Concordance Factor.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 41",
+        "system": "漢代曆法制度 (Han calendrical systems)",
+        "original_text_zh": "日法八十一，閏法十九，相乘以得會法。",
+        "name": "三統",
+        "name_en": "Triple Concordance System",
+        "name_zh_simple": "三统",
+        "meaning_zh": "天統、地統、人統三種曆法節律的統一協調"
+      }
+    },
+    {
+      "id": "14",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "天統",
+        "name_pinyin": "tian tong",
+        "symbolic_meaning_en": "The celestial aspect of the Triple Concordance system, corresponding to solar time cycles.",
+        "meaning_en": "celestial time coordination",
+        "cullen_quote_en": "The Celestial Concordance aligns with the Xia calendar's 11th month, beginning at the winter solstice.",
+        "original_text_en": "Celestial Concordance: the year begins with the month of the winter solstice.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 41",
+        "system": "三統曆 (Triple Concordance Calendar)",
+        "original_text_zh": "天統者，以冬至之月為歲首。",
+        "name": "天統",
+        "name_en": "Celestial Concordance",
+        "name_zh_simple": "天统",
+        "meaning_zh": "太陽時間的統攝與調和"
+      }
+    },
+    {
+      "id": "15",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "地統",
+        "name_pinyin": "di tong",
+        "symbolic_meaning_en": "The terrestrial aspect of the Triple Concordance system, corresponding to lunar and intercalary time.",
+        "meaning_en": "terrestrial time coordination",
+        "cullen_quote_en": "The Terrestrial Concordance begins in the 12th Xia month, aligning with midwinter but later than the winter solstice.",
+        "original_text_en": "Terrestrial Concordance: the year begins with the twelfth month.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 41",
+        "system": "三統曆 (Triple Concordance Calendar)",
+        "original_text_zh": "地統者，以臘月為歲首。",
+        "name": "地統",
+        "name_en": "Terrestrial Concordance",
+        "name_zh_simple": "地统",
+        "meaning_zh": "陰陽曆法與閏月機制的調和"
+      }
+    },
+    {
+      "id": "16",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "人統",
+        "name_pinyin": "ren tong",
+        "symbolic_meaning_en": "The anthropic aspect of the Triple Concordance system, corresponding to ritual time and human scheduling.",
+        "meaning_en": "anthropic/ritual time coordination",
+        "cullen_quote_en": "The Anthropic Concordance follows ritual precedence, aligning the year start with the 1st month for human affairs and ceremonial rhythm.",
+        "original_text_en": "Anthropic Concordance: the year begins with the first month of spring.",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 41",
+        "system": "三統曆 (Triple Concordance Calendar)",
+        "original_text_zh": "人統者，以正月為歲首。",
+        "name": "人統",
+        "name_en": "Anthropic Concordance",
+        "name_zh_simple": "人统",
+        "meaning_zh": "人事禮儀與曆法週期的配合"
+      }
+    },
+    {
+      "id": "17",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Symbolically represents the ‘occupied one’ (用一), signifying the Dao. Added in the construction of the Lunation Factor before final doubling.",
+        "name": "1",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "label": "Number",
+        "cardURL": "/cards/1.html",
+        "value": 1
+      }
+    },
+    {
+      "id": "21",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "道",
+        "system_tags_zh": [
+          "道本體",
+          "象數系統",
+          "哲理宇宙論"
+        ],
+        "name_pinyin": "dao",
+        "meaning_en": "origin, unity, void, generative principle",
+        "cullen_quote_en": "The ‘occupied one’ (用一) is added before doubling. This represents the Dao in the symbolic structure of the Lunation Factor.",
+        "original_text_en": "One is added but not used in calculation, representing the Dao.",
+        "source": "Han shu 21a, p. 983",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "system_tags_zh_simple": [
+          "道本体",
+          "象数系统",
+          "哲理宇宙论"
+        ],
+        "related_concepts_simple": "用一, 占位, 元始, 本体, 起始之数",
+        "related_concepts": "用一, 占位, 元始, 本體, 起始之數",
+        "system_tags": [
+          "daoPrinciple",
+          "symbolicNumerology",
+          "metaphysicalCosmology"
+        ],
+        "original_text_zh": "五十以象之，其用四十九，而弃一以象道。",
+        "name": "道",
+        "name_en": "Dao",
+        "name_zh_simple": "道",
+        "meaning_zh": "元始, 一體, 虛無, 生發之源"
+      }
+    },
+    {
+      "id": "31",
+      "labels": [
+        "SanskritSymbol"
+      ],
+      "properties": {
+        "name_zh": "月亮",
+        "name_sa": "चन्द्र",
+        "meaning_en": [
+          "hare-marked",
+          "soma",
+          "drop",
+          "beam of frost",
+          "maker of night",
+          "snow-goer",
+          "deer-marked",
+          "holder of phases"
+        ],
+        "meaning_zh_simple": [
+          "有兔者",
+          "苏摩",
+          "水滴",
+          "冰霜之光",
+          "夜之造者",
+          "雪中行者",
+          "有鹿斑者",
+          "阴影之持者"
+        ],
+        "original_text_tr": "śaśin somaś cenduś ca prāleyāṃśurajanīkaraḥ himagur mṛgāṅkaś ca kalādharaś caiva candramāḥ",
+        "original_text_en": "śaśin, soma, indu, prāleyāṃśu, rajanīkaraḥ, himagu, mṛgāṅka, and kalādharaḥ are all names of the moon.",
+        "meaning_tr": [
+          "śaśin",
+          "soma",
+          "indu",
+          "prāleyāṃśu",
+          "rajanīkaraḥ",
+          "himagu",
+          "mṛgāṅka",
+          "kalādharaḥ"
+        ],
+        "original_text_zh": "有兔者、蘇摩、水滴、冰霜之光、夜之造者、雪中行者、有鹿斑者、陰影之持者等皆為月亮之名。",
+        "original_text_sa": "शशिन् सोमश्चेन्दुश्च प्रालेयांशुरजनीकरः । हिमगुर्मृगाङ्कश्च कलाधरश्चैव चन्द्रमाः ॥",
+        "name": "चन्द्र candra / 月亮 moon",
+        "petrocchi_quote_en": "All these are synonyms or poetic epithets of the moon, and by extension are used to represent the number one in Bhūta-saṃkhyā notations.",
+        "petrocchi_source": "Alessandra Petrocchi, 2016, p. 483.",
+        "transliteration": "candra",
+        "name_en": "Moon",
+        "name_zh_simple": "月亮",
+        "meaning_zh": [
+          "有兔者",
+          "蘇摩",
+          "水滴",
+          "冰霜之光",
+          "夜之造者",
+          "雪中行者",
+          "有鹿斑者",
+          "陰影之持者"
+        ],
+        "meaning_sa": [
+          "शशिन्",
+          "सोम",
+          "इन्दु",
+          "प्रालेयांशु",
+          "रजनीकरः",
+          "हिमगु",
+          "मृगाङ्क",
+          "कलाधरः"
+        ]
+      }
+    },
+    {
+      "id": "18",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Represents Earth (地) in yin–yang numerology; forms part of the Earthly (yin) sequence in the Book of Changes.",
+        "name": "2",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 41",
+        "label": "Number",
+        "cardURL": "/cards/2.html",
+        "value": 2
+      }
+    },
+    {
+      "id": "22",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "地",
+        "system_tags_zh": [
+          "陰陽宇宙論",
+          "易象系統"
+        ],
+        "name_pinyin": "di",
+        "meaning_en": "yin, receptivity, duality, evenness",
+        "cullen_quote_en": "The number 2 is part of the Earthly (yin) sequence in the Book of Changes.",
+        "original_text_en": "The even numbers—2, 4, 6, 8, 10—are assigned to Earth (yin).",
+        "source": "Han shu 21a, p. 983",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 41",
+        "system_tags_zh_simple": [
+          "阴阳宇宙论",
+          "易象系统"
+        ],
+        "related_concepts_simple": "二, 地之数, 偶数, 阴象",
+        "related_concepts": "二, 地之數, 偶數, 陰象",
+        "system_tags": [
+          "yinYangCosmology",
+          "YijingSymbolism"
+        ],
+        "original_text_zh": "二為地……天數五，地數五。",
+        "name": "地",
+        "name_en": "Earth",
+        "name_zh_simple": "地",
+        "meaning_zh": "陰性, 承載, 雙數, 靜定"
+      }
+    },
+    {
+      "id": "19",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Represents Heaven (天) in yin–yang numerology; forms part of the Heavenly (yang) sequence in the Book of Changes and the base of calendrical harmonic numbers.",
+        "name": "3",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "label": "Number",
+        "cardURL": "/cards/3.html",
+        "value": 3
+      }
+    },
+    {
+      "id": "23",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "天",
+        "system_tags_zh": [
+          "陰陽宇宙論",
+          "易象系統"
+        ],
+        "name_pinyin": "tian",
+        "meaning_en": "yang, creativity, triad, oddness",
+        "cullen_quote_en": "The number 3 belongs to the Heavenly (yang) sequence and forms the base of calendrical harmonic constructions.",
+        "original_text_en": "The odd numbers—1, 3, 5, 7, 9—are assigned to Heaven (yang).",
+        "source": "Han shu 21a, p. 983",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 40",
+        "system_tags_zh_simple": [
+          "阴阳宇宙论",
+          "易象系统"
+        ],
+        "related_concepts_simple": "三, 天之数, 奇数, 阳象",
+        "related_concepts": "三, 天之數, 奇數, 陽象",
+        "system_tags": [
+          "yinYangCosmology",
+          "YijingSymbolism"
+        ],
+        "original_text_zh": "三為天……天數五，地數五。",
+        "name": "天",
+        "name_en": "Heaven",
+        "name_zh_simple": "天",
+        "meaning_zh": "陽性, 生發, 三才, 奇數"
+      }
+    },
+    {
+      "id": "20",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "Symbolic number associated with completeness and structural generation; used in calendrical operations such as 49×2×3×4 in the construction of the Lunation Factor.",
+        "name": "4",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "label": "Number",
+        "cardURL": "/cards/4.html",
+        "value": 4
+      }
+    },
+    {
+      "id": "24",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "成法",
+        "system_tags_zh": [
+          "象數系統",
+          "曆法結構"
+        ],
+        "name_pinyin": "cheng fa",
+        "meaning_en": "structure, completion, generation, stability",
+        "cullen_quote_en": "The number 4 symbolizes structuring multiplicity in the divinatory calculation of the Lunation Factor.",
+        "original_text_en": "Multiplied by 4 to form the structure of the Lunation Factor.",
+        "source": "Han shu 21a, p. 983",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "system_tags_zh_simple": [
+          "象数系统",
+          "历法结构"
+        ],
+        "related_concepts_simple": "四, 成形, 四象, 宇宙结构",
+        "related_concepts": "四, 成形, 四象, 宇宙結構",
+        "system_tags": [
+          "symbolicNumerology",
+          "calendarStructure"
+        ],
+        "original_text_zh": "四之以四象四，以成步法。",
+        "name": "成法",
+        "name_en": "Structure",
+        "name_zh_simple": "成法",
+        "meaning_zh": "結構, 完滿, 生化, 穩定"
+      }
+    },
+    {
+      "id": "29",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "note": "The number of usable yarrow stalks in divination, foundational to the symbolic arithmetic used in calendrical construction.",
+        "name": "49",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "label": "Number",
+        "cardURL": "/cards/49.html",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "value": 49
+      }
+    },
+    {
+      "id": "25",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "value": 5,
+        "label": "Number",
+        "name": "5",
+        "note": "Used as the final odd (yang) number in calendrical computation; denotes the utmost of yang.",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "cardURL": "/cards/5.html"
+      }
+    },
+    {
+      "id": "26",
+      "labels": [
+        "Number"
+      ],
+      "properties": {
+        "value": 6,
+        "label": "Number",
+        "name": "6",
+        "note": "Used as the final even (yin) number in calendrical computation; basis of Pure Yin structure and hexagram division.",
+        "source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "cardURL": "/cards/6.html"
+      }
+    },    
+    {
+      "id": "30",
+      "labels": [
+        "Symbol"
+      ],
+      "properties": {
+        "name_zh": "大衍之數",
+        "system_tags_zh": [
+          "象數系統",
+          "天地生成",
+          "筮法結構"
+        ],
+        "name_pinyin": "da yan zhi shu",
+        "meaning_en": "usable yarrow stalks, symbolic count, calendrical base",
+        "meaning_zh_simple": "可用蓍草, 象征数, 历法根基",
+        "cullen_quote_en": "The number of the Great Expansion is 50; of these, 49 are used…",
+        "original_text_en": "The number of the Great Expansion is 50; of these, 49 are used…",
+        "source": "Han shu 21a, p. 983",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, p. 43",
+        "system_tags_zh_simple": [
+          "象数系统",
+          "天地生成",
+          "筮法结构"
+        ],
+        "related_concepts_simple": "大衍, 蓍草, 象数, 筮法, 天地生成",
+        "related_concepts": "大衍, 蓍草, 象數, 筮法, 天地生成",
+        "system_tags": [
+          "symbolicNumerology",
+          "cosmicGeneration",
+          "divinatoryArithmetic"
+        ],
+        "original_text_zh": "大衍之數五十，其用四十九……",
+        "name": "大衍之數",
+        "name_en": "Great Expansion Number",
+        "name_zh_simple": "大衍之数",
+        "meaning_zh": "可用蓍草, 象徵數, 曆法根基"
+      }
+    },
+    {
+      "id": "27",
+      "labels": ["Symbol"],
+      "properties": {
+        "name_zh": "陰極之數",
+        "name_en": "Utmost Yin Number",
+        "name": "陰極之數",
+        "name_zh_simple": "阴极之数",
+        "name_pinyin": "yin ji zhi shu",
+        "meaning_en": "final yin number, foundational unit in yarrow-stalk and hexagram structures",
+        "meaning_zh": "偶數終點，蓍草與卦體之基",
+        "meaning_zh_simple": "偶数终点，蓍草与卦体之基",
+        "cullen_quote_en": "In calendrical and divinatory symbolism, the number six marks the limit of the yin series and serves as the basis of the Pure Yin hexagram（六陰卦）.",
+        "original_text_en": "The utmost number of Yin is six.",
+        "original_text_zh": "陰之極數六。",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "system_tags": ["yinYangCosmology", "YijingSymbolism"],
+        "system_tags_zh": ["陰陽宇宙論", "易象系統"],
+        "system_tags_zh_simple": ["阴阳宇宙论", "易象系统"],
+        "related_concepts": "陰, 偶數, 地, 卦體",
+        "related_concepts_simple": "阴, 偶数, 地, 卦体",
+        "label": "Symbol"
+      }
+    },
+    {
+      "id": "28",
+      "labels": ["Symbol"],
+      "properties": {
+        "name_zh": "陽極之數",
+        "name_en": "Utmost Yang Number",
+        "name": "陽極之數",
+        "name_zh_simple": "阳极之数",
+        "name_pinyin": "yang ji zhi shu",
+        "meaning_en": "final yang number, culmination of celestial activity",
+        "meaning_zh": "奇數極點，天道推演之終",
+        "meaning_zh_simple": "奇数极点，天道推演之终",
+        "cullen_quote_en": "In the system presented, yang numbers are odd and increase to five. This is the final number used before the yin sequence begins.",
+        "original_text_en": "The utmost number of Yang is five.",
+        "original_text_zh": "陽之極數五。",
+        "source": "Han shu 21b, p. 991",
+        "cullen_source": "Christopher Cullen, The Foundations of Celestial Reckoning, pp. 40–41",
+        "system_tags": ["yinYangCosmology", "YijingSymbolism"],
+        "system_tags_zh": ["陰陽宇宙論", "易象系統"],
+        "system_tags_zh_simple": ["阴阳宇宙论", "易象系统"],
+        "related_concepts": "陽, 奇數, 天, 極數",
+        "related_concepts_simple": "阳, 奇数, 天, 极数",
+        "label": "Symbol"
+      }
+    }        
+  ],
+  "edges": [
+    {
+      "source": "1",
+      "target": "0",
+      "type": "RESULTS_IN"
+    },
+    {
+      "source": "2",
+      "target": "3",
+      "type": "REPRESENTS"
+    },
+    {
+      "source": "2",
+      "target": "12",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "5",
+      "target": "4",
+      "type": "RESULTS_IN"
+    },
+    {
+      "source": "6",
+      "target": "8",
+      "type": "IS_UNIT_IN"
+    },
+    {
+      "source": "7",
+      "target": "9",
+      "type": "IS_UNIT_IN"
+    },
+    {
+      "source": "8",
+      "target": "10",
+      "type": "PART_OF_STRUCTURE"
+    },
+    {
+      "source": "9",
+      "target": "10",
+      "type": "PART_OF_STRUCTURE"
+    },
+    {
+      "source": "10",
+      "target": "11",
+      "type": "RESULTS_IN"
+    },
+    {
+      "source": "11",
+      "target": "4",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "11",
+      "target": "12",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "12",
+      "target": "13",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "14",
+      "target": "13",
+      "type": "PART_OF_STRUCTURE"
+    },
+    {
+      "source": "15",
+      "target": "13",
+      "type": "PART_OF_STRUCTURE"
+    },
+    {
+      "source": "16",
+      "target": "13",
+      "type": "PART_OF_STRUCTURE"
+    },
+    {
+      "source": "17",
+      "target": "21",
+      "type": "SYMBOLIZES"
+    },
+    {
+      "source": "17",
+      "target": "31",
+      "type": "SYMBOLIZES"
+    },
+    {
+      "source": "17",
+      "target": "4",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "18",
+      "target": "22",
+      "type": "SYMBOLIZES"
+    },
+    {
+      "source": "18",
+      "target": "4",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "18",
+      "target": "4",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "19",
+      "target": "23",
+      "type": "SYMBOLIZES"
+    },
+    {
+      "source": "19",
+      "target": "4",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "20",
+      "target": "24",
+      "type": "SYMBOLIZES"
+    },
+    {
+      "source": "20",
+      "target": "4",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "29",
+      "target": "30",
+      "type": "SYMBOLIZES"
+    },
+    {
+      "source": "29",
+      "target": "4",
+      "type": "PRODUCES"
+    }
+  ]
+}
