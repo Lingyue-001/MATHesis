@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Build Eleventy site
-        run: npx @11ty/eleventy
+        run: NODE_ENV=production npx @11ty/eleventy
 
       - name: Upload site to GitHub Pages
         uses: actions/upload-pages-artifact@v3
