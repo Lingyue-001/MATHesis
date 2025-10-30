@@ -1,6 +1,6 @@
 ---
 title: About
-layout: base.liquid
+layout: base
 ---
 
 <div class="about-page" style="max-width: 800px; margin: 3rem auto; font-family: Georgia, serif; line-height: 1.7; color: #333; padding: 0 1rem;">

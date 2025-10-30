@@ -1,6 +1,6 @@
 ---
 title: MATHesis – Visualization
-layout: base.liquid
+layout: base
 ---
 
 <div id="graph-container" style="height: 600px; border: 1px solid #ccc; margin: 3rem auto;"></div>

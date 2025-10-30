@@ -1,0 +1,16 @@
+# macOS system files
+.DS_Store
+
+# Node dependencies
+node_modules/
+
+# Eleventy build output
+_site/
+dist/
+
+# Logs and temporary files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.cache

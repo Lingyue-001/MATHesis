@@ -1,5 +1,5 @@
 ---
-layout: base.liquid
+layout: base
 title: Home
 ---
 

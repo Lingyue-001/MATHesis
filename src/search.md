@@ -1,6 +1,6 @@
 ---
 title: MATHesis – Search
-layout: base.liquid
+layout: base
 ---
 
 <!-- 下面贴上你现有那段搜索 HTML -->

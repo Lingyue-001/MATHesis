@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Q90r–v Transcription (Mak 2013)</title>
+      </titleStmt>
+      <sourceDesc>
+        <p>Source: Bill M. Mak, “The Last Chapter of Sphujidhvaja’s Yavanajātaka”, SCIAMVS 14 (2013).</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <pb n="Q90r"/>
+      <l n="79.45c">vidhiḥ pravede prajābhavābhāvavidīśvaratvaṃ ||99||</l>
+      <pb n="Q90v"/>
+      <l n="79.57c">iti ślokāḥ |</l>
+    </body>
+  </text>
+</TEI>

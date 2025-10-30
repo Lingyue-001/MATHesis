@@ -65,18 +65,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     cullen_source: "Secondary Source - Cullen (Reference)",
     petrocchi_quote_en: "Secondary Source - Petrocchi (Quote)",
     petrocchi_source: "Secondary Source - Petrocchi (Reference)",
-    source: "Secondary Source - Cullen (Reference)"
+    source: "Primary Source (Reference)"
   };
 
   const FIELD_ORDER = [
-    "name_sa", "transliteration", "name_zh", "name_en",
-    "meaning_sa", "meaning_tr", "meaning_zh", "meaning_en", "symbolic_meaning_en",
-    "value", "note", "explanation",
-    "related_concepts", "traditional_term_en", "traditional_term_zh", "traditional_term_pinyin",
-    "system_tags", "system",
-    "original_text_en", "original_text_zh", "original_text_sa", "original_text_tr",
-    "cullen_quote_en", "cullen_source", "petrocchi_quote_en", "petrocchi_source", "source"
-  ];
+  "name_sa", "transliteration", "name_zh", "name_en",
+  "meaning_sa", "meaning_tr", "meaning_zh", "meaning_en", "symbolic_meaning_en",
+  "value", "note", "explanation",
+  "related_concepts", "traditional_term_en", "traditional_term_zh", "traditional_term_pinyin",
+  "system_tags", "system",
+
+  // ✅ ✅ ✅ 一手文献部分，排在前面
+  "original_text_zh",
+  "original_text_en",
+  "original_text_sa",
+  "original_text_tr",
+  "source",  // 你用来记录 primary reference 的字段
+
+  // ✅ ✅ ✅ 二手文献部分，往后放
+  "cullen_quote_en",
+  "cullen_source",
+  "petrocchi_quote_en",
+  "petrocchi_source"
+];
+
 
   const HIDDEN_FIELDS = new Set([
     "name", "name_zh_simple", "meaning_zh_simple", "nodes",
