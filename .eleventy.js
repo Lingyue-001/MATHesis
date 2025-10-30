@@ -1,26 +1,23 @@
 module.exports = function(eleventyConfig) {
-  // 静态资源复制
+  // === 静态资源复制 ===
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("assets/fonts");
   eleventyConfig.addPassthroughCopy("static");
   eleventyConfig.addPassthroughCopy("src/data.json");
   eleventyConfig.addPassthroughCopy("assets");
+
+  // === 环境变量判断 ===
+  // GitHub Actions 会自动注入 NODE_ENV=production
+  const isProduction = process.env.NODE_ENV === "production";
+
+  // === 目录结构设置 ===
   return {
     dir: {
-      input: "src",     // 如果你是用 src/ 放内容
-      includes: "layouts",  // ✅ 告诉它 layouts 在哪
-      data: "data",
-      output: "dist"    // 或者 "_site"，根据你的设置
+      input: "src",          // 源文件夹
+      includes: "layouts",   // 模板所在位置
+      data: "data",          // 数据目录（可选）
+      output: isProduction ? "dist" : "_site" // 🧩 动态切换输出路径
     }
   };
 };
-
-
-  return {
-    dir: {
-      input: "src",
-      output: "dist",
-      includes: "layouts"  // ✅ 告诉 Eleventy 用 layouts 作为模板路径
-    }
-  };
