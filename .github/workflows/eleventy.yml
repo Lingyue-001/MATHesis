@@ -37,7 +37,7 @@ jobs:
       - name: Upload site to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site  # Eleventy 输出文件夹
+          path: dist  # Eleventy 输出文件夹
 
   deploy:
     needs: build
