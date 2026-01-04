@@ -1,21 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="mathesis_YA_Q90r" xml:lang="sa-Latn">
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Q90r–v Transcription (Mak 2013)</title>
+        <title>Yavanajātaka (fragment Q90r)</title>
+        <respStmt>
+          <resp>Encoded by</resp>
+          <name>Lingyue Ma</name>
+        </respStmt>
       </titleStmt>
+
       <sourceDesc>
-        <p>Source: Bill M. Mak, “The Last Chapter of Sphujidhvaja’s Yavanajātaka”, SCIAMVS 14 (2013).</p>
+        <msDesc>
+          <msIdentifier>
+            <idno>YA / Q90r</idno>
+          </msIdentifier>
+
+          <msContents>
+            <textLang mainLang="sa"/>
+            <msItem class="astrological" ana="Indian;Yavana;astronomy;calendar">
+              <p>Paper manuscript; Yavanajātaka, astrology and calendrical computation (fragment).</p>
+            </msItem>
+          </msContents>
+
+          <physDesc>
+            <objectDesc>
+              <supportDesc ana="paper">
+                <support>
+                    <material>paper</material>
+                    <dimensions type="surface" unit="cm">
+                    <height>13.2</height>
+                    <width>41.6</width>
+                    </dimensions>
+                    <p>Paper manuscript. Incomplete. Originally 81 folios (ff. 8–87, 90), but only one folio is currently available for study.</p>
+                </support>
+                <condition>
+                    <p>Some folios missing and damaged, but the extant folio is generally well preserved and highly legible.</p>
+                </condition>
+                </supportDesc>
+
+              <layoutDesc>
+                <layout columns="1" writtenLines="11"/>
+              </layoutDesc>
+            </objectDesc>
+
+            <handDesc>
+                <handNote ana="handwritten.indic">
+                <p>Written in New Newarī script (Northern Nāgarī), regular hand, brown ink. Orthography suggests an eighteenth-century date.</p>
+                </handNote>
+            </handDesc>
+
+          </physDesc>
+
+        <history>
+            <origin>
+                <p>Probably eighteenth century, based on orthographic features and the red alignment lines used for ruling.</p>
+            </origin>
+        </history>
+        </msDesc>
       </sourceDesc>
     </fileDesc>
   </teiHeader>
-  <text>
-    <body>
-      <pb n="Q90r"/>
-      <l n="79.45c">vidhiḥ pravede prajābhavābhāvavidīśvaratvaṃ ||99||</l>
-      <pb n="Q90v"/>
-      <l n="79.57c">iti ślokāḥ |</l>
-    </body>
-  </text>
+
+  <facsimile xml:id="YA_Q90r_facsimile">
+    <desc>
+      Digital color photograph of folio Q90r from the paper manuscript 
+      Yavanajātaka (NGMPP A 1122/3 = NAK 6/2397), written in New Newarī 
+      (Northern Nāgarī) script. The image reproduces one folio of an 
+      eighteenth-century Nepalese copy, photographed in 2011 for the 
+      Nepal-German Manuscript Preservation Project (NGMPP).
+    </desc>
+    <surface xml:id="folioQ90r" n="Q90r" type="folio">
+      <graphic url="assets/manuscript-Q90r.png" mimeType="image/png"/>
+      <desc>
+        Courtesy of Professor Michio Yano (Kyoto Sangyo University) and the NGMPP.
+        © National Archives of Nepal / Nepal-German Manuscript Preservation Project, 2011.
+      </desc>
+    </surface>
+    <sourceDesc>
+      <p>
+        NGMPP A 1122/3 = NAK 6/2397 (originally labelled as Bṛhadyavanajātaka). 
+        Paper manuscript, 81 folios (ff. 8–87, 90), 41.6 × 13.2 cm, 11 lines per page. 
+        Eighteenth century (based on orthography and red alignment lines). 
+        Digitized color photographs produced in 2011 by Michio Yano for the NGMPP, 
+        with facilitation by Harunaga Isaacson and Albrecht Hanisch.
+      </p>
+    </sourceDesc>
+  </facsimile>
+
+ <text>
+  <body>
+
+    <!-- 1️⃣ Transcription (physical lines follow manuscript) -->
+    <div type="edition" subtype="transcription" xml:lang="sa" script="Deva">
+    <pb n="Q90r" facs="#folioQ90r"/>
+    <head>Transcription (Devanāgarī)</head>
+
+    <ab>
+        षेन यात्यङ् गुरुदर्शने 
+        <gap reason="lost" quantity="3" unit="character"/> 
+        त्रितङ्ग्र त्रिभिर् एव <supplied reason="illegible">च्</supplied>ोद्यं 
+        ||८७||<lb/>
+    </ab>
+
+    <ab>
+        शते ऽष्टकोग्राधशता धिके द्वे गत्वाष्टवर्गेन शतद्वयेन ।
+        वक्रे ऽष्टशट्कोण चतुर्गुणा षड् <lb/>
+        गत्वा दिना तिष्ठति 
+        <gap reason="lost" quantity="3" unit="character"/>
+        <supplied reason="lost"><unclear>ः</unclear></supplied>
+        ||८<supplied reason="lost">८</supplied>||<lb/>
+    </ab>
+    </div>
+
+     <!-- 2️⃣ Transcription (Romanized) -->
+    <div type="edition" subtype="transcription" xml:lang="sa" script="Deva-Latn">
+      <head>Transcription (Romanized)</head>
+
+      <ab>
+        ṣena yātyaṅ gurudarśane
+        <gap reason="lost" quantity="3" unit="character"/>
+        tritaṅgra tribhir eva <supplied reason="illegible">c</supplied>odyam ||87||<lb/>
+      </ab>
+
+      <ab>
+        śate 'ṣṭakogrādhaśatā dhike dve gatvāṣṭavargena śatadvayena |
+        vakre 'ṣṭaśaṭkoṇa caturguṇā ṣaḍ <lb/>
+        gatvā dinā tiṣṭhati
+        <gap reason="lost" quantity="3" unit="character"/>
+        <supplied reason="lost"><unclear>ḥ</unclear></supplied>
+        ||8<supplied reason="lost">8</supplied>||<lb/>
+      </ab>
+    </div>
+
+
+    <!-- 3️⃣ Edited text (normalized Latin transcription) -->
+    <div type="edition" subtype="critical" xml:lang="sa" script="Deva-Latn">
+    <head>Edited Text (Romanized)</head>
+    <ab>
+        śeṣeṇa prācyāparadarśane tu jñena tritaṅka tribhir eva vādyam ||45||<lb/>
+    </ab>
+    <ab>
+        śate 'ṣṭakāgre 'rdhaśatādhike dve gatvāṣṭavargeṇa śatadvayena |
+        vakre 'ṣṭaṣaṭkeṇa caturguṇaṃ ṣaḍ gatvā dinān tiṣṭhati pañca śukraḥ ||46||<lb/>
+    </ab>
+    </div>
+
+
+    <!-- 4️⃣ Translation -->
+    <div type="translation" xml:lang="en">
+      <head>Translation</head>
+      <ab>
+        Furthermore, there are two first visibilities (darśana) - one in the East and one in the West; therefore...<lb/>
+      </ab>
+      <ab>
+        Venus goes 258° in 208 (tithis); then it goes in vakra 24° in 48 tithis, and stands still for five days (= tithis);<lb/>
+      </ab>
+    </div>
+
+  </body>
+</text>
+
+<listBibl>
+  <head>BIBLIOGRAPHY</head>
+  <bibl>
+    Mak, Bill M. (2013). 
+    <title level="a" type="article">The Last Chapter of Sphujidhvaja’s 
+      <title level="m" type="work">Yavanajātaka</title>
+    </title>. 
+    <title level="j" type="journal">SCIAMVS</title> 
+    <biblScope unit="volume">14</biblScope>: 
+    <biblScope unit="page">59–120</biblScope>.
+  </bibl>
+</listBibl>
+
+
 </TEI>
