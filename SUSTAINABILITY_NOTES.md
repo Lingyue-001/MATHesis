@@ -1,20 +1,25 @@
-# Sustainability Notes
+# 待解决问题与需求清单
 
-This file tracks current redundancies, conflicts, and clarity gaps that affect long-term maintainability.
+本文件用于跟踪项目的可持续性问题、需求边界与推进方向。
 
-## Data consistency risks
-- Multiple data sources for graph content: `src/data.json` (search/data pages) vs `static/*.csv` (visualization). This can drift without a declared source of truth.
-- Duplicate edge entry in `src/data.json` for `source: 18 -> target: 4 -> type: PRODUCES`.
+## 一、待解决问题（代码/流程）
+- [未解决] 数据源不一致：`src/data.json`（搜索/数据页）与 `static/*.csv`（可视化）并存，缺少明确的唯一数据源，容易漂移。
+- [未解决] 数据重复：`src/data.json` 中存在重复的 edge（`source: 18 -> target: 4 -> type: PRODUCES`）。
+- [未解决] 生成脚本不可移植：`generate_simp_trad_map.py` 既使用硬编码绝对路径，又引用不存在的 `src/js/data.json`。
+- [未解决] 代码冗余：`src/js/filter.js` 中有未使用的变量 `displayedName`。
+- [部分已解决] 文档缺失：已补充 README 的数据流与部署检查，但仍缺少权威数据源与导出脚本的完整说明。
+- [未解决] 自动导出需求：需用 Python 脚本从 Neo4j 自动导出到 `src/data.json` 与 `static/*.csv`，并在 `start/build` 前执行。
 
-## Script and workflow issues
-- `generate_simp_trad_map.py` reads a hardcoded absolute path and also references `src/js/data.json` which does not exist, making it non-portable and easy to run against the wrong file.
+## 二、已实现/预期需求（现有方向）
+- 以 Neo4j node-edge 数据库为基础，构建搜索与整合网站。
+- 呈现中国古代天文学文本中数字/数学操作与象征系统之间的关系结构。
+- 可视化科学/计算系统与哲学/象征/宇宙论体系的对应关系。
+- 支持从同一数字/操作出发，查看其在不同语境下的象征集合；也支持从象征回溯相关数字/操作。
+- 未来扩展为跨传统、跨文本的模型，以检验传统文本研究可能忽视的结构性规律。
 
-## Code hygiene
-- `src/js/filter.js` defines `displayedName` but does not use it.
-
-## Missing documentation
-- No single place describes the canonical data source, update workflow, or the relationship between JSON and CSV artifacts.
-
-## New request: automated export (Python)
-- Requirement: replace manual Neo4j export with an automated Python script.
-- Expected mode (agreed): keep current Eleventy structure; use a script to export from Neo4j to `src/data.json` and `static/*.csv`, and run it before `start/build`.
+## 三、推进中需求（新分支：梵语手稿平台）
+- 建设数字化梵语手稿可视化平台：扫描图片、转写（transcription）、翻译（translation）并行展示。
+- 突出可视化与交互：转写/译文与手稿图像对齐，体现手稿的物质性特征。
+- 搜索与集合：支持词根/变位形态/部分匹配、sandhi 变形、复合词片段等灵活检索。
+- OCR 工具集成：沿用现有分割与识别流程，补齐论文中描述但未开源的 post-correction，并优化交互。
+- 当前推进：转写库页面与单条手稿页面的版式与交互框架设计。
