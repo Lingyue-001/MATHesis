@@ -5,14 +5,17 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("assets/fonts");
   eleventyConfig.addPassthroughCopy("static");
   eleventyConfig.addPassthroughCopy("src/data.json");
+  eleventyConfig.addPassthroughCopy("simp_to_trad_map.json");
   eleventyConfig.addPassthroughCopy("assets");
 
   // === 环境变量判断 ===
   // GitHub Actions 会自动注入 NODE_ENV=production
   const isProduction = process.env.NODE_ENV === "production";
+  const pathPrefix = isProduction ? "/MATHesis/" : "/";
 
   // === 目录结构设置 ===
   return {
+    pathPrefix,
     dir: {
       input: "src",          // 源文件夹
       includes: "layouts",   // 模板所在位置

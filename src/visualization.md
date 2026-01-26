@@ -8,9 +8,12 @@ layout: base
 <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 <script>
 async function drawGraph() {
+  const baseUrl = document.documentElement.dataset.baseurl || "/";
+  const withBase = (path) => `${baseUrl.replace(/\/?$/, "/")}${path.replace(/^\/+/, "")}`;
+
   // 加载 CSV 数据
-  const nodeCsv = await fetch("/static/node-export.csv").then(res => res.text());
-  const edgeCsv = await fetch("/static/relationship-export.csv").then(res => res.text());
+  const nodeCsv = await fetch(withBase("static/node-export.csv")).then(res => res.text());
+  const edgeCsv = await fetch(withBase("static/relationship-export.csv")).then(res => res.text());
 
   // 解析 CSV 并清洗字段名为统一格式
   const parseCSV = (text) => {

@@ -85,7 +85,7 @@ layout: base
 <!-- 原有：搜索结果卡片容器 -->
 <div id="results" class="results-box"></div>
 
-<script src="/js/filter.js"></script>
+<script src="{{ '/js/filter.js' | url }}"></script>
 
 
 </div>

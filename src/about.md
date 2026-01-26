@@ -48,11 +48,11 @@ layout: base
 
 <div style="display: flex; justify-content: center; gap: 3rem; font-size: 1.3rem; color: #213b5e;">
   <a href="https://github.com/Lingyue-001" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit;">
-    <img src="/assets/github-mark.svg" alt="GitHub" style="width: 28px; height: 28px;" />
+    <img src="{{ '/assets/github-mark.svg' | url }}" alt="GitHub" style="width: 28px; height: 28px;" />
   </a>
 
   <a href="mailto:Lingyue_M@outlook.com" style="display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit;">
-    <img src="/assets/email.svg" alt="Email" style="width: 28px; height: 28px;" />
+    <img src="{{ '/assets/email.svg' | url }}" alt="Email" style="width: 28px; height: 28px;" />
   
   </a>
 </div>

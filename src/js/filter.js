@@ -1,7 +1,10 @@
+const baseUrl = document.documentElement.dataset.baseurl || "/";
+const withBase = (path) => `${baseUrl.replace(/\/?$/, "/")}${path.replace(/^\/+/, "")}`;
+
 // 全局变量：映射表初始化为空
 let simpToTradMap = {};
 
-fetch('/simp_to_trad_map.json')
+fetch(withBase("simp_to_trad_map.json"))
   .then(res => res.json())
   .then(data => {
     simpToTradMap = data;
@@ -12,7 +15,7 @@ fetch('/simp_to_trad_map.json')
   });
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const response = await fetch("/data.json");
+  const response = await fetch(withBase("data.json"));
   const data = await response.json();
   const nodes = data.nodes;
   const relationships = data.edges || [];

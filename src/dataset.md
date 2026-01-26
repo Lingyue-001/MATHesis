@@ -7,4 +7,4 @@ title: Dataset
 
 <div id="dataset-container"></div>
 
-<script src="/js/dataset.js"></script>
+<script src="{{ '/js/dataset.js' | url }}"></script>

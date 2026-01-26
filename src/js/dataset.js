@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const response = await fetch("/data.json"); // 🔁 和搜索页一样
+    const baseUrl = document.documentElement.dataset.baseurl || "/";
+    const withBase = (path) => `${baseUrl.replace(/\/?$/, "/")}${path.replace(/^\/+/, "")}`;
+    const response = await fetch(withBase("data.json")); // 🔁 和搜索页一样
     const data = await response.json();
     const nodes = data.nodes || [];
   

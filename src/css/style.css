@@ -1,6 +1,6 @@
 @font-face {
     font-family: "MyCustomFont";
-    src: url("/fonts/samarkan.ttf") format("truetype");
+    src: url("../assets/fonts/samarkan.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
   }
@@ -104,7 +104,7 @@ mark {
 
 /* === 3. 首页 hero 横幅 === */
 .hero {
-  background-image: url('/assets/Chinese\ logotype\ ver1.svg'); /* 确保图片路径没错 */
+  background-image: url("../assets/Chinese\ logotype\ ver1.svg"); /* 确保图片路径没错 */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

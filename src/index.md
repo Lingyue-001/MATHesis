@@ -18,11 +18,10 @@ title: Home
 </section>
 
 <p style="text-align: center; margin-top: 2rem;">
-  <a href="/search" class="cta-button">Start Exploring</a>
+  <a href="{{ '/search/' | url }}" class="cta-button">Start Exploring</a>
 </p>
 
 
 <!-- 原来的 search filter 等照常写 -->
-
 
 
