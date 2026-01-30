@@ -8,7 +8,7 @@ layout: base
 <div class="search-page">
 
 <div class="filter-box" style="max-width: 1000px; margin-bottom: 2rem;">
-  <h2>🔍 Keyword Search</h2>
+  <h2 class="search-title">Keyword Search</h2>
   <div class="search-controls" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
     <input
       type="text"
@@ -39,25 +39,25 @@ layout: base
     </select>
   </div>
 
-  <h3 style="margin-top: 1.5rem;">📦 Filter Fields</h3>
+  <h3 class="search-subtitle">Filter Fields</h3>
   <label title="Supports searching Chinese (Simplified/Traditional), English, Sanskrit, and numbers">
-  <input type="checkbox" class="field-type" value="entry" /> 📛 Entry Name
+  <input type="checkbox" class="field-type" value="entry" /> Entry Name
 </label><br />
 
 <label title="Includes definitions, symbolic meanings, explanations, and related concepts">
-  <input type="checkbox" class="field-type" value="meaning" /> 📖 Meaning
+  <input type="checkbox" class="field-type" value="meaning" /> Meaning
 </label><br />
 
 <label title="Includes symbolic systems like Yin-Yang, image-number systems, calendar logic, etc.">
-  <input type="checkbox" class="field-type" value="system" /> 🔣 System
+  <input type="checkbox" class="field-type" value="system" /> System
 </label><br />
 
 <label title="Includes references from primary and secondary sources">
-  <input type="checkbox" class="field-type" value="source" /> 📚 Source
+  <input type="checkbox" class="field-type" value="source" /> Source
 </label><br />
 
 <label title="Matches terms connected to this one via symbolic relationships">
-  <input type="checkbox" class="field-type" value="related" /> 🧭 Related Nodes
+  <input type="checkbox" class="field-type" value="related" /> Related Nodes
 </label>
   
 </div>

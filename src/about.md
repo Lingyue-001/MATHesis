@@ -3,59 +3,77 @@ title: About
 layout: base
 ---
 
-<div class="about-page" style="max-width: 800px; margin: 3rem auto; font-family: Georgia, serif; line-height: 1.7; color: #333; padding: 0 1rem;">
+<div class="about-page">
+  <section class="about-hero">
+    <p class="about-kicker">A Tool for Mapping Ancient Mathematical Expressions</p>
+    <div class="about-lead">
+      <p>
+        This project is an ongoing digital humanities experiment that explores how numbers and mathematical operations were organised,
+        connected, and given meaning in pre-modern Chinese and Sanskrit astral contexts. Rather than treating numbers as abstract values,
+        it focuses on how numerical expressions were embedded in symbolic systems, textual structures, and cultural frameworks.
+      </p>
+      <p>
+        The project takes early Chinese calendrical materials as its main point of departure, while using selected examples from Sanskrit
+        traditions as comparative reference points. Its central concern is how mathematical reasoning was shaped by symbolic correspondences,
+        classificatory schemes, and established ways of writing and organising knowledge.
+      </p>
+    </div>
+  </section>
 
-  <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; margin-bottom: 1.5rem; color: #213b5e; text-align: center;">
-    A Tool for Mapping Ancient Mathematical Expressions
-  </h1>
-
-  <section style="margin-bottom: 2rem;">
-    <h2 style="color: #324a5e; font-size: 1.8rem; margin-bottom: 1rem;">Project Background</h2>
+  <section class="about-section">
+    <h2>Current focus</h2>
     <p>
-      This project aims to build a dynamic digital platform to explore how numbers and mathematical operations were symbolically expressed in ancient Indian and Chinese traditions.
-      Drawing on sources such as Sanskrit word-numerals (<em>bhuṭasaṃkhyā</em>), Chinese calendrical cycles, and divination systems, it creates a multilayered database linking numbers, mathematical operations, and terms with corresponding cultural-symbolic networks.
-      The goal is to uncover hidden patterns in word selection and arrangement, and to develop a new model for understanding how mathematical knowledge was constructed, evolved, and transmitted.
+      At its current stage, the project uses a graph-based data structure to represent relationships between numbers, symbols, and concepts
+      to build a relational digital model that links:
+    </p>
+    <ul class="about-list">
+      <li>numerical values</li>
+      <li>mathematical operations</li>
+      <li>symbolic associations</li>
+      <li>and their textual or conceptual contexts</li>
+    </ul>
+    <p>
+      This makes it possible to trace how symbolic and numerical systems interact across a text and to identify recurring configurations
+      that are difficult to grasp through linear reading alone.
     </p>
   </section>
 
-  <section style="margin-bottom: 2rem;">
-    <h2 style="color: #324a5e; font-size: 1.8rem; margin-bottom: 0.5rem;">Project Goals</h2>
-    <p>
-      Beyond exploration, this platform supports innovative research into cultural patterns of knowledge transmission.
-      It aims to enable users to generate poetic renditions of mathematical ideas and proofs following historical literary forms such as Sanskrit meters and Chinese regulated verse.
-      By integrating symbolic reasoning and creative cultural practices, the project offers an embodied way to experience mathematical thinking, reviving mathematics as a living part of cultural imagination.
-    </p>
+  <section class="about-section">
+    <h2>Future directions</h2>
+    <p>In later stages, the project may expand in two directions:</p>
+    <ul class="about-list">
+      <li>
+        Broader comparison, by incorporating additional texts and traditions to test how well the relational model scales across different
+        materials.
+      </li>
+      <li>
+        Creative exploration, including experiments with re-expressing mathematical ideas using historical literary forms, such as metrical or
+        structured prose, as a way of reflecting on how mathematical reasoning was experienced and communicated.
+      </li>
+    </ul>
+    <p>These directions remain exploratory and are treated as open possibilities rather than fixed outcomes.</p>
   </section>
 
-  <section style="margin-bottom: 2rem;">
-    <h2 style="color: #324a5e; font-size: 1.8rem; margin-bottom: 0.5rem;">Technology and Data Sources</h2>
+  <section class="about-section">
+    <h2>About the author</h2>
     <p>
-      The project uses a Neo4j graph database to store symbols and their associations.
-      It leverages the Eleventy static site generator combined with Vis.js for dynamic web interaction and visualization.
-      The data sources include Sanskrit lexicons, Chinese calendrical literature, and other historical texts.
+      This project is developed and maintained by Lingyue Ma, a graduate researcher working at the intersection of the history of science
+      and digital humanities. It is part of an ongoing effort to use digital methods to ask new questions about the structure, transmission,
+      and interpretation of mathematical knowledge in historical sources.
     </p>
+    <p>I’m always happy to exchange ideas—feel free to get in touch!</p>
   </section>
 
-  <section style="margin-bottom: 2rem;">
-    <h2 style="color: #324a5e; font-size: 1.8rem; margin-bottom: 0.5rem;">About the Author</h2>
-    <p>
-      This project is developed and maintained by Lingyue Ma, a researcher specializing in history of science, cultural mathematics, and digital humanities.
-      For inquiries or collaboration opportunities, please feel free to reach out.
-    </p>
-  </section>
+  <div class="about-divider"></div>
 
-  <hr style="margin: 3rem 0; border-color: #c69d3a;" />
-
-<div style="display: flex; justify-content: center; gap: 3rem; font-size: 1.3rem; color: #213b5e;">
-  <a href="https://github.com/Lingyue-001" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit;">
-    <img src="{{ '/assets/github-mark.svg' | url }}" alt="GitHub" style="width: 28px; height: 28px;" />
-  </a>
-
-  <a href="mailto:Lingyue_M@outlook.com" style="display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit;">
-    <img src="{{ '/assets/email.svg' | url }}" alt="Email" style="width: 28px; height: 28px;" />
-  
-  </a>
-</div>
-
-
+  <div class="about-contact">
+    <a class="contact-pill" href="https://github.com/Lingyue-001" target="_blank" rel="noopener">
+      <img src="{{ '/assets/github-mark.svg' | url }}" alt="GitHub" />
+      <span>GitHub</span>
+    </a>
+    <a class="contact-pill" href="mailto:Lingyue_M@outlook.com">
+      <img src="{{ '/assets/email.svg' | url }}" alt="Email" />
+      <span>Email</span>
+    </a>
+  </div>
 </div>

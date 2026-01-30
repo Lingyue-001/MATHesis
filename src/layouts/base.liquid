@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ '/css/style.css' | url }}" />
   <link rel="icon" href="{{ '/assets/favicon.ico' | url }}" type="image/x-icon" />
+  <link rel="preload" as="image" href="{{ '/assets/logo.png' | url }}" />
+  <link rel="preload" as="image" href="{{ '/assets/logotype.svg' | url }}" />
 
 
 </head>
@@ -14,8 +16,8 @@
 <!-- Logo Header + Navigation -->
 <header class="site-header">
   <div class="logo-container">
-    <img src="{{ '/assets/logo.png' | url }}" class="logo-icon" />
-    <img src="{{ '/assets/logotype.svg' | url }}" class="letter-logo" />
+    <img src="{{ '/assets/logo.png' | url }}" class="logo-icon" width="50" height="50" loading="eager" decoding="async" />
+    <img src="{{ '/assets/logotype.svg' | url }}" class="letter-logo" width="140" height="32" loading="eager" decoding="async" />
   </div>
 
   <nav class="site-nav">

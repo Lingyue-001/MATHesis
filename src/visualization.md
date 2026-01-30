@@ -3,7 +3,13 @@ title: MATHesis – Visualization
 layout: base
 ---
 
-<div id="graph-container" style="height: 600px; border: 1px solid #ccc; margin: 3rem auto;"></div>
+<div class="graph-shell">
+  <div id="graph-container" class="graph-canvas"></div>
+  <div class="graph-controls" aria-label="Graph controls">
+    <button class="graph-btn" id="zoomIn" type="button">+</button>
+    <button class="graph-btn" id="zoomOut" type="button">−</button>
+  </div>
+</div>
 
 <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 <script>
@@ -15,22 +21,62 @@ async function drawGraph() {
   const nodeCsv = await fetch(withBase("static/node-export.csv")).then(res => res.text());
   const edgeCsv = await fetch(withBase("static/relationship-export.csv")).then(res => res.text());
 
-  // 解析 CSV 并清洗字段名为统一格式
+  // 解析 CSV（支持引号内逗号）
   const parseCSV = (text) => {
-    const [headerLine, ...lines] = text.trim().split("\n");
-    const headers = headerLine
-      .split(",")
-      .map(h => h.trim().replace(/^"|"$/g, ""));
+    const rows = [];
+    let row = [];
+    let field = "";
+    let inQuotes = false;
+    const clean = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
-    const normalizeKeys = (row) =>
+    for (let i = 0; i < clean.length; i++) {
+      const char = clean[i];
+      const next = clean[i + 1];
+
+      if (char === '"') {
+        if (inQuotes && next === '"') {
+          field += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+        continue;
+      }
+
+      if (char === "," && !inQuotes) {
+        row.push(field);
+        field = "";
+        continue;
+      }
+
+      if (char === "\n" && !inQuotes) {
+        row.push(field);
+        rows.push(row);
+        row = [];
+        field = "";
+        continue;
+      }
+
+      field += char;
+    }
+
+    if (field.length || row.length) {
+      row.push(field);
+      rows.push(row);
+    }
+
+    if (rows.length === 0) return [];
+
+    const headers = rows[0].map(h => h.trim().replace(/^"|"$/g, ""));
+
+    const normalizeKeys = (rowObj) =>
       Object.fromEntries(
-        Object.entries(row).map(([k, v]) => [k.trim().replace(/\s+/g, "_"), v])
+        Object.entries(rowObj).map(([k, v]) => [k.trim().replace(/\s+/g, "_"), v])
       );
 
-    return lines.map(line => {
-      const values = line.split(",").map(v => v.trim().replace(/^"|"$/g, ""));
-      const row = Object.fromEntries(values.map((v, i) => [headers[i], v]));
-      return normalizeKeys(row);
+    return rows.slice(1).filter(r => r.length > 1).map(values => {
+      const rowObj = Object.fromEntries(values.map((v, i) => [headers[i], (v || "").trim().replace(/^"|"$/g, "")]));
+      return normalizeKeys(rowObj);
     });
   };
 
@@ -43,7 +89,7 @@ async function drawGraph() {
   // 创建节点数据
   const nodes = new vis.DataSet(
     rawNodes.map(n => {
-      const zh = n["name_zh"]?.trim();
+      const zh = n["name_zh"]?.trim() || n["name_zh_simple"]?.trim();
       const sa = n["name_sa"]?.trim();
       const val = n["value"]?.trim();
       const en = n["name_en"]?.trim();
@@ -65,7 +111,9 @@ async function drawGraph() {
         label,
         title,
         color: n["~labels"] === "Number" ? "#3a7bd5" : "#e86e6e",
-        font: { face: "Georgia" }
+        cardURL: n["cardURL"]?.trim() || "",
+        font: { face: "Georgia" },
+        size: 18
       };
     })
   );
@@ -77,7 +125,7 @@ async function drawGraph() {
       to: e["~end_node_id"],
       arrows: "to",
       label: e["~relationship_type"] || "",
-      font: { align: 'middle', face: "Georgia", ital: true },
+      font: { align: "middle", face: "Georgia", ital: true, size: 9 },
       color: { color: "#bbb", highlight: "#444" }
     }))
   );
@@ -89,18 +137,88 @@ async function drawGraph() {
     layout: { improvedLayout: true },
     nodes: {
       shape: "dot",
-      size: 18
+      size: 18,
+      font: {
+        face: "Georgia",
+        size: 13,
+        color: "#3b2f22",
+        bold: { size: 13, color: "#3b2f22", face: "Georgia" }
+      }
     },
     edges: {
-      smooth: true
+      smooth: true,
+      font: {
+        face: "Georgia",
+        size: 9,
+        color: "#5a4b3a",
+        bold: { size: 9, color: "#5a4b3a", face: "Georgia" }
+      }
+    },
+    interaction: {
+      hover: true
     },
     physics: {
       enabled: true,
-      stabilization: { iterations: 200 }
+      stabilization: false,
+      minVelocity: 0.02,
+      barnesHut: {
+        gravitationalConstant: -800,
+        springLength: 140,
+        springConstant: 0.03,
+        damping: 0.18
+      },
+      adaptiveTimestep: true
     }
   };
 
-  new vis.Network(container, data, options);
+  const network = new vis.Network(container, data, options);
+
+  // Zoom controls
+  document.getElementById("zoomIn")?.addEventListener("click", () => {
+    const scale = network.getScale();
+    network.moveTo({ scale: scale * 1.15 });
+  });
+
+  document.getElementById("zoomOut")?.addEventListener("click", () => {
+    const scale = network.getScale();
+    network.moveTo({ scale: scale / 1.15 });
+  });
+
+  const baseSizes = new Map();
+  nodes.forEach(n => baseSizes.set(n.id, n.size || 18));
+
+  // Subtle ripple response on mouse move (nearest node/edge)
+  let lastRipple = 0;
+  const baseEdgeWidth = 1;
+  network.on("mousemove", (params) => {
+    const now = Date.now();
+    if (now - lastRipple < 120) return;
+    const nodeId = network.getNodeAt(params.pointer.DOM);
+    const edgeId = network.getEdgeAt(params.pointer.DOM);
+    if (!nodeId && !edgeId) return;
+    lastRipple = now;
+    if (nodeId) {
+      const pos = network.getPositions([nodeId])[nodeId];
+      if (pos) {
+        network.moveNode(nodeId, pos.x + 8, pos.y - 8);
+        setTimeout(() => network.moveNode(nodeId, pos.x, pos.y), 260);
+      }
+    }
+    if (edgeId) {
+      edges.update({ id: edgeId, width: baseEdgeWidth + 1, color: { color: "#a88b63" } });
+      setTimeout(() => edges.update({ id: edgeId, width: baseEdgeWidth, color: { color: "#bbb" } }), 220);
+    }
+  });
+
+  network.on("hoverEdge", (params) => {
+    edges.update({ id: params.edge, width: baseEdgeWidth + 1.2, color: { color: "#a88b63" } });
+  });
+
+  network.on("blurEdge", (params) => {
+    edges.update({ id: params.edge, width: baseEdgeWidth, color: { color: "#bbb" } });
+  });
+
+  // No idle drift
 }
 
 drawGraph();

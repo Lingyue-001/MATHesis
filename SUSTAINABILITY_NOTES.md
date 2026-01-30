@@ -9,6 +9,7 @@
 - [未解决] 代码冗余：`src/js/filter.js` 中有未使用的变量 `displayedName`。
 - [部分已解决] 文档缺失：已补充 README 的数据流与部署检查，但仍缺少权威数据源与导出脚本的完整说明。
 - [未解决] 自动导出需求：需用 Python 脚本从 Neo4j 自动导出到 `src/data.json` 与 `static/*.csv`，并在 `start/build` 前执行。
+- [已解决/暂时关闭] Visualization 的卡片跳转 404：已禁用跳转，待后续统一生成与发布方案再开启。
 
 ## 二、已实现/预期需求（现有方向）
 - 以 Neo4j node-edge 数据库为基础，构建搜索与整合网站。
