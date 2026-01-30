@@ -8,7 +8,9 @@ layout: base
 <div class="search-page">
 
 <div class="filter-box" style="max-width: 1000px; margin-bottom: 2rem;">
-  <h2 class="search-title">Keyword Search</h2>
+  <section class="search-hero">
+  <h1 class="page-kicker">Keyword Search</h1>
+</section>
   <div class="search-controls" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
     <input
       type="text"
@@ -39,7 +41,7 @@ layout: base
     </select>
   </div>
 
-  <h3 class="search-subtitle">Filter Fields</h3>
+  <h3 class="section-title is-small">Filter Fields</h3>
   <label title="Supports searching Chinese (Simplified/Traditional), English, Sanskrit, and numbers">
   <input type="checkbox" class="field-type" value="entry" /> Entry Name
 </label><br />

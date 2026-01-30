@@ -10,6 +10,7 @@
 - [部分已解决] 文档缺失：已补充 README 的数据流与部署检查，但仍缺少权威数据源与导出脚本的完整说明。
 - [未解决] 自动导出需求：需用 Python 脚本从 Neo4j 自动导出到 `src/data.json` 与 `static/*.csv`，并在 `start/build` 前执行。
 - [已解决/暂时关闭] Visualization 的卡片跳转 404：已禁用跳转，待后续统一生成与发布方案再开启。
+- [待解决/已改但 localhost 未反应] Search 分隔线与 Filter Fields 装饰线、Transcriptions 背景框与页边距在本地未生效，需确认构建与缓存是否更新。
 
 ## 二、已实现/预期需求（现有方向）
 - 以 Neo4j node-edge 数据库为基础，构建搜索与整合网站。
@@ -24,3 +25,9 @@
 - 搜索与集合：支持词根/变位形态/部分匹配、sandhi 变形、复合词片段等灵活检索。
 - OCR 工具集成：沿用现有分割与识别流程，补齐论文中描述但未开源的 post-correction，并优化交互。
 - 当前推进：转写库页面与单条手稿页面的版式与交互框架设计。
+
+## 四、本轮已解决（已确认生效）
+- Search / Transcriptions / About 的标题样式统一为 `page-kicker`，并清理冗余类名。
+- Search 交互与排版统一为与 About 相同的字体与质感，移除 emoji，优化控件阴影。
+- Visualization CSV 解析改为支持引号内逗号，修复“乱码”显示。
+- Visualization 交互优化：缩放控件、hover 波动、取消跳转。

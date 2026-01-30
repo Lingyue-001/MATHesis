@@ -5,7 +5,7 @@ layout: base
 
 <div class="about-page">
   <section class="about-hero">
-    <p class="about-kicker">A Tool for Mapping Ancient Mathematical Expressions</p>
+    <p class="page-kicker">A Tool for Mapping Ancient Mathematical Expressions</p>
     <div class="about-lead">
       <p>
         This project is an ongoing digital humanities experiment that explores how numbers and mathematical operations were organised,

@@ -5,7 +5,7 @@
   font-style: normal;
 }
 
-/* === 1. 全局基础设置 === */
+/* === Base / Global === */
 body {
   margin: 0;
   padding: 0;
@@ -31,7 +31,39 @@ mark {
   font-style: italic;
 }
 
-/* === 2. 顶部导航栏 === */
+/* === Shared page titles === */
+.page-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4c4034;
+  margin: 0 0 1.6rem;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  margin-top: 1.8rem;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  margin-top: 0.5rem;
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(90, 74, 56, 0.6), transparent);
+}
+
+.section-title.is-small {
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+}
+
+/* === Header / Navigation === */
 .site-header {
   display: flex;
   justify-content: flex-start;
@@ -42,6 +74,7 @@ mark {
   background-color: #312d2dc3;
   color: white;
   border-bottom: none;
+  position: relative;
 }
 
 .logo-container {
@@ -49,7 +82,6 @@ mark {
   align-items: center;
   gap: 1rem;
   flex-shrink: 0;
-  /* 防止 logo 容器被压缩 */
 }
 
 .logo-icon {
@@ -59,7 +91,6 @@ mark {
 
 .letter-logo {
   height: 26px;
-  /* 和左边 logo 保持一致 */
   width: auto;
 }
 
@@ -67,16 +98,8 @@ mark {
   font-size: 1.5rem;
   font-weight: bold;
   font-family: "samarkan", sans-serif;
-  /* 使用自定义字体 */
   letter-spacing: 0.1em;
 }
-
-.site-header {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
 
 .site-nav {
   position: absolute;
@@ -85,22 +108,23 @@ mark {
   display: flex;
   gap: 1.5rem;
   min-width: 300px;
-  /* 根据导航宽度调节 */
-
-  /* 下面用 max() 保证导航距离左侧至少为logo宽度+间距 */
 }
-
-
 
 .site-nav a {
   margin-left: 1.5rem;
   color: white;
   text-decoration: none;
-  font-family: "samarkan";
-  font-weight: 500;
-  font-size: 1.35rem;
-  letter-spacing: 0.05em;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   transition: color 0.2s ease;
+}
+
+.site-nav a:hover {
+  text-decoration: underline;
+  color: white;
 }
 
 @media (max-width: 1000px) {
@@ -143,15 +167,9 @@ mark {
   }
 }
 
-.site-nav a:hover {
-  text-decoration: underline;
-  color: white;
-}
-
-/* === 3. 首页 hero 横幅 === */
+/* === Home Page === */
 .hero {
   background-image: url("../assets/Chinese\ logotype\ ver1.svg");
-  /* 确保图片路径没错 */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -160,21 +178,69 @@ mark {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* 垂直居中 */
   align-items: center;
-  /* 水平居中 */
   text-align: center;
-  /* 文字居中 */
   height: 200px;
-  /* 你可以根据需要调整高度 */
   min-height: 400px;
-  /* 至少高度300px */
   padding: 4rem 1rem;
-  /* 上下留空间 */
   box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.6);
 }
 
-/* === Visualization === */
+.hero h1 {
+  font-size: 7rem;
+  font-weight: 300;
+  font-family: "samarkan";
+  margin-bottom: 0.5rem;
+  margin: 0.5rem 0 0.3rem;
+  color: #ffffff;
+  text-shadow:
+    1px 1px 3px #ccc,
+    3px 3px 3px #222,
+    3px 3px 5px rgba(0, 0, 0, 1);
+}
+
+.hero p {
+  font-size: 1.5rem;
+  font-family: "samarkan";
+  opacity: 0.8;
+  margin: 0.5rem 0 0;
+  text-shadow:
+    1px 1px 2px #ccc,
+    2px 2px 2px #222,
+    2px 2px 3px rgba(0, 0, 0, 1);
+}
+
+.intro-text {
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 4rem auto 1rem;
+  padding: 0 2rem;
+  text-align: center;
+  color: #111;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #444;
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-style: italic;
+  font-weight: 400px;
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  margin-bottom: 6rem;
+  margin-top: 3rem;
+}
+
+.cta-button:hover {
+  background-color: #222;
+}
+
+/* === Visualization Page === */
 .graph-shell {
   position: relative;
   height: 620px;
@@ -221,67 +287,197 @@ mark {
   cursor: pointer;
 }
 
-.hero h1 {
-  font-size: 7rem;
-  font-weight: 300;
-  font-family: "samarkan";
-  margin-bottom: 0.5rem;
-  margin: 0.5rem 0 0.3rem;
-  color: #ffffff;
-  text-shadow:
-    1px 1px 3px #ccc,
-    /* 浅色高光，模拟浮起 */
-    3px 3px 3px #222,
-    /* 深色阴影，制造凹陷感 */
-    3px 3px 5px rgba(0, 0, 0, 1);
-  /* 软阴影增强立体 */
-}
-
-
-.hero p {
-  font-size: 1.5rem;
-  font-family: "samarkan";
-  opacity: 0.8;
-  margin: 0.5rem 0 0;
-  text-shadow:
-    1px 1px 2px #ccc,
-    /* 浅色高光，模拟浮起 */
-    2px 2px 2px #222,
-    /* 深色阴影，制造凹陷感 */
-    2px 2px 3px rgba(0, 0, 0, 1);
-  /* 软阴影增强立体 */
-}
-
-/* === 首页介绍文字样式 === */
-.intro-text {
+/* === Search Page === */
+.search-page {
+  max-width: 1000px;
+  margin: 2.4rem auto;
+  padding: 0 2rem 3rem;
   font-family: Georgia, serif;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   line-height: 1.8;
-  max-width: 800px;
-  margin: 4rem auto 1rem;
-  padding: 0 2rem;
-  text-align: center;
-  color: #111;
+  color: #2f2a25;
 }
 
-/* === Transcriptions library === */
+.filter-box {
+  background: #fffdf9;
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: 0 18px 32px rgba(31, 31, 31, 0.05);
+}
+
+.filter-box label {
+  display: inline-block;
+  margin: 0.5rem 1.5rem 0.5rem 0;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  vertical-align: middle;
+  font-family: Georgia, serif;
+}
+
+.search-controls input[type="text"],
+.search-controls select,
+.search-controls button {
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  height: 2.6rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(122, 96, 68, 0.25);
+  border-radius: 8px;
+  box-shadow:
+    0 10px 20px rgba(31, 31, 31, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.search-controls input[type="text"] {
+  background-color: #fffefb;
+  width: 260px;
+}
+
+.search-controls button,
+.search-controls select {
+  background-color: #444;
+  color: white;
+  border: none;
+  font-weight: 500;
+  text-align: center;
+}
+
+.search-controls button:hover,
+.search-controls select:hover {
+  background-color: #222;
+  transform: translateY(-1px);
+}
+
+.search-controls select:focus,
+.search-controls input[type="text"]:focus,
+.search-controls button:focus {
+  outline: none;
+  box-shadow:
+    0 12px 24px rgba(31, 31, 31, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.search-controls select option {
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  background-color: #444;
+  color: white;
+}
+
+.search-page input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #6a4a2a;
+}
+
+.results-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  background-color: #fffdf9;
+  border-radius: 12px;
+}
+
+.result-card {
+  background: #fffefb;
+  border-radius: 12px;
+  border: 1px solid rgba(122, 96, 68, 0.12);
+  border-left: 5px solid #c8a15a;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.6rem;
+  box-shadow: 0 14px 28px rgba(31, 31, 31, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  font-family: Georgia, serif;
+}
+
+.result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 36px rgba(31, 31, 31, 0.1);
+}
+
+.result-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4b3b28;
+}
+
+.result-divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 0.8rem 0;
+}
+
+.result-section {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: block;
+}
+
+.result-section strong {
+  color: #6a4a2a;
+}
+
+.quote-box {
+  border-left: 4px solid #c8a15a;
+  background-color: #f8f3e8;
+  font-style: italic;
+  padding: 1.2rem 1.5rem 1.2rem 1.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1.05rem;
+  color: #4b3b28;
+}
+
+.quote-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+.quote-title {
+  font-style: italic;
+  font-size: 1.05rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #d8c6a1;
+  padding-bottom: 0.3rem;
+  color: #6e543c;
+}
+
+.related-box strong {
+  display: inline-block;
+  margin-right: 0.5em;
+}
+
+.related-box ul {
+  display: inline-block;
+  margin-left: 1em;
+}
+
+.related-details {
+  margin-top: 1.5rem;
+}
+
+/* === Transcriptions Library === */
 .transcription-hero {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  padding: 2.8rem 2rem 1.6rem;
+  padding: 1.8rem 2rem 1.6rem;
   background: transparent;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   font-family: Georgia, serif;
-}
-
-.transcription-title {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #4c4034;
-  margin: 0 0 1.6rem;
+  max-width: 1000px;
+  margin: 2.4rem auto 0;
 }
 
 .transcription-hero-text p {
@@ -291,17 +487,12 @@ mark {
   color: #333;
 }
 
-.transcription-hero-panel,
-.hero-stat,
-.hero-stat-number,
-.hero-stat-label {
-  display: none;
-}
-
 .transcription-search {
   padding: 2rem;
   background: #fffdf9;
   font-family: Georgia, serif;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .search-row {
@@ -358,6 +549,8 @@ mark {
   padding: 1rem 2rem 3rem;
   background: #fffdf9;
   font-family: Georgia, serif;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .manuscript-card {
@@ -388,25 +581,6 @@ mark {
   font-size: 0.95rem;
 }
 
-.card-badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.card-badge.is-live {
-  background: #eef4ea;
-  color: #3d5a2c;
-}
-
-.card-badge.is-coming {
-  background: #f4ede3;
-  color: #7b5630;
-}
-
 .card-body {
   margin-top: 1rem;
   color: #333;
@@ -432,77 +606,7 @@ mark {
   cursor: not-allowed;
 }
 
-/* === Card pages === */
-.card-page {
-  max-width: 900px;
-  margin: 3rem auto;
-  padding: 0 2rem 3rem;
-  font-family: Georgia, serif;
-  color: #2f2a25;
-}
-
-.card-hero {
-  margin-bottom: 2rem;
-}
-
-.card-kicker {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #4c4034;
-  margin-bottom: 0.6rem;
-}
-
-.card-hero h1 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.card-panel {
-  background: #fffdf9;
-  border-radius: 14px;
-  padding: 1.5rem;
-  border: 1px solid rgba(122, 96, 68, 0.12);
-  box-shadow: 0 14px 28px rgba(31, 31, 31, 0.06);
-}
-
-.card-row {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 1rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(122, 96, 68, 0.12);
-}
-
-.card-row:last-child {
-  border-bottom: none;
-}
-
-.card-key {
-  color: #6a4a2a;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.8rem;
-}
-
-.card-value {
-  color: #2f2a25;
-  line-height: 1.7;
-}
-
-.transcription-notes {
-  padding: 2rem;
-  background: #fffdf9;
-  font-family: Georgia, serif;
-}
-
-.transcription-notes h2 {
-  margin-top: 0;
-}
-
-/* === Manuscript workspace === */
+/* === Manuscript Workspace === */
 .manuscript-header {
   display: flex;
   flex-wrap: wrap;
@@ -657,6 +761,18 @@ mark {
   border-radius: 12px;
 }
 
+.transcription-notes {
+  padding: 2rem;
+  background: #fffdf9;
+  font-family: Georgia, serif;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.transcription-notes h2 {
+  margin-top: 0;
+}
+
 @media (max-width: 900px) {
   .transcription-hero {
     flex-direction: column;
@@ -667,17 +783,17 @@ mark {
   }
 }
 
-/* === About page === */
+/* === About Page === */
 .about-page {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 2rem 4rem;
   color: #2c2c2c;
   font-family: Georgia, serif;
 }
 
 .about-hero {
-  padding: 2.5rem 0 1.5rem;
+  padding: 1.8rem 0 1.5rem;
 }
 
 .about-hero-text h1 {
@@ -685,14 +801,18 @@ mark {
   font-size: 2.4rem;
 }
 
-.about-kicker {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #4c4034;
+.about-hero .page-kicker {
   margin-top: -0.4rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 2.8rem;
+}
+
+.about-lead {
+  position: relative;
+  padding: 2rem 1.6rem 1rem;
+  margin-top: 2.4rem;
+  background: rgba(248, 243, 235, 0.7);
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(30, 22, 15, 0.08);
 }
 
 .about-lead p {
@@ -700,15 +820,6 @@ mark {
   line-height: 1.85;
   font-size: 1.05rem;
   color: #2f2a25;
-}
-
-.about-lead {
-  position: relative;
-  padding: 2rem 1.6rem 1rem;
-  margin-top: 0.6rem;
-  background: rgba(248, 243, 235, 0.7);
-  border-radius: 12px;
-  box-shadow: 0 12px 24px rgba(30, 22, 15, 0.08);
 }
 
 .about-lead::before,
@@ -725,6 +836,8 @@ mark {
   border: 1px solid rgba(120, 96, 68, 0.2);
   border-radius: 6px;
   top: -14px;
+  -webkit-clip-path: inset(0 round 6px);
+  clip-path: inset(0 round 6px);
 }
 
 .about-lead::before {
@@ -737,20 +850,17 @@ mark {
   transform: rotate(3deg);
 }
 
-.about-lead::before {
-  -webkit-clip-path: inset(0 round 6px);
-  clip-path: inset(0 round 6px);
-}
-
-.about-lead::after {
-  -webkit-clip-path: inset(0 round 6px);
-  clip-path: inset(0 round 6px);
-}
-
 .about-section {
   margin-top: 2.5rem;
   padding: 0 0.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: aboutFade 0.6s ease forwards;
 }
+
+.about-section:nth-of-type(2) { animation-delay: 0.05s; }
+.about-section:nth-of-type(3) { animation-delay: 0.12s; }
+.about-section:nth-of-type(4) { animation-delay: 0.2s; }
 
 .about-section h2 {
   font-size: 1.6rem;
@@ -783,24 +893,6 @@ mark {
   margin: 3rem 0 2rem;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(90, 74, 56, 0.4), transparent);
-}
-
-.about-section {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: aboutFade 0.6s ease forwards;
-}
-
-.about-section:nth-of-type(2) {
-  animation-delay: 0.05s;
-}
-
-.about-section:nth-of-type(3) {
-  animation-delay: 0.12s;
-}
-
-.about-section:nth-of-type(4) {
-  animation-delay: 0.2s;
 }
 
 @keyframes aboutFade {
@@ -845,303 +937,7 @@ mark {
   }
 }
 
-
-/* === 4. 搜索与结果区 === */
-.filter-box label {
-  display: inline-block;
-  margin: 0.5rem 1.5rem 0.5rem 0;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  vertical-align: middle;
-  font-family: Georgia, serif;
-}
-
-
-.results-box {
-  margin-top: 2rem;
-}
-
-.card {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-}
-
-.cta-button {
-  display: inline-block;
-  background-color: #444;
-  color: white;
-  padding: 0.7rem 1.2rem;
-  border-radius: 5px;
-  text-decoration: none;
-  font-style: italic;
-  font-weight: 400px;
-  font-family: Georgia, serif;
-  /* ✅ 字体改成和搜索页一致 */
-  font-size: 1.1rem;
-  /* ✅ 稍微大一点 */
-  margin-bottom: 6rem;
-  /* ✅ 增加按钮底部空白 */
-  margin-top: 3rem;
-  /* ✅ 加这个拉开距离 */
-}
-
-.cta-button:hover {
-  background-color: #222;
-}
-
-
-/* === 统一美化搜索区四个控件：输入框、按钮、两个下拉框 === */
-/* 仅限搜索区三个控件 */
-.search-controls input[type="text"],
-.search-controls select,
-.search-controls button {
-  font-family: Georgia, serif;
-  font-size: 1rem;
-  height: 2.6rem;
-  padding: 0.6rem 1rem;
-  border: 1px solid rgba(122, 96, 68, 0.25);
-  border-radius: 8px;
-  box-shadow:
-    0 10px 20px rgba(31, 31, 31, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  transition: box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
-  box-sizing: border-box;
-}
-
-.search-controls input[type="text"] {
-  background-color: #fffefb;
-  width: 260px;
-}
-
-.search-controls button,
-.search-controls select {
-  background-color: #444;
-  color: white;
-  border: none;
-  font-weight: 500;
-  text-align: center;
-}
-
-.search-controls button:hover,
-.search-controls select:hover {
-  background-color: #222;
-  transform: translateY(-1px);
-}
-
-.search-controls select:focus,
-.search-controls input[type="text"]:focus,
-.search-controls button:focus {
-  outline: none;
-  box-shadow:
-    0 12px 24px rgba(31, 31, 31, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
-}
-
-.search-controls select option {
-  font-family: Georgia, serif;
-  font-size: 0.95rem;
-  background-color: #444;
-  color: white;
-}
-
-
-
-
-
-/* === Search 页整体美化 === */
-.search-page {
-  max-width: 1000px;
-  margin: 3rem auto;
-  padding: 0 2rem;
-  font-family: Georgia, serif;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: #2f2a25;
-}
-
-.search-title {
-  font-size: 1.6rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.search-subtitle {
-  font-size: 1.2rem;
-  margin-top: 1.8rem;
-  margin-bottom: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.search-page label {
-  font-size: 1.05rem;
-}
-
-.search-page input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #6a4a2a;
-}
-
-/* === 搜索结果卡片样式 === */
-.results-box {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
-  background-color: #fffdf9;
-  /* 米色背景 */
-  border-radius: 12px;
-  /* 圆角 */
-}
-
-.result-card {
-  background: #fffefb;
-  /* 奶油色背景 */
-  border-radius: 12px;
-  /* 圆角 */
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 1.2rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 12px 24px rgba(31, 31, 31, 0.06);
-  font-family: Georgia, serif;
-}
-
-.result-title {
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #222;
-}
-
-.result-divider {
-  border: none;
-  border-top: 1px solid #ddd;
-  margin: 0.8rem 0;
-}
-
-.result-section {
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
-  font-size: 1.05rem;
-  white-space: normal;
-  /* 允许正常换行 */
-  word-wrap: break-word;
-  /* 如果遇到很长的单词会自动断开 */
-  overflow-wrap: break-word;
-  /* 更现代的写法：自动断词 */
-  display: block;
-  /* 确保它是块级元素，能换行 */
-}
-
-.result-source {
-  background: #eee6da;
-  padding: 1rem;
-  border-radius: 6px;
-  font-style: italic;
-  margin-top: 1rem;
-}
-
-.quote-box {
-  background-color: #f4efe3;
-  padding: 1.2rem 1.5rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-  /* ← 拉开与下方 related notes 的距离 */
-  border-radius: 10px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.quote-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.18);
-}
-
-.quote-title {
-  font-family: Georgia, serif;
-  font-weight: bold;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  margin-bottom: 0.8rem;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 0.4rem;
-  letter-spacing: 0.04em;
-  color: #3a3a3a;
-  font-style: italic;
-  /* ← 加斜体 */
-}
-
-.related-box strong {
-  display: inline-block;
-  margin-right: 0.5em;
-}
-
-.related-box ul {
-  display: inline-block;
-  margin-left: 1em;
-}
-
-.related-details {
-  margin-top: 1.5rem;
-  /* ✅ 拉开与按钮之间的垂直距离 */
-}
-
-
-/* === 让 result 卡片也有浮动阴影动画 === */
-/* === 统一 result-card 动画为“初始浮起 + hover 下沉” === */
-.result-card {
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
-  /* 默认状态：轻微浮起 */
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.result-card:hover {
-  transform: translateY(4px);
-  /* ⬇️轻轻下沉 */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
-  /* 阴影变柔和 */
-}
-
-
-/* === quote-box 加上竖线效果，模仿深蓝卡片的 blockquote === */
-.quote-box {
-  border-left: 4px solid #c8a15a;
-  background-color: #f8f3e8;
-  font-style: italic;
-  padding-left: 1.3rem;
-  font-size: 1.05rem;
-  color: #4b3b28;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* 悬停时更柔和浮出 */
-.quote-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.16);
-}
-
-/* quote-box 内部 title 更轻盈、统一斜体 */
-.quote-title {
-  font-style: italic;
-  font-size: 1.05rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid #d8c6a1;
-  padding-bottom: 0.3rem;
-  color: #6e543c;
-}
-
-
-
-
-
+/* === Dataset Page === */
 #dataset-container {
   display: flex;
   flex-wrap: wrap;

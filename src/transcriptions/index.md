@@ -5,7 +5,7 @@ title: Transcriptions
 
 <section class="transcription-hero">
   <div class="transcription-hero-text">
-    <p class="transcription-title">Manuscript Transcriptions Library</p>
+    <p class="page-kicker">Manuscript Transcriptions Library</p>
   </div>
 </section>
 
