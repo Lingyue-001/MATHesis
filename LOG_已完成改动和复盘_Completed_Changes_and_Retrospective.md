@@ -149,3 +149,34 @@
   - `xml -> assets` 图片文件名/路径是否一致。
 - XML 文件组按 text 分类、同一作品放在同组目录是可维护的；但必须保证 `XML-HTML-图片` 命名严格一致，否则很容易出现“能开页但内容错位/错图”的隐性故障。
 - UI 层应坚持全局复用意识：对高复用、需一致的模块（header/nav/基础按钮）优先复用全局类和样式，避免局部复制导致后续维护分叉。
+
+## [2026-02-09] CText 外部检索接入（单节点点击 + 右侧浮窗）与黄钟案例验证
+### 需求明确
+- 在 `lingyue` 详细转写页中，点击高亮节点词后触发外部检索，不跳转页面，在右侧浮窗返回结构化结果。
+- 检索统一使用 CText 算书页面链接：`https://ctext.org/mathematics/zh?if=gb&searchu=<variant>`。
+- 保证“单次只检索当前点击节点的全部变体”，并可通过 debug 追踪每个变体是否真实执行与解析成功。
+
+### 操作
+- 新增后端中间件 `server/ctextSearchMiddleware.js`，并在 `.eleventy.js` 注入开发服务器 middleware（兼容 `setServerOptions` / `setBrowserSyncConfig`）。
+- 在 `src/transcriptions/tei_hanshu/lingyue.html` 中新增：
+  - 高亮词点击后请求 `/api/ctext/search?q=...`；
+  - 右侧浮窗展示结构化字段（检索范围/条件/符合次数/文本名/篇章名）；
+  - debug 展示（attempts、source endpoint、query used、raw 提取线索）。
+- 统一检索与手动 fallback 链接为 `?if=gb&searchu=`，并增加请求头（`Accept-Language`、`Referer`）提升返回模板一致性。
+- 增加重试与诊断字段：
+  - 单变体多次尝试（attempts）；
+  - `parseStatus` 区分 `ok` / `ok_via_query_normalization` / `missing_result_header_after_retries` / `request_error`；
+  - `markers` 与 `extracted` 用于判断是上游返回无结果块还是解析漏提取。
+- 前端纠偏：
+  - 修复 `hitCountDisplay is not defined`（冲突标记残留导致）；
+  - 修复 `Number(null) === 0` 造成的“未解析误显示 0”；
+  - 结果按 `符合次数` 降序显示，`0` 仅在真实数值时显示。
+
+### 解决
+- 黄钟节点（含 `黃鐘/钟` 场景）可稳定触发并返回结构化检索结果，作为当前可运行样本。
+- 调试可见性显著增强：每个变体是否真正执行、是否解析成功、失败类别都可在前端 debug 明确观察。
+
+### 复盘
+- “同一 pipeline 下部分词成功、部分词失败”并不必然意味着流程分叉，常见根因是上游同端点返回模板不一致。
+- 原型阶段必须把“请求是否成功”和“解析是否成功”拆分可视化，否则容易把解析空值误判为零命中。
+- 对外部站点检索，先保证单一端点与可诊断状态，再做召回率优化；避免在排障期同时引入多端点策略导致因果混淆。

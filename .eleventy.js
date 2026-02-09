@@ -1,3 +1,5 @@
+const { createCtextSearchMiddleware } = require("./server/ctextSearchMiddleware");
+
 module.exports = function(eleventyConfig) {
   // === 静态资源复制 ===
   eleventyConfig.addPassthroughCopy("src/js");
@@ -14,6 +16,22 @@ module.exports = function(eleventyConfig) {
   // GitHub Actions 会自动注入 NODE_ENV=production
   const isProduction = process.env.NODE_ENV === "production";
   const pathPrefix = isProduction ? "/MATHesis/" : "/";
+
+  const ctextMiddleware = createCtextSearchMiddleware();
+
+  // Eleventy v3 dev server path
+  if (typeof eleventyConfig.setServerOptions === "function") {
+    eleventyConfig.setServerOptions({
+      middleware: [ctextMiddleware]
+    });
+  }
+
+  // Eleventy v2 BrowserSync path (fallback/compat)
+  if (typeof eleventyConfig.setBrowserSyncConfig === "function") {
+    eleventyConfig.setBrowserSyncConfig({
+      middleware: [ctextMiddleware]
+    });
+  }
 
   // === 目录结构设置 ===
   return {

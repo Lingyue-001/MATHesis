@@ -225,6 +225,7 @@
                 const terms = await loadNodeTermsForPrototype();
                 const stats = highlightNodeTerms(container, terms);
                 renderHitSummary(stats);
+                initCtextLookupForNodeHits(container);
                 console.log(`[Node highlight prototype] file=${sourceFileName} totalHits=${stats.totalHits} matchedTerms=${stats.matchedTerms} dictionarySize=${terms.length}`);
                 if (stats.topHits.length) console.table(stats.topHits);
             } catch (err) {
@@ -420,12 +421,194 @@
                 .join("");
 
             block.innerHTML = `
-                <div class="node-hit-badge">Node highlight: ${stats.totalHits} hits / ${stats.matchedTerms} terms</div>
-                <details class="node-hit-details" open>
-                    <summary>Matched terms (top 30)</summary>
-                    <ul>${items || "<li><em>No matches</em></li>"}</ul>
-                </details>
+                <div class="node-hit-head">
+                    <button id="toggleNodeHitPanel" class="node-hit-toggle-btn" type="button" aria-expanded="false">
+                        Node highlight
+                    </button>
+                    <span class="node-hit-guide">查看本页命中到的节点词统计与词项列表</span>
+                </div>
+                <section id="nodeHitPanel" class="node-hit-panel">
+                    <div class="node-hit-badge">Node highlight: ${stats.totalHits} hits / ${stats.matchedTerms} terms</div>
+                    <details class="node-hit-details" open>
+                        <summary>Matched terms (top 30)</summary>
+                        <ul>${items || "<li><em>No matches</em></li>"}</ul>
+                    </details>
+                </section>
             `;
+
+            const toggle = document.getElementById("toggleNodeHitPanel");
+            const panel = document.getElementById("nodeHitPanel");
+            toggle?.addEventListener("click", () => {
+                if (!panel) return;
+                const opened = panel.classList.toggle("is-open");
+                toggle.setAttribute("aria-expanded", opened ? "true" : "false");
+            });
+        }
+
+        function escapeHtml(s) {
+            return String(s || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function buildQueryVariants(term) {
+            const text = (term || "").trim();
+            if (!text) return [];
+            const stop = new Set(["之", "其", "而", "以", "于", "於", "也", "者", "焉", "乎", "矣", "曰", "云"]);
+            const chars = Array.from(text);
+            const out = new Set([text]);
+            for (let i = 0; i < chars.length - 1; i += 1) out.add(chars.slice(i, i + 2).join(""));
+            chars.forEach(ch => { if (!stop.has(ch) && ch.trim()) out.add(ch); });
+            return Array.from(out).sort((a, b) => b.length - a.length).slice(0, 12);
+        }
+
+        function ensureCtextResultPanel() {
+            let panel = document.getElementById("ctextResultPanel");
+            if (panel) return panel;
+
+            panel = document.createElement("aside");
+            panel.id = "ctextResultPanel";
+            panel.className = "ctext-result-panel";
+            panel.innerHTML = `
+                <div class="ctext-panel-head">
+                    <div class="ctext-panel-title">CText 算书检索</div>
+                    <button class="ctext-close-btn" id="ctextCloseBtn" type="button">×</button>
+                </div>
+                <div class="ctext-panel-body" id="ctextPanelBody">
+                    <p class="ctext-empty">点击正文里高亮词条，在右侧查看外部检索结果。</p>
+                </div>
+            `;
+            document.body.appendChild(panel);
+
+            const closeBtn = panel.querySelector("#ctextCloseBtn");
+            closeBtn?.addEventListener("click", () => panel.classList.remove("is-open"));
+            return panel;
+        }
+
+        function renderCtextLoading(term) {
+            const panel = ensureCtextResultPanel();
+            const body = panel.querySelector("#ctextPanelBody");
+            panel.classList.add("is-open");
+            body.innerHTML = `
+                <p class="ctext-query"><strong>词条：</strong>${escapeHtml(term)}</p>
+                <p class="ctext-loading">检索中（后端分词变体顺序查询）...</p>
+            `;
+        }
+
+        function renderCtextError(term, errMsg) {
+            const panel = ensureCtextResultPanel();
+            const body = panel.querySelector("#ctextPanelBody");
+            const variants = buildQueryVariants(term);
+            const links = variants.map(v =>
+                `<li><a target="_blank" rel="noopener" href="https://ctext.org/mathematics/zh?if=gb&searchu=${encodeURIComponent(v)}">${escapeHtml(v)}</a></li>`
+            ).join("");
+            body.innerHTML = `
+                <p class="ctext-query"><strong>词条：</strong>${escapeHtml(term)}</p>
+                <p class="ctext-error">后端检索暂不可用：${escapeHtml(errMsg || "unknown error")}</p>
+                <p class="ctext-hint">可先手动打开以下查询：</p>
+                <ul class="ctext-fallback-links">${links}</ul>
+            `;
+        }
+
+        function renderCtextResults(term, payload) {
+            const panel = ensureCtextResultPanel();
+            const body = panel.querySelector("#ctextPanelBody");
+            const searchesRaw = Array.isArray(payload?.searches) ? payload.searches : [];
+            const searches = searchesRaw
+                .map((item, idx) => ({ item, idx }))
+                .sort((a, b) => {
+                    const an = (typeof a.item?.hitCount === "number" && Number.isFinite(a.item.hitCount)) ? a.item.hitCount : -1;
+                    const bn = (typeof b.item?.hitCount === "number" && Number.isFinite(b.item.hitCount)) ? b.item.hitCount : -1;
+                    if (bn !== an) return bn - an;
+                    return a.idx - b.idx;
+                })
+                .map(x => x.item);
+            const ctextDebug = new URLSearchParams(window.location.search).get("ctextDebug") === "1";
+
+            const blocks = searches.map(item => {
+                const text = item?.structured?.text;
+                const chapter = item?.structured?.chapter;
+                const hasNumericHit = typeof item?.hitCount === "number" && Number.isFinite(item.hitCount);
+                const hitCountDisplay = hasNumericHit ? String(item.hitCount) : "—";
+                const links = (item.links || []).slice(0, 8).map(l =>
+                    `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${escapeHtml(l.label)}</a>`
+                ).join(" · ");
+
+                const debugBlock = ctextDebug && item.debug ? `
+                    <details class="ctext-debug">
+                        <summary>debug lines</summary>
+                        <div>attempts: ${escapeHtml(String(item.attempts ?? "—"))}</div>
+                        <div>source endpoint: ${escapeHtml(item.sourceEndpoint || "—")}</div>
+                        <div>query used: ${escapeHtml(item.queryUsed || item?.debug?.queryUsed || "—")}</div>
+                        <pre>${escapeHtml(JSON.stringify(item.debug, null, 2))}</pre>
+                    </details>
+                ` : "";
+
+                return `
+                    <article class="ctext-result-item">
+                        <div class="ctext-result-variant">检索词：<code>${escapeHtml(item.variant || "")}</code></div>
+                        <div class="ctext-result-meta">
+                            <div><strong>检索范围：</strong>${escapeHtml(item.scope || "—")}${item.searchType ? ` · <strong>检索类型：</strong>${escapeHtml(item.searchType)}` : ""}</div>
+                            <div><strong>检索条件：</strong>${escapeHtml(item.condition || "—")}</div>
+                            <div><strong>符合次数：</strong>${escapeHtml(hitCountDisplay)}</div>
+                        </div>
+                        <div class="ctext-result-structure">
+                            <div><strong>文本名：</strong>${text ? `<a href="${escapeHtml(text.url)}" target="_blank" rel="noopener">${escapeHtml(text.label)}</a>` : "—"}</div>
+                            <div><strong>篇章名：</strong>${chapter ? `<a href="${escapeHtml(chapter.url)}" target="_blank" rel="noopener">${escapeHtml(chapter.label)}</a>` : "—"}</div>
+                        </div>
+                        <details class="ctext-links-details">
+                            <summary>候选链接</summary>
+                            <div class="ctext-link-row">${links || "—"}</div>
+                        </details>
+                        ${debugBlock}
+                    </article>
+                `;
+            }).join("");
+
+            body.innerHTML = `
+                <p class="ctext-query"><strong>词条：</strong>${escapeHtml(term)}</p>
+                <p class="ctext-query-sub">变体检索（${escapeHtml(payload?.variantsSearched ?? (payload?.variants || []).length)}）：${escapeHtml((payload.variants || []).join(" / ")) || "—"}</p>
+                ${blocks || "<p class='ctext-empty'>未返回可解析结果。</p>"}
+            `;
+            panel.classList.add("is-open");
+        }
+
+        async function requestCtextSearch(term) {
+            const path = window.location.pathname || "";
+            const basePrefix = path.includes("/transcriptions/")
+                ? path.split("/transcriptions/")[0]
+                : "";
+            const ctextDebug = new URLSearchParams(window.location.search).get("ctextDebug") === "1";
+            const apiUrl = `${basePrefix}/api/ctext/search?q=${encodeURIComponent(term)}${ctextDebug ? "&debug=1" : ""}`;
+            const res = await fetch(apiUrl, {
+                headers: { "Accept": "application/json" }
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json();
+        }
+
+        function initCtextLookupForNodeHits(container) {
+            if (!container || container.dataset.ctextLookupReady === "1") return;
+            container.dataset.ctextLookupReady = "1";
+
+            container.addEventListener("click", async (event) => {
+                const hit = event.target.closest(".tei-node-hit");
+                if (!hit || !container.contains(hit)) return;
+                const term = (hit.textContent || "").trim();
+                if (!term) return;
+
+                event.preventDefault();
+                renderCtextLoading(term);
+                try {
+                    const data = await requestCtextSearch(term);
+                    renderCtextResults(term, data);
+                } catch (err) {
+                    renderCtextError(term, err?.message || "request failed");
+                }
+            });
         }
 
         // Minimal TEI → HTML mapping
@@ -835,11 +1018,195 @@
             border-radius: 0.2em;
             padding: 0 0.08em;
             transition: color 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+            border-bottom: 1px dotted rgba(111, 74, 18, 0.45);
         }
 
         .tei-node-hit:hover {
             color: #8a5a1a;
             background-color: rgba(255, 225, 170, 0.34);
+        }
+
+        .ctext-result-panel {
+            position: fixed;
+            top: 88px;
+            right: 14px;
+            width: min(420px, 38vw);
+            max-height: calc(100vh - 110px);
+            background: rgba(255, 252, 246, 0.98);
+            border: 1px solid rgba(122, 96, 68, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 14px 30px rgba(28, 22, 16, 0.18);
+            transform: translateX(110%);
+            opacity: 0;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+            z-index: 1300;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .ctext-result-panel.is-open {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .ctext-panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.65rem 0.75rem;
+            background: #f5ebdd;
+            border-bottom: 1px solid rgba(122, 96, 68, 0.26);
+        }
+
+        .ctext-panel-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #4f3d29;
+            letter-spacing: 0.04em;
+        }
+
+        .ctext-close-btn {
+            border: none;
+            background: transparent;
+            font-size: 1.08rem;
+            color: #6b5740;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .ctext-panel-body {
+            padding: 0.72rem 0.8rem 0.9rem;
+            overflow: auto;
+            font-size: 0.82rem;
+            color: #3f3327;
+            line-height: 1.5;
+        }
+
+        .ctext-query {
+            margin: 0 0 0.3rem;
+        }
+
+        .ctext-query-sub {
+            margin: 0 0 0.6rem;
+            color: #6f5d49;
+            font-size: 0.76rem;
+        }
+
+        .ctext-loading,
+        .ctext-empty,
+        .ctext-error,
+        .ctext-hint {
+            margin: 0.35rem 0 0.5rem;
+        }
+
+        .ctext-error {
+            color: #8a3d2f;
+        }
+
+        .ctext-result-item {
+            border: 1px solid rgba(122, 96, 68, 0.22);
+            border-radius: 8px;
+            padding: 0.5rem 0.55rem;
+            margin-bottom: 0.58rem;
+            background: rgba(255, 255, 255, 0.66);
+        }
+
+        .ctext-result-variant {
+            margin-bottom: 0.35rem;
+            color: #5b472f;
+        }
+
+        .ctext-result-meta div,
+        .ctext-result-structure div {
+            margin-bottom: 0.18rem;
+        }
+
+        .ctext-links-details {
+            margin-top: 0.35rem;
+        }
+
+        .ctext-links-details summary {
+            cursor: pointer;
+        }
+
+        .ctext-link-row {
+            margin-top: 0.3rem;
+            display: block;
+        }
+
+        .ctext-link-row a {
+            color: #5f4325;
+            text-decoration: none;
+        }
+
+        .ctext-link-row a:hover {
+            text-decoration: underline;
+        }
+
+        .ctext-fallback-links {
+            margin: 0.25rem 0 0.4rem 1.1rem;
+            padding: 0;
+        }
+
+        @media (max-width: 980px) {
+            .ctext-result-panel {
+                width: min(460px, 92vw);
+                right: 4vw;
+                top: 76px;
+                max-height: calc(100vh - 90px);
+            }
+        }
+
+        .node-hit-head {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 0.45rem;
+            margin-bottom: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .node-hit-toggle-btn {
+            border: 1px solid rgba(122, 96, 68, 0.28);
+            border-radius: 8px;
+            background: #f6efe5;
+            color: #4f3d29;
+            font-family: Georgia, serif;
+            font-size: 0.82rem;
+            padding: 0.28rem 0.55rem;
+            cursor: pointer;
+            box-shadow: 0 2px 0 rgba(74, 62, 48, 0.18);
+            transition: background-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .node-hit-toggle-btn:hover {
+            background: #efe5d8;
+        }
+
+        .node-hit-toggle-btn:active {
+            transform: translateY(1px);
+        }
+
+        .node-hit-guide {
+            font-size: 0.76rem;
+            color: #7a6750;
+            line-height: 1.4;
+        }
+
+        .node-hit-panel {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-3px);
+            transition: max-height 0.32s ease, opacity 0.24s ease, transform 0.24s ease;
+        }
+
+        .node-hit-panel.is-open {
+            max-height: 520px;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .node-hit-badge {
