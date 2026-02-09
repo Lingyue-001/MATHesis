@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="mathesis_HS_Liuyuanqi_CY21" xml:lang="lzh-Hant">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>汉书 卷二十一 律历志上 </title>
+        <respStmt>
+          <resp>Encoded by</resp>
+          <name>Lingyue Ma</name>
+        </respStmt>
+      </titleStmt>
+    
+      <!-- 3. 刻本来源 -->
+      <sourceDesc>
+
+        <!-- 3.1 文本身份 -->
+        <bibl>
+          <title level="m">《汉书》</title>
+          <biblScope unit="juan">卷二十一〈律历志上〉</biblScope>
+          <author>东汉 班固</author>
+          <editor>唐 颜师古</editor>
+          <idno>HS-CY-LiuYuanqi-MHMJ</idno>
+        </bibl>
+
+        <!-- 3.2 刻印历史 -->
+        <editionStmt>
+          <edition>南宋庆元时期建安黄善夫刻，刘元起刊印本（含配补、配抄）。</edition>
+        </editionStmt>
+
+        <!-- 3.3 实体形态 -->
+        <physDesc>
+          <objectDesc>
+
+            <supportDesc>
+              <support>
+                <material>paper</material>
+                <p>木刻印刷本</p>
+              </support>
+            </supportDesc>
+
+            <layoutDesc>
+              <layout>
+                <dimensions type="frame" unit="cm">
+                  <height>19.6</height>
+                  <width>13.5</width>
+                </dimensions>
+                <p>半叶版框 19.6 × 13.5 厘米；四周双边，细黑口，双黑鱼尾。</p>
+              </layout>
+            </layoutDesc>
+
+            <layoutDesc>
+              <layout columns="1" writtenLines="10">
+                <p>每行十八字；小字双行二十二至二十三字；版框左上刻篇名。</p>
+              </layout>
+            </layoutDesc>
+
+          </objectDesc>
+        </physDesc>
+
+      </sourceDesc>
+
+    </fileDesc>
+      <classDecl>
+        <taxonomy xml:id="mathesis-tags">
+            <category xml:id="astronomy"><catDesc>Astronomy</catDesc></category>
+            <category xml:id="astrology"><catDesc>Astrology</catDesc></category>
+            <category xml:id="calendar"><catDesc>Calendrical System</catDesc></category>
+            <category xml:id="han"><catDesc>Han dynasty materials</catDesc></category>
+        </taxonomy>
+      </classDecl>
+
+  </teiHeader>
+
+  <facsimile xml:id="HS_CY21_P1097_facsimile">
+    <desc>
+      基于日本历史民俗博物馆藏本扫描
+    </desc>
+    <surface xml:id="HS_CY21_P1097" n="P1097">
+      <graphic url="../../assets/tei_brhat/1r.jpg" mimeType="image/jpeg"/> <!-- 图片文件路径 -->
+    </surface>
+  </facsimile>
+
+ <text>
+  <body>
+
+    <!-- 1️⃣ 繁体无标点-->
+    <div type="edition" subtype="diplomatic" xml:lang="lzh-Hant">
+        <head>Transcription </head>
+        <pb n="P1097" facs="#HS_CY21_P1097"/>
+        <fw type="runningTitle" place="left">律歷志一</fw>
+        
+        <ab>
+            事
+            <note place="inline" type="gloss" rend="small double-column">師古曰首謂始定也</note>
+            時欒官考正
+            <note place="inline" type="gloss" rend="small double-column">師古曰更質正其事</note>
+            至元 <lb/>
+        </ab>
+
+        <ab>
+            始中王莽秉政欲燿名譽徵天下通知鐘律者百 <lb/>
+        </ab>
+
+        <ab>
+            餘人使羲和劉歆等典領條奏言之最詳故刪其 <lb/>
+        </ab>
+
+        <ab>
+            僞辭取正義著于篇
+            <note place="inline" type="gloss" rend="small double-column">
+            師古曰班氏自云作志取劉歆之義也自此以下訖於用竹爲引者事之……
+            </note> <lb/>
+        </ab>
+
+        <ab>
+            <note place="inline" type="gloss" rend="small double-column">
+            ……宜也則其辭焉
+            </note>
+            一曰備數二曰和聲三曰審度四曰嘉量 <lb/>
+        </ab>
+
+        <ab>
+            五曰權衡參五以變錯綜其數稽之於古今効之 <lb/>
+        </ab>
+
+        <ab>
+            於氣物和之於心耳考之於經傳咸得其實靡不 <lb/>
+        </ab>
+
+        <ab>
+            協同數者一十百千萬也所以筭數事物順性命 <lb/>
+        </ab>
+
+        <ab>
+            之理也書曰先其筭命
+            <note place="inline" type="gloss" rend="small double-column">
+            師古曰逸書也言王者統業先立筭數以命百事也
+            </note>
+            本 <lb/>
+        </ab>
+
+        <ab>
+            起於黄鐘之數始於一而三之三三積之
+            <note place="inline" type="gloss" rend="small double-column">
+            孟康曰黃鐘子之律
+            </note> <pb n="P1098"/>
+            <lb/>
+        </ab>
+        
+    </div>  
+
+
+    
+
+
+     <!-- 2️⃣ 简体无标点 -->
+    <div type="edition" subtype="simplified" xml:lang="lzh-Hans">
+      <head>Transcription (Simplified) </head>
+      <pb n="P1097" facs="#HS_CY21_P1097"/>
+
+        <ab>
+          事
+            <note place="inline" type="gloss" rend="small double-column">师古曰首谓始定也</note>
+            时乐官考正
+            <note place="inline" type="gloss" rend="small double-column">师古曰更质正其事</note>
+            至元 <lb/>
+        </ab>
+
+        <ab>
+          始中王莽秉政欲耀名誉徵天下通知钟律者百 <lb/>
+        </ab>
+
+        <ab>
+          余人使羲和刘歆等典领条奏言之最详故删其 <lb/>
+        </ab>
+
+        <ab>
+          伪辞取正义著于篇
+          <note place="inline" type="gloss" rend="small double-column">
+            师古曰班氏自云作志取刘歆之义也自此以下讫于用竹为引者事之……
+            </note> <lb/>
+        </ab>
+
+        <ab>
+          <note place="inline" type="gloss" rend="small double-column">
+            ……宜也则其辞焉
+            </note>
+          一曰备数二曰和声三曰审度四曰嘉量 <lb/>
+        </ab>
+
+        <ab>
+          五曰权衡参五以变错综其数稽之于古今效之 <lb/>
+        </ab>
+
+        <ab>
+          于气物和之于心耳考之于经传咸得其实靡不 <lb/>
+        </ab>
+
+        <ab>
+          协同数者一十百千万也所以算数事物顺性命 <lb/>
+        </ab>
+
+        <ab>
+          之理也书曰先其算命
+          <note place="inline" type="gloss" rend="small double-column">
+            师古曰逸书也言王者统业先立算数以命百事也
+          </note>
+          本 <lb/>
+        </ab>
+
+        <ab>
+          起于黄钟之数始于一而三之三三积之
+          <note place="inline" type="gloss" rend="small double-column">
+            孟康曰黄钟子之律
+          </note> <pb n="P1098"/>
+          <lb/>
+        </ab>
+
+    </div>
+
+    <!-- 3️⃣ 点校本 -->
+    <div type="edition" subtype="critical" xml:lang="lzh-Hant">
+      <head>Edited Text (Punctuated) </head>
+
+      <p>
+        <pb n="P1097"/> 事①，孝武帝時樂官考正②。至元始中王莽秉政，欲燿名譽，徵天下通知鐘律者百餘人，使羲和劉歆等典領條奏，言之最詳。故刪其偽辭，取正義，著於篇③。
+      </p>
+
+      <p>
+        一曰備數，二曰和聲，三曰審度，四曰嘉量，五曰權衡。參五以變，錯綜其數，稽之於古今，效之於氣物，和之於心耳，考之於經傳，咸得其實，靡不協同。
+      </p>
+
+      <p>
+        數者，一、十、百、千、萬也。所以筭數事物，順性命之理也。《書》曰：「先其筭命。」④本起於黃鐘之數，始於一而三之，三三積之⑤ <pb n="P1098"/>
+      </p>
+
+      <notesStmt>
+        <note n="1">① 師古曰：「首謂始定也。」</note>
+        <note n="2">② 師古曰：「更質正其事。」</note>
+        <note n="3">③ 師古曰：「班氏自云作志取劉歆之義也。自此以下訖於『用竹爲引者，事之宜也』，則其辭焉。」</note>
+        <note n="4">④ 師古曰：「逸書也。言王者統業，先立筭數以命百事也。」</note>
+        <note n="5">⑤ 孟康曰：「黃鐘，子之律……」（注未完，見下頁）</note>
+      </notesStmt>
+
+    </div>
+
+  </body>
+</text>
+
+<listBibl>
+  <head>BIBLIOGRAPHY</head>
+  <bibl>
+    <author>班固 撰；顏師古 注</author>
+    <title level="m" type="work">漢書</title>
+    <publisher>中華書局</publisher>
+    <pubPlace>北京</pubPlace>
+    <date when="2011">2011</date>
+    <biblScope unit="page">955–956</biblScope>
+  </bibl>
+</listBibl>
+
+</TEI>

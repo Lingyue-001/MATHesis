@@ -571,7 +571,7 @@ mark {
 
 .card-header h2 {
   margin: 0.4rem 0 0.2rem;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   letter-spacing: 0.04em;
 }
 
@@ -595,14 +595,14 @@ mark {
   display: inline-block;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  background: #6a4a2a;
+  background: #c8b8a6;
   color: #fff;
   text-decoration: none;
   box-shadow: 0 8px 18px rgba(35, 24, 15, 0.12);
 }
 
 .card-link.is-disabled {
-  background: #c3b3a2;
+  background: #c8b8a6;
   cursor: not-allowed;
 }
 
@@ -755,6 +755,19 @@ mark {
   line-height: 1.6;
 }
 
+.tei-embed-desc {
+  margin: 0.4rem 0 0.9rem;
+  color: #564738;
+}
+
+.tei-embed-frame {
+  width: 100%;
+  min-height: 820px;
+  border: 1px solid rgba(122, 96, 68, 0.22);
+  border-radius: 10px;
+  background: #fff;
+}
+
 .empty-state {
   padding: 1.5rem;
   background: #f7f1e7;
@@ -858,9 +871,17 @@ mark {
   animation: aboutFade 0.6s ease forwards;
 }
 
-.about-section:nth-of-type(2) { animation-delay: 0.05s; }
-.about-section:nth-of-type(3) { animation-delay: 0.12s; }
-.about-section:nth-of-type(4) { animation-delay: 0.2s; }
+.about-section:nth-of-type(2) {
+  animation-delay: 0.05s;
+}
+
+.about-section:nth-of-type(3) {
+  animation-delay: 0.12s;
+}
+
+.about-section:nth-of-type(4) {
+  animation-delay: 0.2s;
+}
 
 .about-section h2 {
   font-size: 1.6rem;

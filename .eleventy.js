@@ -4,6 +4,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("assets/fonts");
   eleventyConfig.addPassthroughCopy("static");
+  eleventyConfig.addPassthroughCopy("src/transcriptions/tei_hanshu");
+  eleventyConfig.addPassthroughCopy("src/transcriptions/tei_brhat");
   eleventyConfig.addPassthroughCopy("src/data.json");
   eleventyConfig.addPassthroughCopy("simp_to_trad_map.json");
   eleventyConfig.addPassthroughCopy("assets");

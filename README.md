@@ -15,7 +15,8 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - OCR tool integration: Use an existing tool for segmentation + recognition; implement post-correction from the author’s paper and integrate into a user-friendly workflow.
 
 ## Project notes
-- For current known redundancies/conflicts and version-management risks, see `SUSTAINABILITY_NOTES.md`.
+- For current status and prioritized todos, see `NOTE_当前需求清单和待办_Current_Status_and_Todo.md`.
+- For completed changes and retrospectives, see `LOG_已完成改动和复盘_Completed_Changes_and_Retrospective.md`.
 
 ## Data sources and workflow (current)
 - Search/data pages load from `src/data.json`.

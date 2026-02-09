@@ -22,16 +22,31 @@ title: Transcriptions
 </section>
 
 <section class="transcription-grid" id="manuscriptGrid">
-  <article class="manuscript-card" data-tags="sanskrit coming" data-title="brhatsamhita">
+  <article class="manuscript-card" data-tags="chinese" data-title="hanshu lulizhi liuyuanqi">
     <div class="card-header">
-      <h2>Brhatsamhita — Digital Edition</h2>
-      <p class="card-subtitle">Sanskrit · Astronomy/Astrology · Multi-section</p>
+      <h2>漢書 Hanshu</h2>
+      <p class="card-subtitle">Chinese · Calendrical/Mathematical · Eastern Han (1st c. CE)</p>
     </div>
     <div class="card-body">
-      <p>Planned: manuscript images, transcription, translation, and advanced search.</p>
+      <p>Selected section: 律历志 Lüli zhi</p>
+      <p>Manuscript witness: late 12th c.</p>
     </div>
     <div class="card-actions">
-      <span class="card-link is-disabled">In preparation</span>
+      <a class="card-link" href="{{ '/transcriptions/tei_hanshu/lingyue.html' | url }}">Open</a> <!-- 文件名和路径要指向对应html -->
+    </div>
+  </article>
+
+  <article class="manuscript-card" data-tags="sanskrit coming" data-title="brhatsamhita">
+    <div class="card-header">
+      <h2>बृहत्संहिता BṛhatSaṃhitā</h2>
+      <p class="card-subtitle">Sanskrit · Divinatory · 6th c. CE</p>
+    </div>
+    <div class="card-body">
+      <p>Selected chapter: उपनयनाध्यायः upanayanādhyāyaḥ</p>
+      <p>Manuscript witness: 16–17th c.</p>
+    </div>
+    <div class="card-actions">
+      <a class="card-link" href="{{ '/transcriptions/tei_brhat/1r.html' | url }}">Open</a> <!-- 文件名和路径要指向对应html -->
     </div>
   </article>
 </section>

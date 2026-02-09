@@ -9,8 +9,7 @@ layout: base
     <div class="about-lead">
       <p>
         This project is an ongoing digital humanities experiment that explores how numbers and mathematical operations were organised,
-        connected, and given meaning in pre-modern Chinese and Sanskrit astral contexts. Rather than treating numbers as abstract values,
-        it focuses on how numerical expressions were embedded in symbolic systems, textual structures, and cultural frameworks.
+        connected, and given meaning in pre-modern Chinese and Sanskrit astral contexts. It focuses on how numerical expressions were embedded in symbolic systems, textual structures, and cultural frameworks.
       </p>
       <p>
         The project takes early Chinese calendrical materials as its main point of departure, while using selected examples from Sanskrit
