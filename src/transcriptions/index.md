@@ -16,13 +16,13 @@ title: Transcriptions
       <button class="tag-button is-active" data-filter="all">All</button>
       <button class="tag-button" data-filter="sanskrit">Sanskrit</button>
       <button class="tag-button" data-filter="chinese">Chinese</button>
-      <button class="tag-button" data-filter="coming">In preparation</button>
+      <button class="tag-button" data-filter="coming">In progress</button>
     </div>
   </div>
 </section>
 
 <section class="transcription-grid" id="manuscriptGrid">
-  <article class="manuscript-card" data-tags="chinese" data-title="hanshu lulizhi liuyuanqi">
+  <article class="manuscript-card" data-tags="chinese coming" data-title="hanshu lulizhi liuyuanqi">
     <div class="card-header">
       <h2>漢書 Hanshu</h2>
       <p class="card-subtitle">Chinese · Calendrical/Mathematical · Eastern Han (1st c. CE)</p>

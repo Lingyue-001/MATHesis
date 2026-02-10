@@ -1,3 +1,5 @@
+import { collectNodeDisplayRows, buildUnifiedEntryName } from "./nodeEntrySchema.js";
+
 const baseUrl = document.documentElement.dataset.baseurl || "/";
 const withBase = (path) => `${baseUrl.replace(/\/?$/, "/")}${path.replace(/^\/+/, "")}`;
 
@@ -40,64 +42,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     "traditional_term_en", "traditional_term_zh", "traditional_term_zh_simple", "traditional_term_pinyin",
     "cardURL", "visualisation", "relationships", "id"
   ];
-
-  const FIELD_LABELS = {
-    name_sa: "Entry Name (Sanskrit)",
-    transliteration: "Entry Name (Transliteration)",
-    name_zh: "Entry Name (Chinese)",
-    name_en: "Entry Name (English)",
-    meaning_sa: "Meaning (Sanskrit)",
-    meaning_tr: "Meaning (Transliteration)",
-    meaning_zh: "Meaning (Chinese)",
-    meaning_en: "Meaning (English)",
-    symbolic_meaning_en: "Symbolic Meaning",
-    explanation: "Explanation",
-    note: "Explanation",
-    value: "Number",
-    related_concepts: "Related Concept",
-    traditional_term_en: "Related Concept (English)",
-    traditional_term_zh: "Related Concept (Chinese)",
-    traditional_term_pinyin: "Related Concept (Pinyin)",
-    system_tags: "System Tag",
-    system: "System",
-    original_text_en: "Primary Source (English Translation)",
-    original_text_zh: "Primary Source (Chinese)",
-    original_text_sa: "Primary Source (Sanskrit)",
-    original_text_tr: "Primary Source (Transliteration)",
-    cullen_quote_en: "Secondary Source - Cullen (Quote)",
-    cullen_source: "Secondary Source - Cullen (Reference)",
-    petrocchi_quote_en: "Secondary Source - Petrocchi (Quote)",
-    petrocchi_source: "Secondary Source - Petrocchi (Reference)",
-    source: "Primary Source (Reference)"
-  };
-
-  const FIELD_ORDER = [
-  "name_sa", "transliteration", "name_zh", "name_en",
-  "meaning_sa", "meaning_tr", "meaning_zh", "meaning_en", "symbolic_meaning_en",
-  "value", "note", "explanation",
-  "related_concepts", "traditional_term_en", "traditional_term_zh", "traditional_term_pinyin",
-  "system_tags", "system",
-
-  // ✅ ✅ ✅ 一手文献部分，排在前面
-  "original_text_zh",
-  "original_text_en",
-  "original_text_sa",
-  "original_text_tr",
-  "source",  // 你用来记录 primary reference 的字段
-
-  // ✅ ✅ ✅ 二手文献部分，往后放
-  "cullen_quote_en",
-  "cullen_source",
-  "petrocchi_quote_en",
-  "petrocchi_source"
-];
-
-
-  const HIDDEN_FIELDS = new Set([
-    "name", "name_zh_simple", "meaning_zh_simple", "nodes",
-    "system_tags_zh", "system_tags_zh_simple",
-    "style", "visualisation", "relationships", "id", "cardURL", "label"
-  ]);
 
   function convertSimpToTrad(str, mapping) {
     return str.split("").map(char => mapping[char] || char).join("");
@@ -181,32 +125,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         labelPrefix = "Number";
         titleZh = highlight(item.properties?.value?.toString() || item.properties?.name || "", keyword, simpToTradMap);
       } else if (label === "sanskritsymbol") {
-        titleZh = highlight(item.properties?.name_sa || "", keyword, simpToTradMap);
-        titleEn = highlight(item.properties?.name_en || "", keyword, simpToTradMap);
+        const unifiedName = buildUnifiedEntryName(item.properties || {});
+        titleZh = highlight(unifiedName, keyword, simpToTradMap);
       } else {
-        titleZh = highlight(item.properties?.name_zh || "", keyword, simpToTradMap);
-        titleEn = highlight(item.properties?.name_en || "", keyword, simpToTradMap);
+        const unifiedName = buildUnifiedEntryName(item.properties || {});
+        titleZh = highlight(unifiedName, keyword, simpToTradMap);
       }
 
       let html = `<div class='node-content'><h3 class='result-title'>${labelPrefix}: ${titleZh} ${titleEn}</h3><hr class="result-divider" />`;
       let mainContent = "", quoteContent = "";
 
-      FIELD_ORDER.forEach(key => {
-        if (HIDDEN_FIELDS.has(key)) return;
-        if (label === "number" && key === "value") return;
-      
-        const labelText = FIELD_LABELS[key] || key;
-        const value = item.properties?.[key];
-        if (!value) return;
-      
-        const isPrimaryText = key.startsWith("original_text");
-        const shouldHighlight = fields.includes(key);
-        const isReference = labelText.includes("(Reference)"); // ✅ 只斜体这些
-      
-        const content = shouldHighlight ? highlight(value.toString(), keyword, simpToTradMap) : value.toString();
-        const lineHtml = `<div class="result-section"><strong>${labelText}:</strong> ${isReference ? `<em>${content}</em>` : content}</div>`;
-      
-        if (isReference || isPrimaryText) quoteContent += lineHtml;
+      const rows = collectNodeDisplayRows(item.properties, {
+        skipNumberValue: label === "number",
+        excludeKeys: new Set(["name_sa", "transliteration", "name_zh", "name_en"])
+      });
+      rows.forEach((row) => {
+        const shouldHighlight = fields.includes(row.key);
+        const content = shouldHighlight
+          ? highlight(row.value, keyword, simpToTradMap)
+          : row.value;
+        const lineHtml = `<div class="result-section"><strong>${row.label}:</strong> ${row.isReference ? `<em>${content}</em>` : content}</div>`;
+        if (row.isReference || row.isPrimaryText) quoteContent += lineHtml;
         else mainContent += lineHtml;
       });
       
@@ -257,12 +196,11 @@ const displayedName = highlightRelations ? highlight(name, keyword, simpToTradMa
         }
 
         let innerHTML = "<div class='card subcard'>";
-        FIELD_ORDER.forEach(key => {
-          if (HIDDEN_FIELDS.has(key)) return;
-          const value = node.properties?.[key];
-          if (!value) return;
-          const label = FIELD_LABELS[key] || key;
-          innerHTML += `<p><strong>${label}:</strong> ${highlight(value.toString(), searchInput.value, simpToTradMap)}</p>`;
+        const rows = collectNodeDisplayRows(node.properties, {
+          excludeKeys: new Set(["name_sa", "transliteration", "name_zh", "name_en"])
+        });
+        rows.forEach((row) => {
+          innerHTML += `<p><strong>${row.label}:</strong> ${highlight(row.value, searchInput.value, simpToTradMap)}</p>`;
         });
         innerHTML += "</div>";
         container.innerHTML = innerHTML;

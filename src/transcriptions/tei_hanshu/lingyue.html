@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../css/style.css" />
     <style>
+        :root {
+            --hanshu-main-span: 760px;
+            --hanshu-side-panel-gap: 14px;
+            --hanshu-side-panel-width: clamp(300px, 26vw, 620px);
+            --transcription-mini-heading-size: 1.4rem;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -37,6 +44,57 @@
             width: 100%;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(90, 74, 56, 0.4), transparent);
+        }
+
+        .tei-head-with-script {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.86rem;
+            margin: 0.12rem 0 0.48rem;
+        }
+
+        .tei-head-with-script h2 {
+            margin: 0;
+        }
+
+        .tei-doc h2,
+        .tei-doc h3,
+        .tei-bibl h2,
+        .tei-bibl h3 {
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: var(--transcription-mini-heading-size);
+            font-weight: 700;
+            color: #4c4034;
+            line-height: 1.2;
+        }
+
+        .script-toggle-button {
+            border: none;
+            border-radius: 8px;
+            padding: 0.42rem 0.78rem;
+            width: 9.2rem;
+            background: #ebe1cf;
+            color: #4a3e30;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            box-shadow: 0 2px 0 rgba(74, 62, 48, 0.18);
+            transition: background-color 0.18s ease, transform 0.12s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .script-toggle-button:hover {
+            background: #e6d9c4;
+        }
+
+        .script-toggle-button:active {
+            transform: translateY(1px);
         }
 
         p {
@@ -151,6 +209,14 @@
             height: 1px;
             background: linear-gradient(90deg, rgba(90, 74, 56, 0.6), transparent);
         }
+
+        .line-interaction-hint {
+            display: block;
+            font-size: 0.84rem;
+            color: #6c5a46;
+            line-height: 1.35;
+            margin: 1.15rem 0 0.9rem;
+        }
     </style>
 </head>
 
@@ -176,12 +242,21 @@
         <div class="legacy-back">
             <button id="legacyBackButton" class="legacy-back-button" type="button">Back</button>
         </div>
+        <button id="scriptToggleButtonHanshu" class="script-toggle-button" type="button" data-script-mode="traditional" hidden>
+            Script: Traditional
+        </button>
         <div id="tei-container"></div>
+        <span id="lineInteractionHintHanshu" class="line-interaction-hint">Tip: single-click a highlighted matched node for details; double-click a matched node to query CText.</span>
         <div class="xml-link-block">
             <a href="./lingyue.xml" target="_blank" rel="noopener">view XML</a>
         </div>
     </main>
     <script type="module">
+        import { bindNodeHitPopup, resolveNodeByTerm } from "../../js/nodeEntryPopup.js";
+
+        let nodeRecordsCache = null;
+        let hanshuScriptMode = "traditional";
+
         async function loadTEI(fileName, targetSelector) {
             const target = document.querySelector(targetSelector);
             if (!target) throw new Error("Target element not found: " + targetSelector);
@@ -207,6 +282,9 @@
                 const html = teiNodeToHTML(xml.documentElement);
                 target.innerHTML = "";
                 target.appendChild(html);
+                placeHanshuScriptButton(target);
+                await applyHanshuScriptMode(hanshuScriptMode);
+                placeHanshuLineInteractionHint(target);
                 await runNodeHighlightPrototype(target, fileName);
             } catch (err) {
                 console.error(err);
@@ -223,15 +301,25 @@
         async function runNodeHighlightPrototype(container, sourceFileName) {
             try {
                 const terms = await loadNodeTermsForPrototype();
+                clearHanshuNodeHighlights(container);
                 const stats = highlightNodeTerms(container, terms);
                 renderHitSummary(stats);
+                bindHanshuNodePopup(container);
                 initCtextLookupForNodeHits(container);
+                bindHanshuCentralDismiss(container);
                 console.log(`[Node highlight prototype] file=${sourceFileName} totalHits=${stats.totalHits} matchedTerms=${stats.matchedTerms} dictionarySize=${terms.length}`);
                 if (stats.topHits.length) console.table(stats.topHits);
             } catch (err) {
                 console.warn("[Node highlight prototype] failed:", err);
                 renderHitSummary({ totalHits: 0, matchedTerms: 0, dictionarySize: 0, failed: true, topHits: [] });
             }
+        }
+
+        function clearHanshuNodeHighlights(container) {
+            container.querySelectorAll(".tei-node-hit").forEach((mark) => {
+                const text = document.createTextNode(mark.textContent || "");
+                mark.replaceWith(text);
+            });
         }
 
         async function loadNodeTermsForPrototype() {
@@ -243,6 +331,7 @@
             if (!res.ok) throw new Error(`HTTP ${res.status} for ${dataUrl}`);
             const data = await res.json();
             const nodes = Array.isArray(data?.nodes) ? data.nodes : [];
+            nodeRecordsCache = nodes;
 
             const terms = new Set();
             const splitRegex = /[\s,/;:()[\]{}|]+/;
@@ -270,6 +359,7 @@
                 simpToTrad = {};
             }
             const tradToSimp = Object.fromEntries(Object.entries(simpToTrad).map(([simp, trad]) => [trad, simp]));
+            window.__ctextTradToSimpMap = tradToSimp;
 
             const toSimp = (s) => Array.from(s).map(ch => tradToSimp[ch] || ch).join("");
             const toTrad = (s) => Array.from(s).map(ch => simpToTrad[ch] || ch).join("");
@@ -339,14 +429,62 @@
             return Array.from(terms).sort((a, b) => b.length - a.length).slice(0, 2000);
         }
 
+        async function loadNodeRecords() {
+            if (Array.isArray(nodeRecordsCache)) return nodeRecordsCache;
+            const path = window.location.pathname || "";
+            const basePrefix = path.includes("/transcriptions/") ? path.split("/transcriptions/")[0] : "";
+            const dataUrl = `${basePrefix}/data.json`;
+            const res = await fetch(dataUrl, { headers: { "Accept": "application/json" } });
+            if (!res.ok) throw new Error(`HTTP ${res.status} for ${dataUrl}`);
+            const data = await res.json();
+            nodeRecordsCache = Array.isArray(data?.nodes) ? data.nodes : [];
+            return nodeRecordsCache;
+        }
+
+        function normalizeNodeLookupTerm(value) {
+            const raw = String(value || "").trim();
+            if (!raw) return "";
+            if (/[\u3400-\u9fff]/u.test(raw)) {
+                return normalizeLookupKey(raw);
+            }
+            return raw.toLowerCase().replace(/\s+/g, " ");
+        }
+
+        function bindHanshuNodePopup(root) {
+            bindNodeHitPopup({
+                root,
+                panelId: "hanshuNodePanel",
+                panelTitle: "Node Details",
+                emptyText: "Single-click a highlighted matched node to view details.",
+                panelPosition: {
+                    left: "14px",
+                    top: "88px"
+                },
+                deferSingleClickMs: 220,
+                valueFilter: ({ key }) => key !== "value",
+                resolveNode: async ({ term }) => {
+                    const nodes = await loadNodeRecords();
+                    const resolved = resolveNodeByTerm(nodes, term, {
+                        normalizer: normalizeNodeLookupTerm
+                    });
+                    if (resolved) return resolved;
+                    const fallback = normalizeLookupKey(term) || term;
+                    return resolveNodeByTerm(nodes, fallback, {
+                        normalizer: normalizeNodeLookupTerm
+                    });
+                }
+            });
+        }
+
         function escapeRegex(s) {
             return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         }
 
         function highlightNodeTerms(container, terms) {
-            if (!terms.length) return { totalHits: 0, matchedTerms: 0, topHits: [], dictionarySize: 0 };
+            if (!terms.length) return { totalHits: 0, matchedTerms: 0, matchedGroups: 0, topHits: [], groupedTerms: [], dictionarySize: 0 };
             const regex = new RegExp(terms.map(escapeRegex).join("|"), "gu");
             const counts = new Map();
+            const groupedCounts = new Map();
             let totalHits = 0;
 
             const walker = document.createTreeWalker(
@@ -358,6 +496,7 @@
                         const parent = node.parentElement;
                         if (!parent) return NodeFilter.FILTER_REJECT;
                         if (parent.closest("h1")) return NodeFilter.FILTER_REJECT;
+                        if (parent.closest("[hidden]")) return NodeFilter.FILTER_REJECT;
                         if (parent.closest("script, style, a, button, code, pre, .tei-node-hit")) return NodeFilter.FILTER_REJECT;
                         return NodeFilter.FILTER_ACCEPT;
                     }
@@ -385,9 +524,15 @@
                     const mark = document.createElement("span");
                     mark.className = "tei-node-hit";
                     mark.textContent = term;
+                    const queryKey = normalizeLookupKey(term) || term;
+                    mark.dataset.queryKey = queryKey;
                     frag.appendChild(mark);
 
                     counts.set(term, (counts.get(term) || 0) + 1);
+                    const bucket = groupedCounts.get(queryKey) || { total: 0, forms: new Map() };
+                    bucket.total += 1;
+                    bucket.forms.set(term, (bucket.forms.get(term) || 0) + 1);
+                    groupedCounts.set(queryKey, bucket);
                     totalHits += 1;
                     cursor = end;
                 }
@@ -400,7 +545,28 @@
                 .slice(0, 20)
                 .map(([term, hits]) => ({ term, hits }));
 
-            return { totalHits, matchedTerms: counts.size, topHits, dictionarySize: terms.length };
+            const groupedTerms = Array.from(groupedCounts.entries())
+                .map(([queryKey, bucket]) => {
+                    const forms = Array.from(bucket.forms.entries())
+                        .sort((a, b) => b[1] - a[1] || b[0].length - a[0].length)
+                        .map(([term, hits]) => ({ term, hits }));
+                    return {
+                        queryKey,
+                        total: bucket.total,
+                        forms
+                    };
+                })
+                .sort((a, b) => b.total - a.total || (b.forms[0]?.term?.length || 0) - (a.forms[0]?.term?.length || 0))
+                .slice(0, 30);
+
+            return {
+                totalHits,
+                matchedTerms: counts.size,
+                matchedGroups: groupedCounts.size,
+                topHits,
+                groupedTerms,
+                dictionarySize: terms.length
+            };
         }
 
         function renderHitSummary(stats) {
@@ -416,21 +582,27 @@
                 block.textContent = "Node highlight: failed";
                 return;
             }
-            const items = (stats.topHits || [])
-                .map(({ term, hits }) => `<li><code>${term}</code> <span>${hits}</span></li>`)
+            const items = (stats.groupedTerms || [])
+                .map(({ total, forms }) => {
+                    const primary = forms?.[0]?.term || "—";
+                    const variants = (forms || [])
+                        .slice(1, 4)
+                        .map((f) => `${f.term} ${f.hits}`)
+                        .join(" / ");
+                    const variantsHtml = variants ? `<span class="node-hit-variants">${escapeHtml(variants)}</span>` : "";
+                    return `<li><code>${escapeHtml(primary)}</code> <span>${total}</span>${variantsHtml}</li>`;
+                })
                 .join("");
 
             block.innerHTML = `
                 <div class="node-hit-head">
                     <button id="toggleNodeHitPanel" class="node-hit-toggle-btn" type="button" aria-expanded="false">
-                        Node highlight
+                        Matched terms
                     </button>
-                    <span class="node-hit-guide">查看本页命中到的节点词统计与词项列表</span>
                 </div>
                 <section id="nodeHitPanel" class="node-hit-panel">
-                    <div class="node-hit-badge">Node highlight: ${stats.totalHits} hits / ${stats.matchedTerms} terms</div>
                     <details class="node-hit-details" open>
-                        <summary>Matched terms (top 30)</summary>
+                        <summary>Grouped terms (top 30) · ${stats.matchedGroups ?? stats.matchedTerms} groups / ${stats.totalHits} hits</summary>
                         <ul>${items || "<li><em>No matches</em></li>"}</ul>
                     </details>
                 </section>
@@ -443,6 +615,37 @@
                 const opened = panel.classList.toggle("is-open");
                 toggle.setAttribute("aria-expanded", opened ? "true" : "false");
             });
+        }
+
+        function bindHanshuCentralDismiss(container) {
+            if (!container || container.dataset.hanshuDismissReady === "1") return;
+            container.dataset.hanshuDismissReady = "1";
+
+            container.addEventListener("click", (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) return;
+                if (!container.contains(target)) return;
+                if (target.closest(".tei-node-hit, a, button, summary, details, .node-hit-summary")) return;
+
+                const nodePanel = document.getElementById("hanshuNodePanel");
+                if (nodePanel instanceof HTMLElement) nodePanel.classList.remove("is-open");
+                const ctextPanel = document.getElementById("ctextResultPanel");
+                if (ctextPanel instanceof HTMLElement) ctextPanel.classList.remove("is-open");
+            });
+        }
+
+        async function applyHanshuScriptMode(mode) {
+            hanshuScriptMode = mode === "simplified" ? "simplified" : "traditional";
+            const root = document.getElementById("tei-container");
+            const trad = root?.querySelector?.(".tei-transcription-primary");
+            const simp = root?.querySelector?.(".tei-transcription-simplified");
+            if (trad instanceof HTMLElement) trad.hidden = hanshuScriptMode !== "traditional";
+            if (simp instanceof HTMLElement) simp.hidden = hanshuScriptMode !== "simplified";
+
+            const button = document.getElementById("scriptToggleButtonHanshu");
+            if (!(button instanceof HTMLElement)) return;
+            button.dataset.scriptMode = hanshuScriptMode;
+            button.textContent = hanshuScriptMode === "simplified" ? "Script: Simplified" : "Script: Traditional";
         }
 
         function escapeHtml(s) {
@@ -465,56 +668,238 @@
             return Array.from(out).sort((a, b) => b.length - a.length).slice(0, 12);
         }
 
+        function normalizeLookupKey(input) {
+            const text = String(input || "").trim().replace(/\s+/g, "");
+            if (!text) return "";
+            const tradToSimp = window.__ctextTradToSimpMap || {};
+            return Array.from(text).map(ch => tradToSimp[ch] || ch).join("");
+        }
+
+        const ctextResultCache = new Map();
+        const ctextInFlightCache = new Map();
+
+        function openCtextPanelWithEnterAnimation(panel) {
+            if (!(panel instanceof HTMLElement)) return;
+            if (panel.classList.contains("is-open")) return;
+            requestAnimationFrame(() => {
+                panel.classList.add("is-open");
+            });
+        }
+
+        function makeCtextPanelResizable(panel) {
+            if (!(panel instanceof HTMLElement)) return;
+            if (panel.dataset.resizeBound === "1") return;
+            const handle = panel.querySelector(".ctext-resize-handle");
+            if (!(handle instanceof HTMLElement)) return;
+            panel.dataset.resizeBound = "1";
+
+            let resizing = false;
+            let startX = 0;
+            let startWidth = 0;
+
+            const clampWidth = (value) => {
+                const maxWidth = Math.max(300, window.innerWidth * 0.46);
+                return Math.min(Math.max(value, 280), maxWidth);
+            };
+
+            const onMove = (event) => {
+                if (!resizing) return;
+                const side = panel.classList.contains("side-left") ? "left" : "right";
+                const dx = event.clientX - startX;
+                const nextWidth = side === "left" ? startWidth + dx : startWidth - dx;
+                panel.style.width = `${clampWidth(nextWidth)}px`;
+            };
+
+            const stop = () => {
+                if (!resizing) return;
+                resizing = false;
+                panel.classList.remove("is-resizing");
+                window.removeEventListener("pointermove", onMove);
+                window.removeEventListener("pointerup", stop);
+            };
+
+            handle.addEventListener("pointerdown", (event) => {
+                if (event.button !== 0) return;
+                event.preventDefault();
+                resizing = true;
+                startX = event.clientX;
+                startWidth = panel.getBoundingClientRect().width;
+                panel.classList.add("is-resizing");
+                window.addEventListener("pointermove", onMove);
+                window.addEventListener("pointerup", stop);
+            });
+        }
+
         function ensureCtextResultPanel() {
             let panel = document.getElementById("ctextResultPanel");
             if (panel) return panel;
 
+            const I18N = {
+                zh: {
+                    title: "CText 检索",
+                    empty: "双击正文里高亮词条，在右侧查看外部检索结果。",
+                    query: "词条：",
+                    loading: "检索中（后端分词变体顺序查询）...",
+                    error: "后端检索暂不可用：",
+                    hint: "可先手动打开以下查询：",
+                    variantSearch: "变体检索",
+                    variantTerm: "检索词：",
+                    scope: "检索范围：",
+                    type: "检索类型：",
+                    condition: "条件1：",
+                    matched: "符合次数：",
+                    textLabel: "文本名：",
+                    noResult: "未返回可解析结果。"
+                },
+                en: {
+                    title: "CText Search",
+                    empty: "Double-click a highlighted term to view external lookup results.",
+                    query: "Query: ",
+                    loading: "Searching (backend variant pipeline)...",
+                    error: "Backend lookup unavailable: ",
+                    hint: "You can open these queries manually:",
+                    variantSearch: "Variant search",
+                    variantTerm: "Lookup term: ",
+                    scope: "Scope: ",
+                    type: "Request type: ",
+                    condition: "Condition 1: ",
+                    matched: "Matched: ",
+                    textLabel: "Texts: ",
+                    noResult: "No parsable result returned."
+                }
+            };
+            const t = (k) => (I18N[window.__ctextLang || "zh"] || I18N.zh)[k] || k;
+            window.__ctextLang = window.__ctextLang || "zh";
+            window.__ctextPanelState = window.__ctextPanelState || { mode: "empty", term: "", payload: null, err: "" };
+
             panel = document.createElement("aside");
             panel.id = "ctextResultPanel";
-            panel.className = "ctext-result-panel";
+            panel.className = "ctext-result-panel side-right";
             panel.innerHTML = `
                 <div class="ctext-panel-head">
-                    <div class="ctext-panel-title">CText 算书检索</div>
+                    <div class="ctext-panel-title">${t("title")}</div>
+                    <div class="ctext-lang-switch" role="group" aria-label="CText language switch">
+                        <button type="button" class="ctext-lang-btn is-active" data-lang="zh">中文</button>
+                        <button type="button" class="ctext-lang-btn" data-lang="en">EN</button>
+                    </div>
                     <button class="ctext-close-btn" id="ctextCloseBtn" type="button">×</button>
                 </div>
                 <div class="ctext-panel-body" id="ctextPanelBody">
-                    <p class="ctext-empty">点击正文里高亮词条，在右侧查看外部检索结果。</p>
+                    <p class="ctext-empty">${t("empty")}</p>
                 </div>
+                <div class="ctext-resize-handle" aria-hidden="true"></div>
             `;
             document.body.appendChild(panel);
+            makeCtextPanelResizable(panel);
 
             const closeBtn = panel.querySelector("#ctextCloseBtn");
             closeBtn?.addEventListener("click", () => panel.classList.remove("is-open"));
+            const syncLangButtons = () => {
+                panel.querySelectorAll(".ctext-lang-btn").forEach(btn => {
+                    btn.classList.toggle("is-active", btn.dataset.lang === window.__ctextLang);
+                });
+                const titleEl = panel.querySelector(".ctext-panel-title");
+                if (titleEl) titleEl.textContent = t("title");
+            };
+            const rerender = () => {
+                const state = window.__ctextPanelState || { mode: "empty" };
+                if (state.mode === "loading") {
+                    renderCtextLoading(state.term || "", true);
+                } else if (state.mode === "error") {
+                    renderCtextError(state.term || "", state.err || "", true);
+                } else if (state.mode === "results") {
+                    renderCtextResults(state.term || "", state.payload || {}, true);
+                } else {
+                    const body = panel.querySelector("#ctextPanelBody");
+                    if (body) body.innerHTML = `<p class="ctext-empty">${t("empty")}</p>`;
+                }
+                syncLangButtons();
+            };
+            panel.querySelectorAll(".ctext-lang-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const lang = btn.dataset.lang === "en" ? "en" : "zh";
+                    if (window.__ctextLang === lang) return;
+                    window.__ctextLang = lang;
+                    rerender();
+                });
+            });
+            syncLangButtons();
             return panel;
         }
 
-        function renderCtextLoading(term) {
+        function renderCtextLoading(term, fromRerender = false) {
             const panel = ensureCtextResultPanel();
+            const lang = window.__ctextLang || "zh";
+            const t = {
+                query: lang === "en" ? "Query: " : "词条：",
+                loading: lang === "en" ? "Searching (backend variant pipeline)..." : "检索中（后端分词变体顺序查询）..."
+            };
+            if (!fromRerender) window.__ctextPanelState = { mode: "loading", term, payload: null, err: "" };
             const body = panel.querySelector("#ctextPanelBody");
-            panel.classList.add("is-open");
+            openCtextPanelWithEnterAnimation(panel);
             body.innerHTML = `
-                <p class="ctext-query"><strong>词条：</strong>${escapeHtml(term)}</p>
-                <p class="ctext-loading">检索中（后端分词变体顺序查询）...</p>
+                <p class="ctext-query"><strong>${t.query}</strong>${escapeHtml(term)}</p>
+                <p class="ctext-loading">${t.loading}</p>
             `;
         }
 
-        function renderCtextError(term, errMsg) {
+        function renderCtextError(term, errMsg, fromRerender = false) {
             const panel = ensureCtextResultPanel();
+            const lang = window.__ctextLang || "zh";
+            const t = {
+                query: lang === "en" ? "Query: " : "词条：",
+                error: lang === "en" ? "Backend lookup unavailable: " : "后端检索暂不可用：",
+                hint: lang === "en" ? "You can open these queries manually:" : "可先手动打开以下查询："
+            };
+            if (!fromRerender) window.__ctextPanelState = { mode: "error", term, payload: null, err: errMsg || "" };
             const body = panel.querySelector("#ctextPanelBody");
             const variants = buildQueryVariants(term);
             const links = variants.map(v =>
                 `<li><a target="_blank" rel="noopener" href="https://ctext.org/mathematics/zh?if=gb&searchu=${encodeURIComponent(v)}">${escapeHtml(v)}</a></li>`
             ).join("");
             body.innerHTML = `
-                <p class="ctext-query"><strong>词条：</strong>${escapeHtml(term)}</p>
-                <p class="ctext-error">后端检索暂不可用：${escapeHtml(errMsg || "unknown error")}</p>
-                <p class="ctext-hint">可先手动打开以下查询：</p>
+                <p class="ctext-query"><strong>${t.query}</strong>${escapeHtml(term)}</p>
+                <p class="ctext-error">${t.error}${escapeHtml(errMsg || "unknown error")}</p>
+                <p class="ctext-hint">${t.hint}</p>
                 <ul class="ctext-fallback-links">${links}</ul>
             `;
+            openCtextPanelWithEnterAnimation(panel);
         }
 
-        function renderCtextResults(term, payload) {
+        function renderCtextResults(term, payload, fromRerender = false) {
             const panel = ensureCtextResultPanel();
+            const lang = window.__ctextLang || "zh";
+            const t = {
+                query: lang === "en" ? "Query: " : "词条：",
+                variantSearch: lang === "en" ? "Variant search" : "变体检索",
+                variantTerm: lang === "en" ? "Lookup term: " : "检索词：",
+                scope: lang === "en" ? "Scope: " : "检索范围：",
+                type: lang === "en" ? "Request type: " : "检索类型：",
+                condition: lang === "en" ? "Condition 1: " : "条件1：",
+                matched: lang === "en" ? "Matched: " : "符合次数：",
+                textLabel: lang === "en" ? "Texts: " : "文本名：",
+                noResult: lang === "en" ? "No parsable result returned." : "未返回可解析结果。"
+            };
+            const scopeToDisplay = (scope) => {
+                if (lang !== "en") return scope;
+                const s = String(scope || "").trim();
+                if (/^(算書|算书)$/u.test(s)) return "Mathematics";
+                return s;
+            };
+            const typeToDisplay = (type) => {
+                if (lang !== "en") return type;
+                const s = String(type || "").trim();
+                if (/^段落$/u.test(s)) return "Paragraph";
+                return s;
+            };
+            const conditionToDisplay = (condition) => {
+                if (lang !== "en") return condition;
+                const s = String(condition || "").trim();
+                const m = s.match(/^包含字詞\s*["“](.+?)["”]$/u) || s.match(/^包含字词\s*["“](.+?)["”]$/u);
+                if (m) return `Contains text "${m[1]}"`;
+                return s;
+            };
+            if (!fromRerender) window.__ctextPanelState = { mode: "results", term, payload, err: "" };
             const body = panel.querySelector("#ctextPanelBody");
             const searchesRaw = Array.isArray(payload?.searches) ? payload.searches : [];
             const searches = searchesRaw
@@ -529,13 +914,44 @@
             const ctextDebug = new URLSearchParams(window.location.search).get("ctextDebug") === "1";
 
             const blocks = searches.map(item => {
-                const text = item?.structured?.text;
-                const chapter = item?.structured?.chapter;
                 const hasNumericHit = typeof item?.hitCount === "number" && Number.isFinite(item.hitCount);
                 const hitCountDisplay = hasNumericHit ? String(item.hitCount) : "—";
-                const links = (item.links || []).slice(0, 8).map(l =>
-                    `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${escapeHtml(l.label)}</a>`
-                ).join(" · ");
+                const scopeClean = String(item?.scope || "—").replace(/[·•,，.。;；:：\s]+$/g, "");
+                const scopeDisplay = scopeToDisplay(scopeClean || "—");
+                const typeDisplay = typeToDisplay(item.searchType || "");
+                const conditionDisplay = conditionToDisplay(item.condition || "—");
+                const textGroupsRaw = Array.isArray(item?.structured?.textGroups) ? item.structured.textGroups : [];
+                const textGroups = textGroupsRaw;
+                const renderCount = (count, countUrl) => {
+                    if (typeof count !== "number" || !Number.isFinite(count)) return "";
+                    if (countUrl) return `（<a href="${escapeHtml(countUrl)}" target="_blank" rel="noopener">${escapeHtml(String(count))}</a>）`;
+                    return `（${escapeHtml(String(count))}）`;
+                };
+                const textBlock = textGroups.length
+                    ? textGroups.map((group, idx) => {
+                        const text = group?.text;
+                        const chapters = Array.isArray(group?.chapters) ? group.chapters : [];
+                        const textLink = text
+                            ? (text.url
+                                ? `<a href="${escapeHtml(text.url)}" target="_blank" rel="noopener">${escapeHtml(text.label)}</a>${renderCount(text.count, text.countUrl)}`
+                                : `${escapeHtml(text.label)}${renderCount(text.count, text.countUrl)}`)
+                            : "—";
+                        const chapterLinks = chapters
+                            .map(ch => {
+                                const chapterLabel = ch?.url
+                                    ? `<a href="${escapeHtml(ch.url)}" target="_blank" rel="noopener">${escapeHtml(ch.label || "")}</a>`
+                                    : `${escapeHtml(ch?.label || "")}`;
+                                return `${chapterLabel}${renderCount(ch?.count, ch?.countUrl)}`;
+                            })
+                            .filter(Boolean)
+                            .join("；");
+                        const suffix = chapterLinks ? ` - ${chapterLinks}` : "";
+                        if (idx === 0) {
+                            return `<div class="ctext-text-group"><strong class="ctext-text-prefix">${t.textLabel}</strong><span class="ctext-text-content">${textLink}${suffix}</span></div>`;
+                        }
+                        return `<div class="ctext-text-group ctext-text-group-cont"><span class="ctext-text-content">${textLink}${suffix}</span></div>`;
+                    }).join("")
+                    : `<div class="ctext-text-group"><strong class="ctext-text-prefix">${t.textLabel}</strong><span class="ctext-text-content">—</span></div>`;
 
                 const debugBlock = ctextDebug && item.debug ? `
                     <details class="ctext-debug">
@@ -549,61 +965,78 @@
 
                 return `
                     <article class="ctext-result-item">
-                        <div class="ctext-result-variant">检索词：<code>${escapeHtml(item.variant || "")}</code></div>
+                        <div class="ctext-result-variant">${t.variantTerm}<code>${escapeHtml(item.variant || "")}</code></div>
                         <div class="ctext-result-meta">
-                            <div><strong>检索范围：</strong>${escapeHtml(item.scope || "—")}${item.searchType ? ` · <strong>检索类型：</strong>${escapeHtml(item.searchType)}` : ""}</div>
-                            <div><strong>检索条件：</strong>${escapeHtml(item.condition || "—")}</div>
-                            <div><strong>符合次数：</strong>${escapeHtml(hitCountDisplay)}</div>
+                            <div><strong>${t.scope}</strong>${escapeHtml(scopeDisplay || "—")}</div>
+                            ${typeDisplay ? `<div><strong>${t.type}</strong>${escapeHtml(typeDisplay)}</div>` : ""}
+                            <div><strong>${t.condition}</strong>${escapeHtml(conditionDisplay || "—")}</div>
+                            <div><strong>${t.matched}</strong>${hasNumericHit && item?.searchUrl ? `<a href="${escapeHtml(item.searchUrl)}" target="_blank" rel="noopener">${escapeHtml(hitCountDisplay)}</a>` : escapeHtml(hitCountDisplay)}</div>
                         </div>
-                        <div class="ctext-result-structure">
-                            <div><strong>文本名：</strong>${text ? `<a href="${escapeHtml(text.url)}" target="_blank" rel="noopener">${escapeHtml(text.label)}</a>` : "—"}</div>
-                            <div><strong>篇章名：</strong>${chapter ? `<a href="${escapeHtml(chapter.url)}" target="_blank" rel="noopener">${escapeHtml(chapter.label)}</a>` : "—"}</div>
-                        </div>
-                        <details class="ctext-links-details">
-                            <summary>候选链接</summary>
-                            <div class="ctext-link-row">${links || "—"}</div>
-                        </details>
+                        <div class="ctext-result-structure">${textBlock}</div>
                         ${debugBlock}
                     </article>
                 `;
             }).join("");
 
             body.innerHTML = `
-                <p class="ctext-query"><strong>词条：</strong>${escapeHtml(term)}</p>
-                <p class="ctext-query-sub">变体检索（${escapeHtml(payload?.variantsSearched ?? (payload?.variants || []).length)}）：${escapeHtml((payload.variants || []).join(" / ")) || "—"}</p>
-                ${blocks || "<p class='ctext-empty'>未返回可解析结果。</p>"}
+                <p class="ctext-query"><strong>${t.query}</strong>${escapeHtml(term)}</p>
+                <p class="ctext-query-sub">${t.variantSearch}（${escapeHtml(payload?.variantsSearched ?? (payload?.variants || []).length)}）：${escapeHtml((payload.variants || []).join(" / ")) || "—"}</p>
+                ${blocks || `<p class='ctext-empty'>${t.noResult}</p>`}
             `;
-            panel.classList.add("is-open");
+            openCtextPanelWithEnterAnimation(panel);
         }
 
-        async function requestCtextSearch(term) {
+        async function requestCtextSearch(term, queryKey) {
             const path = window.location.pathname || "";
             const basePrefix = path.includes("/transcriptions/")
                 ? path.split("/transcriptions/")[0]
                 : "";
-            const ctextDebug = new URLSearchParams(window.location.search).get("ctextDebug") === "1";
-            const apiUrl = `${basePrefix}/api/ctext/search?q=${encodeURIComponent(term)}${ctextDebug ? "&debug=1" : ""}`;
-            const res = await fetch(apiUrl, {
-                headers: { "Accept": "application/json" }
-            });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return res.json();
+            const params = new URLSearchParams(window.location.search);
+            const ctextDebug = params.get("ctextDebug") === "1";
+            const forceRefresh = params.get("ctextRefresh") === "1";
+            const normalizedKey = normalizeLookupKey(queryKey || term) || (term || "").trim();
+            const cacheKey = `q=${normalizedKey}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
+            if (!forceRefresh && ctextResultCache.has(cacheKey)) {
+                return ctextResultCache.get(cacheKey);
+            }
+            if (ctextInFlightCache.has(cacheKey)) {
+                return ctextInFlightCache.get(cacheKey);
+            }
+
+            const apiUrl = `${basePrefix}/api/ctext/search?q=${encodeURIComponent(normalizedKey)}${ctextDebug ? "&debug=1" : ""}${forceRefresh ? "&refresh=1" : ""}`;
+            const reqPromise = (async () => {
+                const res = await fetch(apiUrl, {
+                    headers: { "Accept": "application/json" }
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })();
+            ctextInFlightCache.set(cacheKey, reqPromise);
+            try {
+                const payload = await reqPromise;
+                if (!forceRefresh) ctextResultCache.set(cacheKey, payload);
+                return payload;
+            } finally {
+                ctextInFlightCache.delete(cacheKey);
+            }
         }
 
         function initCtextLookupForNodeHits(container) {
             if (!container || container.dataset.ctextLookupReady === "1") return;
             container.dataset.ctextLookupReady = "1";
 
-            container.addEventListener("click", async (event) => {
+            container.addEventListener("dblclick", async (event) => {
                 const hit = event.target.closest(".tei-node-hit");
                 if (!hit || !container.contains(hit)) return;
                 const term = (hit.textContent || "").trim();
                 if (!term) return;
+                const queryKey = hit.dataset.queryKey || normalizeLookupKey(term) || term;
 
                 event.preventDefault();
+                event.stopPropagation();
                 renderCtextLoading(term);
                 try {
-                    const data = await requestCtextSearch(term);
+                    const data = await requestCtextSearch(term, queryKey);
                     renderCtextResults(term, data);
                 } catch (err) {
                     renderCtextError(term, err?.message || "request failed");
@@ -667,10 +1100,15 @@
                     return main;
                 }
                 case "div": {
+                    const subtype = (node.getAttribute("subtype") || "").toLowerCase();
                     const div = el("section", "tei-div");
-                    // optional head within div
-                    const head = node.getElementsByTagNameNS("*", "head")[0];
-                    if (head) {
+                    if (subtype === "diplomatic") div.classList.add("tei-transcription-primary");
+                    if (subtype === "simplified") div.classList.add("tei-transcription-simplified");
+                    if (subtype === "critical") div.classList.add("tei-edited-fixed");
+                    const hideXmlHeadForTranscription = subtype === "diplomatic" || subtype === "simplified";
+                    // optional direct head within div
+                    const head = Array.from(node.children || []).find((child) => child.localName === "head");
+                    if (head && !hideXmlHeadForTranscription) {
                         const h2 = el("h2");
                         h2.textContent = textContentDeep(head);
                         div.appendChild(h2);
@@ -928,6 +1366,47 @@
             }
         }
 
+        function placeHanshuLineInteractionHint(container) {
+            const hint = document.getElementById("lineInteractionHintHanshu");
+            if (!(hint instanceof HTMLElement)) return;
+            const bibl = container?.querySelector?.(".tei-bibl");
+            if (bibl instanceof HTMLElement && bibl.parentElement) {
+                bibl.parentElement.insertBefore(hint, bibl);
+                return;
+            }
+            const xmlLink = document.querySelector(".xml-link-block");
+            if (xmlLink instanceof HTMLElement) {
+                xmlLink.insertAdjacentElement("beforebegin", hint);
+                return;
+            }
+            container?.insertAdjacentElement?.("afterend", hint);
+        }
+
+        function placeHanshuScriptButton(container) {
+            const button = document.getElementById("scriptToggleButtonHanshu");
+            if (!(button instanceof HTMLElement)) return;
+            const primary = container.querySelector(".tei-transcription-primary");
+            if (!(primary instanceof HTMLElement) || !primary.parentElement) {
+                button.hidden = true;
+                return;
+            }
+
+            let row = container.querySelector(".tei-head-with-script.hanshu-transcription-toolbar");
+            if (!(row instanceof HTMLElement)) {
+                row = document.createElement("div");
+                row.className = "tei-head-with-script hanshu-transcription-toolbar";
+                const title = document.createElement("h2");
+                title.textContent = "Transcription";
+                row.appendChild(title);
+                primary.parentElement.insertBefore(row, primary);
+            }
+
+            button.hidden = false;
+            if (button.parentElement !== row) {
+                row.appendChild(button);
+            }
+        }
+
         // Utilities
         function el(tag, className) {
             const e = document.createElement(tag);
@@ -947,6 +1426,15 @@
         loadTEI("lingyue.xml", "#tei-container");
 
         const backButton = document.getElementById("legacyBackButton");
+        const hanshuScriptButton = document.getElementById("scriptToggleButtonHanshu");
+        hanshuScriptButton?.addEventListener("click", async () => {
+            const nextMode = hanshuScriptMode === "traditional" ? "simplified" : "traditional";
+            await applyHanshuScriptMode(nextMode);
+            const container = document.getElementById("tei-container");
+            if (container) {
+                await runNodeHighlightPrototype(container, "lingyue.xml");
+            }
+        });
         backButton?.addEventListener("click", () => {
             if (window.history.length > 1) {
                 window.history.back();
@@ -976,6 +1464,14 @@
 
         .tei-div {
             margin: 1rem 0;
+        }
+
+        .tei-transcription-primary {
+            margin-bottom: 2rem;
+        }
+
+        .tei-transcription-simplified[hidden] {
+            display: none !important;
         }
 
         .tei-line {
@@ -1030,20 +1526,78 @@
         .ctext-result-panel {
             position: fixed;
             top: 88px;
-            right: 14px;
             width: min(420px, 38vw);
             max-height: calc(100vh - 110px);
             background: rgba(255, 252, 246, 0.98);
             border: 1px solid rgba(122, 96, 68, 0.3);
             border-radius: 12px;
             box-shadow: 0 14px 30px rgba(28, 22, 16, 0.18);
-            transform: translateX(110%);
+            --panel-enter-x: 110%;
+            transform: translateX(var(--panel-enter-x));
             opacity: 0;
             transition: transform 0.25s ease, opacity 0.2s ease;
             z-index: 1300;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+        }
+
+        .ctext-result-panel.is-resizing {
+            transition: none;
+            user-select: none;
+        }
+
+        .ctext-resize-handle {
+            position: absolute;
+            top: 0.65rem;
+            bottom: 0.65rem;
+            width: 12px;
+            z-index: 4;
+            cursor: ew-resize;
+            border-radius: 6px;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+
+        .ctext-result-panel:hover .ctext-resize-handle {
+            opacity: 1;
+        }
+
+        .ctext-result-panel.side-right {
+            right: 14px;
+            left: auto;
+            --panel-enter-x: 110%;
+        }
+
+        .ctext-result-panel.side-right .ctext-resize-handle {
+            left: -6px;
+            background: linear-gradient(270deg, rgba(74, 62, 48, 0.05), rgba(74, 62, 48, 0.2));
+        }
+
+        .ctext-result-panel.side-left {
+            left: 14px;
+            right: auto;
+            --panel-enter-x: -110%;
+        }
+
+        .ctext-result-panel.side-left .ctext-resize-handle {
+            right: -6px;
+            background: linear-gradient(90deg, rgba(74, 62, 48, 0.05), rgba(74, 62, 48, 0.2));
+        }
+
+        @media (min-width: 1260px) {
+            .ctext-result-panel {
+                width: var(--hanshu-side-panel-width);
+            }
+
+            #hanshuNodePanel.node-entry-panel {
+                width: var(--hanshu-side-panel-width);
+                max-height: calc(100vh - 110px);
+            }
+
+            #hanshuNodePanel.node-entry-panel .node-entry-body {
+                max-height: calc(100vh - 198px);
+            }
         }
 
         .ctext-result-panel.is-open {
@@ -1074,6 +1628,31 @@
             color: #6b5740;
             cursor: pointer;
             line-height: 1;
+        }
+
+        .ctext-lang-switch {
+            display: inline-flex;
+            gap: 0.22rem;
+            margin-left: auto;
+            margin-right: 0.25rem;
+        }
+
+        .ctext-lang-btn {
+            border: 1px solid rgba(122, 96, 68, 0.38);
+            background: #f5eee2;
+            color: #5b472f;
+            font-size: 0.68rem;
+            line-height: 1;
+            padding: 0.18rem 0.33rem;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .ctext-lang-btn.is-active {
+            background: #e5d7c3;
+            border-color: rgba(103, 77, 49, 0.58);
+            color: #3e2f20;
+            font-weight: 700;
         }
 
         .ctext-panel-body {
@@ -1123,25 +1702,32 @@
             margin-bottom: 0.18rem;
         }
 
-        .ctext-links-details {
-            margin-top: 0.35rem;
+        .ctext-text-group {
+            margin-bottom: 0.3rem;
+            line-height: 1.5;
         }
 
-        .ctext-links-details summary {
-            cursor: pointer;
+        .ctext-text-prefix {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 0.1rem;
+            white-space: nowrap;
         }
 
-        .ctext-link-row {
-            margin-top: 0.3rem;
-            display: block;
+        .ctext-text-group-cont {
+            padding-left: 4.1em;
         }
 
-        .ctext-link-row a {
+        .ctext-text-content {
+            display: inline;
+        }
+
+        .ctext-text-group a {
             color: #5f4325;
             text-decoration: none;
         }
 
-        .ctext-link-row a:hover {
+        .ctext-text-group a:hover {
             text-decoration: underline;
         }
 
@@ -1153,9 +1739,18 @@
         @media (max-width: 980px) {
             .ctext-result-panel {
                 width: min(460px, 92vw);
-                right: 4vw;
                 top: 76px;
                 max-height: calc(100vh - 90px);
+            }
+
+            .ctext-result-panel.side-right {
+                right: 4vw;
+                left: auto;
+            }
+
+            .ctext-result-panel.side-left {
+                left: 4vw;
+                right: auto;
             }
         }
 
@@ -1189,12 +1784,6 @@
             transform: translateY(1px);
         }
 
-        .node-hit-guide {
-            font-size: 0.76rem;
-            color: #7a6750;
-            line-height: 1.4;
-        }
-
         .node-hit-panel {
             max-height: 0;
             opacity: 0;
@@ -1207,18 +1796,6 @@
             max-height: 520px;
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .node-hit-badge {
-            margin-top: 0.8rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.84rem;
-            color: #5a4a36;
-            background: rgba(242, 233, 218, 0.9);
-            border: 1px solid rgba(122, 96, 68, 0.25);
-            border-radius: 6px;
-            padding: 0.35rem 0.55rem;
-            display: inline-block;
         }
 
         .node-hit-details {
@@ -1262,6 +1839,13 @@
             margin-left: 0.25rem;
         }
 
+        .node-hit-variants {
+            display: inline-block;
+            margin-left: 0.46rem;
+            color: #7a654a;
+            font-size: 0.74rem;
+        }
+
 
         /* —— block 注释（脚注）依然保持竖线 —— */
         .tei-note {
@@ -1284,7 +1868,7 @@
             /* 默认缩略图宽度 */
             height: auto;
             display: block;
-            margin: 1.2em auto;
+            margin: 1.2em auto 2.05em;
             border-radius: 6px;
             cursor: zoom-in;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);

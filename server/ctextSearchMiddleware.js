@@ -2,12 +2,32 @@ const https = require("https");
 const zlib = require("zlib");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const C_TEXT_RESULT_ENDPOINT = "https://ctext.org/mathematics/zh?if=gb&searchu=";
 const REQUEST_GAP_MS = 120;
 const MAX_VARIANTS = 12;
 const MAX_REDIRECTS = 5;
 const MAX_VARIANT_ATTEMPTS = 2;
+const REQUEST_TIMEOUT_MS = 15000;
+const CACHE_DIR = path.resolve(process.cwd(), "tmp", "ctext_cache");
+const CACHE_SCHEMA_VERSION = 7;
+const CACHE_TTL_MS_RAW = Number(process.env.CTEXT_CACHE_TTL_MS || 24 * 60 * 60 * 1000);
+const CACHE_TTL_MS = Number.isFinite(CACHE_TTL_MS_RAW) && CACHE_TTL_MS_RAW > 0
+  ? CACHE_TTL_MS_RAW
+  : 6 * 60 * 60 * 1000;
+const FETCH_MODE = String(process.env.CTEXT_FETCH_MODE || "browser").toLowerCase();
+const CTEXT_SESSION_DIR = path.resolve(process.cwd(), "tmp", "ctext_session");
+const GLOBAL_GAP_MS_RAW = Number(process.env.CTEXT_GLOBAL_GAP_MS || 1200);
+const GLOBAL_GAP_MS = Number.isFinite(GLOBAL_GAP_MS_RAW) && GLOBAL_GAP_MS_RAW >= 0
+  ? GLOBAL_GAP_MS_RAW
+  : 1200;
+const LOGIN_GATE_PATTERNS = [
+  /請\s*<a[^>]+account\.pl[^>]*>\s*登入帳戶/i,
+  /请\s*<a[^>]+account\.pl[^>]*>\s*登入账户/i,
+  /嚴禁使用自動下載軟体/i,
+  /严禁使用自动下载/i
+];
 const STOP_CHARS = new Set([
   "之", "其", "而", "以", "于", "於", "也", "者", "焉", "乎", "矣",
   "曰", "云", "所", "不", "無", "无", "有", "為", "为", "與", "与"
@@ -29,6 +49,68 @@ try {
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let globalFetchQueue = Promise.resolve();
+let lastGlobalFetchAt = 0;
+
+function runWithGlobalThrottle(task) {
+  const run = async () => {
+    const elapsed = Date.now() - lastGlobalFetchAt;
+    const waitMs = GLOBAL_GAP_MS - elapsed;
+    if (waitMs > 0) await delay(waitMs);
+    try {
+      return await task();
+    } finally {
+      lastGlobalFetchAt = Date.now();
+    }
+  };
+  const next = globalFetchQueue.then(run, run);
+  globalFetchQueue = next.then(() => undefined, () => undefined);
+  return next;
+}
+
+function ensureDir(dirPath) {
+  fs.mkdirSync(dirPath, { recursive: true });
+}
+
+function hashKey(input) {
+  return crypto.createHash("sha1").update(String(input || "")).digest("hex");
+}
+
+function readCache(cacheKey) {
+  try {
+    const file = path.join(CACHE_DIR, `${cacheKey}.json`);
+    if (!fs.existsSync(file)) return null;
+    const raw = fs.readFileSync(file, "utf8");
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return null;
+    if (parsed.schemaVersion !== CACHE_SCHEMA_VERSION) return null;
+    if (typeof parsed.cachedAt !== "string") return null;
+    const age = Date.now() - new Date(parsed.cachedAt).getTime();
+    if (Number.isNaN(age) || age > CACHE_TTL_MS) return null;
+    return parsed.payload || null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(cacheKey, payload) {
+  try {
+    ensureDir(CACHE_DIR);
+    const file = path.join(CACHE_DIR, `${cacheKey}.json`);
+    fs.writeFileSync(
+      file,
+      JSON.stringify({
+        schemaVersion: CACHE_SCHEMA_VERSION,
+        cachedAt: new Date().toISOString(),
+        payload
+      }, null, 2),
+      "utf8"
+    );
+  } catch {
+    // cache write failure should never fail request path
+  }
 }
 
 function toSimp(input) {
@@ -84,6 +166,11 @@ function decodeBody(buffer, encoding = "") {
   return buffer.toString("utf8");
 }
 
+function isLoginGatedPage(rawHtml) {
+  const html = String(rawHtml || "");
+  return LOGIN_GATE_PATTERNS.some(re => re.test(html));
+}
+
 function fetchText(url, redirectCount = 0) {
   return new Promise((resolve, reject) => {
     const req = https.request(
@@ -97,7 +184,7 @@ function fetchText(url, redirectCount = 0) {
           "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
           "Referer": "https://ctext.org/mathematics/zh?if=gb"
         },
-        timeout: 15000
+        timeout: REQUEST_TIMEOUT_MS
       },
       (res) => {
         const statusCode = res.statusCode || 0;
@@ -142,6 +229,65 @@ function fetchText(url, redirectCount = 0) {
   });
 }
 
+let playwrightContextPromise = null;
+
+async function getPlaywrightContext() {
+  if (playwrightContextPromise) return playwrightContextPromise;
+  playwrightContextPromise = (async () => {
+    let playwright;
+    try {
+      playwright = require("playwright");
+    } catch {
+      throw new Error("Playwright is not installed. Run: npm i -D playwright");
+    }
+    ensureDir(CTEXT_SESSION_DIR);
+    const context = await playwright.chromium.launchPersistentContext(CTEXT_SESSION_DIR, {
+      headless: true,
+      viewport: { width: 1440, height: 900 },
+      locale: "zh-CN",
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    });
+    return context;
+  })();
+  return playwrightContextPromise;
+}
+
+async function fetchTextWithBrowser(url) {
+  const context = await getPlaywrightContext();
+  const page = await context.newPage();
+  try {
+    const response = await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: REQUEST_TIMEOUT_MS
+    });
+    await page.waitForTimeout(700);
+    const body = await page.content();
+    const finalUrl = page.url();
+    const statusCode = response ? response.status() : 200;
+    return { url, finalUrl, statusCode, body };
+  } finally {
+    await page.close();
+  }
+}
+
+async function fetchTextByMode(url) {
+  if (FETCH_MODE === "http") {
+    return fetchText(url);
+  }
+
+  if (FETCH_MODE === "browser") {
+    try {
+      return await fetchTextWithBrowser(url);
+    } catch (err) {
+      // browser mode is preferred, but network path keeps API usable
+      const fallback = await fetchText(url);
+      return { ...fallback, fallbackFromBrowserError: err.message || "unknown browser fetch error" };
+    }
+  }
+
+  return fetchText(url);
+}
+
 function buildVariants(term) {
   const base = (term || "").trim();
   if (!base) return [];
@@ -172,8 +318,20 @@ function extractLines(text) {
   return text.split("\n").map(s => s.trim()).filter(Boolean);
 }
 
-function stripTrailingPunctuation(input) {
-  return String(input || "").replace(/[\s·,，.。;；:：]+$/g, "").trim();
+function stripTrailingPunctuation(input, options = {}) {
+  const { keepQuotes = false } = options;
+  const suffixPattern = keepQuotes
+    ? /[\s·•,，.。;；:：!！?？]+$/g
+    : /[\s·•,，.。;；:：!！?？"“”'‘’]+$/g;
+  return String(input || "").replace(suffixPattern, "").trim();
+}
+
+function normalizeScopeValue(input) {
+  const raw = stripTrailingPunctuation(input || "");
+  if (!raw) return "";
+  const cjk = raw.match(/[\u3400-\u9fff]+/u);
+  if (cjk && cjk[0]) return cjk[0];
+  return raw.split(/[\s·•,，.。;；:：!！?？()[\]{}"“”'‘’<>《》]/).filter(Boolean)[0] || raw;
 }
 
 function parseLinks(html) {
@@ -194,6 +352,115 @@ function parseLinks(html) {
     out.push({ label, url: absolute });
   }
   return out;
+}
+
+function toAbsoluteCtextUrl(href) {
+  if (!href) return "";
+  const decodedHref = decodeHtmlEntities(String(href || "").trim());
+  return decodedHref.startsWith("http")
+    ? decodedHref
+    : `https://ctext.org${decodedHref.startsWith("/") ? decodedHref : `/${decodedHref}`}`;
+}
+
+function normalizeBookLabel(input) {
+  const raw = String(input || "").trim().replace(/^《\s*|\s*》$/g, "");
+  return raw ? `《${raw}》` : "";
+}
+
+function parseStatsCountCell(cellHtml) {
+  const cell = String(cellHtml || "");
+  const linkMatch = cell.match(
+    /<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a>/i
+  );
+  const linkedRaw = linkMatch ? stripHtml(linkMatch[4] || "") : "";
+  const plainRaw = stripHtml(cell);
+  const countText = (linkedRaw || plainRaw || "").trim();
+  const count = /^\d+$/.test(countText) ? Number(countText) : null;
+  const countHref = linkMatch ? (linkMatch[1] || linkMatch[2] || linkMatch[3] || "") : "";
+  return {
+    count,
+    countUrl: countHref ? toAbsoluteCtextUrl(countHref) : ""
+  };
+}
+
+function parseStatsTextGroups(rawHtml) {
+  const html = String(rawHtml || "");
+  const tableBlocks = html.match(/<table\b[^>]*>[\s\S]*?<\/table>/gi) || [];
+  const statsTable = tableBlocks.find(block => {
+    const txt = stripHtml(block || "").replace(/\s+/g, " ").trim();
+    return /(?:範圍|范围)\s+[^\s]+/.test(txt);
+  }) || "";
+
+  if (!statsTable) return [];
+
+  const rows = statsTable.match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi) || [];
+  const groups = [];
+  let currentGroup = null;
+  const seenTextKeys = new Set();
+
+  for (const row of rows) {
+    const cells = row.match(/<t[dh]\b[^>]*>[\s\S]*?<\/t[dh]>/gi) || [];
+    if (cells.length < 2) continue;
+    const leftCell = cells[0];
+    const rightCell = cells[1];
+
+    const leftTextRaw = stripHtml(leftCell || "").replace(/\r?\n/g, " ");
+    const leftTextTrimmed = leftTextRaw.trim();
+    if (!leftTextTrimmed || /^(?:範圍|范围)$/.test(leftTextTrimmed)) continue;
+
+    const leftLinkMatch = leftCell.match(
+      /<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a>/i
+    );
+    const leftHref = leftLinkMatch ? (leftLinkMatch[1] || leftLinkMatch[2] || leftLinkMatch[3] || "") : "";
+    const leftLabelRaw = leftLinkMatch ? stripHtml(leftLinkMatch[4] || "") : leftTextTrimmed;
+    const label = normalizeBookLabel(leftLabelRaw);
+    if (!label) continue;
+
+    const { count, countUrl } = parseStatsCountCell(rightCell);
+    const hasIndent = /^[\s　]/.test(leftTextRaw)
+      || /(?:&nbsp;|&#160;|　)/.test(leftCell);
+
+    if (!hasIndent) {
+      const textUrl = leftHref ? toAbsoluteCtextUrl(leftHref) : "";
+      const textKey = `${label}|${textUrl}`;
+      if (seenTextKeys.has(textKey)) {
+        currentGroup = groups.find(g => `${g.text.label}|${g.text.url}` === textKey) || null;
+        continue;
+      }
+      currentGroup = {
+        text: {
+          label,
+          url: textUrl,
+          count,
+          countUrl
+        },
+        chapters: []
+      };
+      groups.push(currentGroup);
+      seenTextKeys.add(textKey);
+      continue;
+    }
+
+    if (!currentGroup) continue;
+    const chapterUrl = leftHref ? toAbsoluteCtextUrl(leftHref) : "";
+    const chapterKey = `${label}|${chapterUrl}`;
+    const exists = currentGroup.chapters.some(c => `${c.label}|${c.url}` === chapterKey);
+    if (exists) continue;
+    currentGroup.chapters.push({
+      label,
+      url: chapterUrl,
+      count,
+      countUrl
+    });
+  }
+
+  return groups;
+}
+
+function buildStatsUrl(baseUrl) {
+  const u = new URL(baseUrl);
+  u.searchParams.set("reqtype", "stats");
+  return u.toString();
 }
 
 function parseStructured(rawHtml, variant, searchUrl) {
@@ -219,7 +486,7 @@ function parseStructured(rawHtml, variant, searchUrl) {
   const conditionMatch = conditionLine.match(
     /(?:條件\s*\d+|条件\s*\d+)\s*[:：]?\s*(.+?)(?=\s*(?:符合次數|符合次数)\s*[:：]|$)/
   );
-  const condition = stripTrailingPunctuation(conditionMatch ? conditionMatch[1].trim() : "");
+  const condition = stripTrailingPunctuation(conditionMatch ? conditionMatch[1].trim() : "", { keepQuotes: true });
 
   const countMatch =
     conditionLine.match(/(?:符合次數|符合次数)\s*[:：]\s*(\d+)/)
@@ -237,9 +504,10 @@ function parseStructured(rawHtml, variant, searchUrl) {
   );
   const compactCountMatch = compactText.match(/(?:符合次數|符合次数)\s*[:：]\s*(\d+)/);
 
-  const finalScope = scope || stripTrailingPunctuation(compactScopeMatch ? compactScopeMatch[1].trim() : "");
+  const finalScopeRaw = scope || stripTrailingPunctuation(compactScopeMatch ? compactScopeMatch[1].trim() : "");
+  const finalScope = normalizeScopeValue(finalScopeRaw);
   const finalSearchType = searchType || stripTrailingPunctuation(compactTypeMatch ? compactTypeMatch[1].trim() : "");
-  const finalCondition = condition || stripTrailingPunctuation(compactConditionMatch ? compactConditionMatch[1].trim() : "");
+  const finalCondition = condition || stripTrailingPunctuation(compactConditionMatch ? compactConditionMatch[1].trim() : "", { keepQuotes: true });
   const finalHitCount = typeof hitCount === "number"
     ? hitCount
     : (compactCountMatch ? Number(compactCountMatch[1]) : null);
@@ -259,6 +527,7 @@ function parseStructured(rawHtml, variant, searchUrl) {
   const ordered = corpusIndex >= 0 ? titleLinks.slice(corpusIndex + 1) : titleLinks;
   const textLink = ordered.find(x => !/《卷/.test(x.label)) || null;
   const chapterLink = ordered.find(x => /《卷/.test(x.label)) || null;
+  const textGroups = [];
 
   const debug = {
     rawLength: rawHtml.length,
@@ -275,7 +544,8 @@ function parseStructured(rawHtml, variant, searchUrl) {
       hasSearchContent: /(?:檢索內容|检索内容|搜尋內容|搜索内容)/.test(rawHtml) || /(?:檢索內容|检索内容|搜尋內容|搜索内容)/.test(compactText),
       hasScopeKeyword: /(?:檢索範圍|搜索範圍|搜尋範圍|检索范围|搜索范围)/.test(rawHtml) || /(?:檢索範圍|搜索範圍|搜尋範圍|检索范围|搜索范围)/.test(compactText),
       hasConditionKeyword: /(?:條件\s*\d+|条件\s*\d+)/.test(rawHtml) || /(?:條件\s*\d+|条件\s*\d+)/.test(compactText),
-      hasHitCountKeyword: /(?:符合次數|符合次数)/.test(rawHtml) || /(?:符合次數|符合次数)/.test(compactText)
+      hasHitCountKeyword: /(?:符合次數|符合次数)/.test(rawHtml) || /(?:符合次數|符合次数)/.test(compactText),
+      hasLoginGate: isLoginGatedPage(rawHtml)
     }
   };
 
@@ -290,7 +560,8 @@ function parseStructured(rawHtml, variant, searchUrl) {
     structured: {
       corpus: corpusLink,
       text: textLink,
-      chapter: chapterLink
+      chapter: chapterLink,
+      textGroups
     },
     links: allLinks.slice(0, 40),
     debug
@@ -310,6 +581,7 @@ function classifyParseStatus(parsed) {
   if (!parsed) return "parse_empty";
   if (hasParsedResultSignals(parsed)) return "ok";
   const markers = parsed?.debug?.markers || {};
+  if (markers.hasLoginGate) return "upstream_login_required_or_rate_limited";
   if (markers.hasConditionKeyword || markers.hasHitCountKeyword || markers.hasScopeKeyword) {
     return "parser_miss_with_markers";
   }
@@ -330,8 +602,23 @@ async function fetchVariantWithRetries(variant) {
       globalAttempt += 1;
       if (globalAttempt > 1) await delay(REQUEST_GAP_MS * Math.min(globalAttempt, 3));
       try {
-        const fetched = await fetchText(searchUrl);
+        const fetched = await runWithGlobalThrottle(() => fetchTextByMode(searchUrl));
         const parsed = parseStructured(fetched.body, variant, searchUrl);
+        let statsUrl = "";
+        let statsFetchError = "";
+        let statsGroupCount = 0;
+
+        try {
+          statsUrl = buildStatsUrl(fetched.finalUrl || searchUrl);
+          const statsFetched = await runWithGlobalThrottle(() => fetchTextByMode(statsUrl));
+          const statsGroups = parseStatsTextGroups(statsFetched.body);
+          parsed.structured.textGroups = statsGroups;
+          statsGroupCount = statsGroups.length;
+        } catch (err) {
+          parsed.structured.textGroups = [];
+          statsFetchError = err?.message || "stats page fetch failed";
+        }
+
         const status = classifyParseStatus(parsed);
         const parseOk = hasParsedResultSignals(parsed);
         parsed.debug = {
@@ -339,6 +626,12 @@ async function fetchVariantWithRetries(variant) {
           attempt: globalAttempt,
           localAttempt,
           queryUsed,
+          fetchMode: FETCH_MODE,
+          browserFallbackError: fetched.fallbackFromBrowserError || "",
+          statsUrl,
+          statsGroupCount,
+          statsFetchError,
+          gated: Boolean(parsed?.debug?.markers?.hasLoginGate),
           parseOk,
           parseStatus: parseOk
             ? (queryUsed === variant ? "ok" : "ok_via_query_normalization")
@@ -409,7 +702,7 @@ async function searchAcrossVariants(query) {
         condition: "",
         hitCount: null,
         rangeLine: "",
-        structured: { corpus: null, text: null, chapter: null },
+        structured: { corpus: null, text: null, chapter: null, textGroups: [] },
         links: [],
         attempts: MAX_VARIANT_ATTEMPTS,
         sourceEndpoint: "mathematics",
@@ -450,6 +743,7 @@ function createCtextSearchMiddleware() {
     const fullUrl = new URL(req.url, "http://localhost");
     const q = (fullUrl.searchParams.get("q") || "").trim();
     const debug = fullUrl.searchParams.get("debug") === "1";
+    const refresh = fullUrl.searchParams.get("refresh") === "1";
     if (!q) {
       res.writeHead(400, { "Content-Type": "application/json; charset=utf-8" });
       res.end(JSON.stringify({ error: "Missing query parameter q" }));
@@ -457,7 +751,22 @@ function createCtextSearchMiddleware() {
     }
 
     try {
+      const cacheKey = hashKey(`q=${q}|mode=${FETCH_MODE}|schema=${CACHE_SCHEMA_VERSION}`);
+      if (!refresh) {
+        const cachedPayload = readCache(cacheKey);
+        if (cachedPayload) {
+          const responsePayload = debug ? cachedPayload : {
+            ...cachedPayload,
+            searches: (cachedPayload.searches || []).map(({ debug: _dbg, ...rest }) => rest)
+          };
+          res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+          res.end(JSON.stringify({ ...responsePayload, cached: true }));
+          return;
+        }
+      }
+
       const payload = await searchAcrossVariants(q);
+      writeCache(cacheKey, payload);
       const responsePayload = debug ? payload : {
         ...payload,
         searches: (payload.searches || []).map(({ debug: _dbg, ...rest }) => rest)

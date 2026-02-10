@@ -32,6 +32,17 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - Start: `npm run start`
 - Build: `npm run build`
 
+### CText lookup (dev middleware)
+- API: `/api/ctext/search?q=<term>`
+- Cache: responses are cached under `tmp/ctext_cache/` (default TTL: 6h).
+- Force refresh: add `&refresh=1`.
+- Global throttle: requests are serialized (concurrency=1) with gap `CTEXT_GLOBAL_GAP_MS` (default `1200` ms).
+- Fetch mode:
+  - `CTEXT_FETCH_MODE=browser` (default): use Playwright persistent browser session, fallback to HTTP on browser errors.
+  - `CTEXT_FETCH_MODE=http`: use plain HTTP requests only.
+- For browser mode, install dependency once:
+  - `npm i -D playwright`
+
 ## Deployment checklist (GitHub Pages)
 1) Pages source set to **GitHub Actions** (not `/docs` branch).
 2) Build output matches workflow artifact path (`dist`).

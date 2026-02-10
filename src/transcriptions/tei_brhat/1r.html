@@ -6,25 +6,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../css/style.css" />
     <style>
+        :root {
+            --transcription-mini-heading-size: 1.2rem;
+            --folio-nav-inline-gap: clamp(0.95rem, 2.2vw, 2.35rem);
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: Georgia, 'Times New Roman', serif;
-            background-color: #f8f5f2;
-            color: #333;
+            background-color: #f5f0e7;
+            color: #352f28;
             line-height: 1.6;
         }
 
         .tei-page {
-            max-width: 700px;
+            max-width: min(1680px, 98vw);
             margin: auto;
-            padding: 3em 1.5em;
+            padding: 0 0.8em 2em;
             position: relative;
+        }
+
+        .folio-hero {
+            position: relative;
+            height: clamp(420px, 70vh, 860px);
+            border-radius: 0;
+            overflow: hidden;
+            margin: 0 calc(50% - 50vw) 3.35rem;
+            background: #111;
+        }
+
+        .folio-hero-image {
+            position: absolute;
+            inset: -45% -12%;
+            background: 60% 50% / cover no-repeat;
+            transform: translateY(var(--hero-parallax, 0px)) scale(1.34);
+            transform-origin: left center;
+            transition: transform 0.15s linear, opacity 0.35s ease, filter 0.35s ease;
+            opacity: 0.96;
+            filter: saturate(1.28) contrast(1.18) brightness(1.03);
+        }
+
+        .folio-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(4, 4, 4, 0.68) 0%, rgba(4, 4, 4, 0.4) 8%, rgba(4, 4, 4, 0.17) 16%, rgba(4, 4, 4, 0) 30%),
+                linear-gradient(118deg, rgba(248, 245, 242, 0.1), rgba(248, 245, 242, 0) 44%);
+            pointer-events: none;
+        }
+
+        .folio-hero-meta {
+            position: absolute;
+            right: 1.1rem;
+            bottom: 0.9rem;
+            color: #f4ede3;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+        }
+
+        .folio-hero-title {
+            position: absolute;
+            left: clamp(1.1rem, 5vw, 10rem);
+            top: auto;
+            bottom: clamp(1.05rem, 6vh, 4rem);
+            max-width: min(68vw, 920px);
+            color: #fff;
+            font-size: clamp(2rem, 4.8vw, 4.4rem);
+            line-height: 1.1;
+            font-weight: 700;
+            text-shadow: 0 5px 22px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .folio-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            height: auto;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            color: rgba(248, 243, 235, 0.95);
+            cursor: pointer;
+            font-size: clamp(3.1rem, 6vw, 6rem);
+            letter-spacing: -0.1em;
+            font-weight: 800;
+            font-family: "Arial Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1;
+            opacity: 0;
+            transition: opacity 0.18s ease, transform 0.18s ease, color 0.18s ease;
+            text-shadow: 0 8px 18px rgba(0, 0, 0, 0.52);
+            z-index: 2;
+        }
+
+        .folio-nav-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            color: #fff;
+        }
+
+        .folio-nav-prev {
+            left: var(--folio-nav-inline-gap);
+        }
+
+        .folio-nav-next {
+            right: var(--folio-nav-inline-gap);
+        }
+
+        .folio-hero:hover .folio-nav-btn,
+        .folio-hero:focus-within .folio-nav-btn {
+            opacity: 1;
         }
 
         h1 {
             font-size: 2em;
-            margin-bottom: 1em;
+            margin-bottom: 1.45em;
             padding-bottom: 0.3em;
             border-bottom: none;
             position: relative;
@@ -101,28 +201,188 @@
         }
 
         .legacy-back {
-            margin: 0 0 1.2rem;
+            position: fixed;
+            left: 1rem;
+            top: 1rem;
+            z-index: 1400;
+            pointer-events: none;
+        }
+
+        .transcription-tools {
+            position: relative;
+            min-height: 2.2rem;
+            margin: 0.2rem 0 0.48rem;
+            padding-right: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.86rem;
+        }
+
+        .transcription-subtitle {
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: var(--transcription-mini-heading-size);
+            font-weight: 700;
+            color: #4c4034;
+            margin: 0;
+        }
+
+        .cudl-title,
+        .tei-doc h2,
+        .tei-doc h3,
+        .tei-bibl h2,
+        .tei-bibl h3 {
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: var(--transcription-mini-heading-size);
+            font-weight: 700;
+            color: #4c4034;
+            line-height: 1.2;
+        }
+
+        .script-toggle-button {
+            border: none;
+            border-radius: 8px;
+            padding: 0.42rem 0.78rem;
+            width: 8.2rem;
+            background: #ebe1cf;
+            color: #4a3e30;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            box-shadow: 0 2px 0 rgba(74, 62, 48, 0.18);
+            transition: background-color 0.18s ease, transform 0.12s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .script-toggle-button:hover {
+            background: #e6d9c4;
+        }
+
+        .script-toggle-button:active {
+            transform: translateY(1px);
+        }
+
+        .script-toggle-button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .line-interaction-hint {
+            display: block;
+            font-size: 0.84rem;
+            color: #6c5a46;
+            line-height: 1.35;
+            margin: 2rem 0 0.9rem;
         }
 
         .legacy-back-button {
             border: none;
-            border-radius: 8px;
-            padding: 0.45rem 0.8rem;
-            background: #f6efe5;
-            color: #4a3e30;
+            border-radius: 10px;
+            padding: 0.48rem 0.84rem;
+            background: rgba(43, 43, 43, 0.72);
+            color: #f6efe5;
             font-family: Georgia, serif;
             cursor: pointer;
-            box-shadow: 0 3px 0 rgba(74, 62, 48, 0.22);
-            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+            transition: transform 0.15s ease, opacity 0.2s ease, background-color 0.2s ease;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+
+        .legacy-back.is-visible {
+            pointer-events: auto;
+        }
+
+        .legacy-back.is-visible .legacy-back-button {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .legacy-back-button:hover {
-            background: #f3ece2;
+            background: rgba(43, 43, 43, 0.9);
         }
 
         .legacy-back-button:active {
             transform: translateY(1px);
-            box-shadow: 0 1px 0 rgba(74, 62, 48, 0.22);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .floating-menu-toggle {
+            position: fixed;
+            right: 1rem;
+            top: 1rem;
+            z-index: 1500;
+            width: 3.6rem;
+            height: 3.6rem;
+            border: none;
+            border-radius: 0;
+            background: rgba(56, 56, 56, 0.8);
+            color: #f8f5f2;
+            font-size: 1.95rem;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+            transition: background-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .floating-menu-toggle:hover {
+            background: rgba(56, 56, 56, 0.92);
+            transform: translateY(-1px);
+        }
+
+        .floating-side-nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: min(360px, 82vw);
+            background: rgba(24, 24, 24, 0.94);
+            color: #f2eee8;
+            transform: translateX(102%);
+            transition: transform 0.28s cubic-bezier(.2, .7, .12, 1);
+            z-index: 1450;
+            padding-top: 5.2rem;
+            box-shadow: -12px 0 28px rgba(0, 0, 0, 0.38);
+        }
+
+        .floating-side-nav.open {
+            transform: translateX(0);
+        }
+
+        .floating-nav-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.28);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 1400;
+        }
+
+        .floating-nav-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .floating-side-nav a {
+            display: block;
+            color: #f2eee8;
+            text-decoration: none;
+            padding: 1rem 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 1.12rem;
+            font-weight: 500;
+        }
+
+        .floating-side-nav a:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .xml-link-block {
@@ -151,37 +411,327 @@
             height: 1px;
             background: linear-gradient(90deg, rgba(90, 74, 56, 0.6), transparent);
         }
+
+        .cudl-panel {
+            padding: 0.9rem;
+            border: 1px solid rgba(90, 74, 56, 0.22);
+            border-radius: 10px;
+            background: #f7efe3;
+            height: fit-content;
+            --panel-shadow-x: 0px;
+            --panel-shadow-y: 14px;
+            --panel-shadow-blur: 30px;
+            --panel-shadow-alpha: 0.24;
+            box-shadow:
+                var(--panel-shadow-x) var(--panel-shadow-y) var(--panel-shadow-blur) rgba(35, 28, 20, var(--panel-shadow-alpha)),
+                0 4px 10px rgba(35, 28, 20, 0.1);
+            transition: box-shadow 0.12s ease-out;
+        }
+
+        .cudl-head-row {
+            margin: 0 0 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.7rem;
+        }
+
+        .cudl-title {
+            margin: 0;
+            color: #4c4034;
+        }
+
+        .cudl-frame {
+            width: 100%;
+            height: 72vh;
+            min-height: 520px;
+            border-radius: 8px;
+            background: #fff;
+            border: none;
+            box-shadow: none;
+        }
+
+        .cudl-placeholder {
+            width: 100%;
+            height: 72vh;
+            min-height: 520px;
+            border-radius: 8px;
+            background-color: #111;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-image: var(--folio-bg-url, url("../../assets/tei_brhat/1r.jpg"));
+            border: none;
+            box-shadow: none;
+        }
+
+        .cudl-link {
+            margin-top: 0.5rem;
+            font-size: 0.84rem;
+            color: #6c5a46;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .cudl-link a {
+            font-size: 0.78rem;
+            color: #3f6e9a;
+            font-weight: 500;
+        }
+
+        .cudl-link a:hover {
+            color: #32597b;
+        }
+
+        .cudl-link a:last-child {
+            justify-self: end;
+        }
+
+        .cudl-caption-inline {
+            justify-self: center;
+            font-size: 0.76rem;
+            color: #7b6b57;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+        }
+
+        .cudl-load-button {
+            border: none;
+            border-radius: 8px;
+            padding: 0.4rem 0.75rem;
+            background: #efe7db;
+            color: #4a3e30;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            box-shadow: 0 2px 0 rgba(74, 62, 48, 0.18);
+        }
+
+        .cudl-load-button:hover {
+            background: #ece2d2;
+        }
+
+        .cudl-status {
+            margin-top: 0.38rem;
+            font-size: 0.76rem;
+            color: #6c5a46;
+            line-height: 1.35;
+        }
+
+        .transcription-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+            gap: 1rem;
+            align-items: start;
+            margin-top: 1.3rem;
+        }
+
+        .transcription-main {
+            min-width: 0;
+        }
+
+        .folio-chapter-span {
+            margin: 0.08rem 0 0.58rem;
+            font-size: 0.74rem;
+            line-height: 1.35;
+            letter-spacing: 0.01em;
+            color: #746250;
+        }
+
+        .folio-chapter-span strong {
+            color: #5c4a36;
+            font-weight: 600;
+        }
+
+        .transcription-viewer {
+            min-width: 0;
+            margin-top: -0.5rem;
+            border-left: 1px solid rgba(90, 74, 56, 0.28);
+            padding-left: 1rem;
+        }
+
+        @media (max-width: 1180px) {
+            .folio-hero {
+                height: clamp(240px, 40vh, 400px);
+            }
+
+            .folio-hero-title {
+                left: 1rem;
+                right: 1rem;
+                max-width: none;
+                font-size: clamp(1.65rem, 6vw, 2.4rem);
+            }
+
+            .transcription-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .transcription-viewer {
+                position: static;
+                margin-top: 0;
+                margin-bottom: 0.9rem;
+                border-left: none;
+                padding-left: 0;
+            }
+
+            .cudl-frame {
+                height: 58vh;
+                min-height: 420px;
+            }
+
+            .cudl-placeholder {
+                height: 58vh;
+                min-height: 420px;
+            }
+
+            .transcription-tools {
+                min-height: auto;
+                padding-right: 0;
+                gap: 0.94rem;
+            }
+
+            .line-interaction-hint {
+                position: static;
+                transform: none;
+                display: block;
+                margin-top: 1.15rem;
+                white-space: normal;
+            }
+
+            .cudl-link {
+                grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+                align-items: start;
+                gap: 0.45rem;
+            }
+
+            .cudl-caption-inline {
+                justify-self: center;
+                font-size: 0.74rem;
+            }
+
+            .cudl-link a:first-child {
+                justify-self: start;
+                font-size: 0.72rem;
+                max-width: 8.8rem;
+            }
+
+            .cudl-link a:last-child {
+                justify-self: end;
+                font-size: 0.72rem;
+                max-width: 8.6rem;
+                text-align: right;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="logo-container">
-            <img src="../../assets/logo.png" class="logo-icon" width="50" height="50" loading="eager" decoding="async"
-                alt="MATHesis logo" />
-            <img src="../../assets/logotype.svg" class="letter-logo" width="140" height="32" loading="eager"
-                decoding="async" alt="MATHesis" />
-        </div>
-        <nav class="site-nav">
-            <a href="../../">Home</a>
-            <a href="../../search/">Search</a>
-            <a href="../../transcriptions/">Transcriptions</a>
-            <a href="../../visualization/">Visualization</a>
-            <a href="../../map/">Map</a>
-            <a href="../../about/">About</a>
-        </nav>
-    </header>
+    <button id="floatingMenuToggle" class="floating-menu-toggle" type="button" aria-label="Open navigation"
+        aria-controls="floatingSideNav" aria-expanded="false">☰</button>
+    <div id="floatingNavBackdrop" class="floating-nav-backdrop" hidden></div>
+    <nav id="floatingSideNav" class="floating-side-nav" aria-label="Primary">
+        <a href="../../">Home</a>
+        <a href="../../search/">Search</a>
+        <a href="../../transcriptions/">Transcriptions</a>
+        <a href="../../visualization/">Visualization</a>
+        <a href="../../map/">Map</a>
+        <a href="../../about/">About</a>
+    </nav>
 
     <main class="tei-page">
         <div class="legacy-back">
             <button id="legacyBackButton" class="legacy-back-button" type="button">Back</button>
         </div>
-        <div id="tei-container"></div>
-        <div class="xml-link-block">
-            <a href="./1r.xml" target="_blank" rel="noopener">View XML</a>
+        <section id="folioHero" class="folio-hero" aria-label="Manuscript folio background navigator">
+            <div id="folioHeroImage" class="folio-hero-image"></div>
+            <div class="folio-hero-overlay"></div>
+            <div id="folioHeroTitle" class="folio-hero-title">Bṛhatsaṃhitā (MS Add.2329)</div>
+            <button id="folioPrevBtn" class="folio-nav-btn folio-nav-prev" type="button"
+                aria-label="Previous folio">‹</button>
+            <button id="folioNextBtn" class="folio-nav-btn folio-nav-next" type="button"
+                aria-label="Next folio">›</button>
+            <div class="folio-hero-meta"><span id="folioHeroLabel">FOLIO 1R</span></div>
+        </section>
+        <div class="transcription-layout">
+            <div id="transcriptionMain" class="transcription-main">
+                <div id="transcriptionTools" class="transcription-tools">
+                    <div id="transcriptionSubtitle" class="transcription-subtitle">Transcription · 1r</div>
+                    <button id="scriptToggleButton" class="script-toggle-button" type="button" data-script-mode="latin">
+                        Script: Latin
+                    </button>
+                </div>
+                <div id="folioChapterSpan" class="folio-chapter-span" hidden></div>
+                <div id="tei-container"></div>
+                <span id="lineInteractionHint" class="line-interaction-hint">Tip: single-click a highlighted matched
+                    node for details;
+                    double-click a line to compare segmented image.</span>
+                <div class="xml-link-block">
+                    <a href="./1r.xml" target="_blank" rel="noopener">View XML</a>
+                </div>
+            </div>
+            <aside class="transcription-viewer">
+                <section class="cudl-panel" aria-labelledby="cudlTitle">
+                    <div class="cudl-head-row">
+                        <h2 id="cudlTitle" class="cudl-title">CUDL Viewer</h2>
+                        <button id="loadCudlViewerButton" class="cudl-load-button" type="button">
+                            Load Viewer
+                        </button>
+                    </div>
+                    <div id="cudlPlaceholder" class="cudl-placeholder" aria-label="Manuscript preview image"></div>
+                    <iframe id="cudlFrame" class="cudl-frame" loading="lazy" src="about:blank" hidden
+                        data-src="https://cudl.lib.cam.ac.uk/view/MS-ADD-02329/1"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="CUDL viewer for Cambridge University Library MS Add.2329 f.1r"></iframe>
+                    <div class="cudl-link">
+                        <a href="https://cudl.lib.cam.ac.uk/view/MS-ADD-02329/1" target="_blank"
+                            rel="noopener noreferrer">
+                            Open CUDL page
+                        </a>
+                        <span class="cudl-caption-inline">Cambridge University Library, MS Add.2329, fol. 1r</span>
+                        <a href="../../assets/tei_brhat/1r.jpg" download="MS-Add-2329_fol-1r.jpg">
+                            Download image
+                        </a>
+                    </div>
+                    <div id="cudlStatus" class="cudl-status">Tip: static preview by default. Load Viewer for interactive
+                        mode.</div>
+                </section>
+            </aside>
         </div>
     </main>
     <script type="module">
+        import { bindNodeHitPopup } from "../../js/nodeEntryPopup.js";
+
+        let brhatAbLineCounter = 0;
+        const BRHAT_LINE_IMAGE_BASE = "../../assets/tei_brhat/1r_lines";
+        let activeLinePreview = null;
+        let transcriptionScriptMode = "latin";
+        let transcriptionTextNodes = [];
+        let sanskritNodeDataCache = null;
+        let sanskritVariantToStemMap = new Map();
+        const SANSKRIT_MANUAL_VARIANTS = {
+            // Manual lexicon entry point (MVP): add node stem -> explicit variants here.
+            candra: ["candra", "candramas", "candramaso", "candrama", "candrah", "candrah", "candraṃ", "cāndra", "cāndrāṇām"]
+        };
+        const SANSKRIT_BASIC_SUFFIXES = [
+            "", "m", "am", "ah", "aḥ", "ena", "asya", "e", "o", "au", "at", "an",
+            "am", "ena", "ebhyah", "esu", "anam", "nam", "mas", "masa", "maso", "maya", "mayah", "mayam", "ika", "ikam"
+        ];
+        const FOLIOS = [
+            {
+                key: "1r",
+                image: "../../assets/tei_brhat/1r.jpg",
+                xml: "1r.xml",
+                hasTei: true,
+                cudlPage: 1,
+                chapterSpanCompact: "Upanayanadhyayah -> early Samvatsarasutradhyayah",
+                chapterSpanTitle: "upanayanādhyāyaḥ -> first half of sāṃvatsarasūtrādhyāyaḥ"
+            },
+            { key: "1v", image: "../../assets/tei_brhat/1v.jpg", xml: null, hasTei: false, cudlPage: 2 },
+            { key: "2r", image: "../../assets/tei_brhat/2r.jpg", xml: null, hasTei: false, cudlPage: 3 },
+        ];
+        let currentFolioIndex = 0;
+
         async function loadTEI(fileName, targetSelector) {
             const target = document.querySelector(targetSelector);
             if (!target) throw new Error("Target element not found: " + targetSelector);
@@ -204,9 +754,18 @@
                 }
 
                 // Render TEI → HTML
+                brhatAbLineCounter = 0;
                 const html = teiNodeToHTML(xml.documentElement);
                 target.innerHTML = "";
                 target.appendChild(html);
+                placeLineInteractionHint(target);
+                syncViewerPlacementByViewport();
+                bindLineImagePreview(target);
+                await runSanskritNodeHighlightMVP(target);
+                bindLineHighlightSuppression(target);
+                captureTranscriptionTextNodes(target);
+                applyTranscriptionScriptMode(transcriptionScriptMode);
+                return true;
             } catch (err) {
                 console.error(err);
                 // Fallback: show raw XML safely
@@ -216,6 +775,7 @@
                     const raw = await res2.text();
                     target.textContent += "\n\n" + raw;
                 } catch { }
+                return false;
             }
         }
 
@@ -270,7 +830,7 @@
                     return section;
                 }
                 case "body": {
-                    const main = el("div", "tei-body");
+                    const main = el("div", "tei-body tei-manuscript-grid");
                     main.appendChild(renderChildren());
                     return main;
                 }
@@ -294,6 +854,18 @@
                     p.appendChild(renderChildren());
                     return p;
                 }
+                case "ab": {
+                    const p = el("p", "tei-line tei-ab-line");
+                    brhatAbLineCounter += 1;
+                    p.dataset.lineNo = String(brhatAbLineCounter);
+                    if (brhatAbLineCounter % 5 === 0) {
+                        p.classList.add("tei-ab-major-line");
+                    }
+                    const textWrap = el("span", "tei-ab-line-text");
+                    textWrap.appendChild(renderChildren());
+                    p.appendChild(textWrap);
+                    return p;
+                }
                 case "head": {
                     const h2 = el("h2");
                     h2.appendChild(renderChildren());
@@ -313,6 +885,12 @@
                 }
                 case "note": {
                     const place = node.getAttribute("place");
+                    const type = node.getAttribute("type");
+
+                    // 隐藏来源说明：Cambridge University Library...（保留在 XML，不在网页正文显示）
+                    if (type === "source") {
+                        return document.createDocumentFragment();
+                    }
 
                     // —— A 类：内联注释（inline） ——
                     if (place === "inline") {
@@ -369,6 +947,15 @@
                     return a;
                 }
                 case "gap": {
+                    const reason = (node.getAttribute("reason") || "").toLowerCase();
+                    if (reason === "ornamental") {
+                        const span = el("span", "tei-gap-ornamental");
+                        span.textContent = "◊";
+                        span.setAttribute("title", "Ornamental manuscript gap (layout space, not a word break)");
+                        span.setAttribute("aria-label", "ornamental gap");
+                        span.setAttribute("tabindex", "0");
+                        return span;
+                    }
                     // 显示缺字符号，如 +++
                     const qty = node.getAttribute("quantity");
                     const span = el("span", "tei-gap");
@@ -390,6 +977,20 @@
                         // 没有unclear子节点时，保留原逻辑
                         span.textContent = "<" + text + ">";
                     }
+                    span.setAttribute("title", "Editorially supplied text");
+                    return span;
+                }
+
+                case "corr": {
+                    const corrected = textContentDeep(node);
+                    const orig = node.getAttribute("orig") || "11";
+                    const resp = node.getAttribute("resp") || "Ling";
+                    const note = `Manuscript reads “${orig}”; corrected to “${corrected}” (resp. ${resp})`;
+                    const displayValue = orig || corrected;
+                    const span = el("span", "tei-corr-marker");
+                    span.setAttribute("tabindex", "0");
+                    span.setAttribute("title", note);
+                    span.textContent = `†${displayValue}†`;
                     return span;
                 }
 
@@ -406,41 +1007,20 @@
                     } else {
                         span.textContent = `<${text}>`;
                     }
+                    span.setAttribute("title", "Unclear manuscript reading");
 
                     return span;
                 }
 
                 case "facsimile":
                 case "surface": {
-                    const div = el("div", "tei-facsimile");
-                    div.appendChild(renderChildren());
-                    return div;
+                    // 当前页面不展示 facsimile 区块
+                    return document.createDocumentFragment();
                 }
 
                 case "graphic": {
-                    const img = document.createElement("img");
-                    const src = node.getAttribute("url") || node.getAttribute("target");
-
-                    img.src = src;
-                    img.alt = "Manuscript image";
-                    img.className = "tei-graphic";  // 一律用缩略图样式
-
-                    // 点击：全屏显示原图
-                    img.addEventListener("click", () => {
-                        const overlay = document.createElement("div");
-                        overlay.className = "tei-image-overlay";
-
-                        const full = document.createElement("img");
-                        full.src = src;
-                        full.className = "tei-image-full";
-
-                        overlay.appendChild(full);
-                        document.body.appendChild(overlay);
-
-                        overlay.addEventListener("click", () => overlay.remove());
-                    });
-
-                    return img;
+                    // 当前页面不展示手稿图片，改由右侧 CUDL viewer 提供
+                    return document.createDocumentFragment();
                 }
 
 
@@ -550,9 +1130,842 @@
             return s.trim();
         }
 
-        // Call it with your file name and target container
-        // Example: a file at ./sample.xml -> render into #tei-container
-        loadTEI("1r.xml", "#tei-container");
+        function getBasePrefixForData() {
+            const path = window.location.pathname || "";
+            return path.includes("/transcriptions/") ? path.split("/transcriptions/")[0] : "";
+        }
+
+        function escapeHtml(input) {
+            return String(input || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function foldSanskritText(input) {
+            return String(input || "")
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{M}+/gu, "")
+                .replace(/[^a-z0-9]+/g, " ")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function buildFoldedTextWithMap(original) {
+            const source = String(original || "");
+            let folded = "";
+            const map = [];
+            let offset = 0;
+            for (const ch of source) {
+                const piece = foldSanskritText(ch) || " ";
+                for (const fp of piece) {
+                    folded += fp;
+                    map.push(offset);
+                }
+                offset += ch.length;
+            }
+            return { folded, map };
+        }
+
+        function extractSanskritStemsFromNode(nodeLike) {
+            const p = nodeLike?.properties || nodeLike || {};
+            const raw = [
+                p.transliteration,
+                p.name_sa,
+                p.name
+            ].filter((v) => typeof v === "string" && v.trim());
+            const stems = new Set();
+            const splitter = /[\s,;/|()[\]{}:]+/;
+            for (const value of raw) {
+                value.split(splitter).forEach((token) => {
+                    const folded = foldSanskritText(token);
+                    if (!folded) return;
+                    if (!/^[a-z]+$/.test(folded)) return;
+                    if (folded.length < 4) return;
+                    stems.add(folded);
+                });
+            }
+            return stems;
+        }
+
+        function extractSanskritStemDisplayMapFromNode(nodeLike) {
+            const p = nodeLike?.properties || nodeLike || {};
+            const raw = [
+                p.transliteration,
+                p.name_sa,
+                p.name
+            ].filter((v) => typeof v === "string" && v.trim());
+            const map = new Map();
+            const splitter = /[\s,;/|()[\]{}:]+/;
+            for (const value of raw) {
+                value.split(splitter).forEach((token) => {
+                    const display = String(token || "").trim();
+                    const folded = foldSanskritText(display);
+                    if (!folded || !/^[a-z]+$/.test(folded) || folded.length < 4) return;
+                    if (!map.has(folded)) map.set(folded, display);
+                });
+            }
+            return map;
+        }
+
+        function buildSanskritVariantSet(stem) {
+            const out = new Set();
+            const base = foldSanskritText(stem);
+            if (!base || base.length < 4) return out;
+            out.add(base);
+            SANSKRIT_BASIC_SUFFIXES.forEach((suffix) => {
+                const f = foldSanskritText(`${base}${suffix}`);
+                if (f) out.add(f);
+            });
+            const manual = SANSKRIT_MANUAL_VARIANTS[base] || [];
+            manual.forEach((v) => {
+                const f = foldSanskritText(v);
+                if (f) out.add(f);
+            });
+            return out;
+        }
+
+        async function loadSanskritNodeLexiconMVP() {
+            const basePrefix = getBasePrefixForData();
+            const dataUrl = `${basePrefix}/data.json`;
+            const res = await fetch(dataUrl, { headers: { "Accept": "application/json" } });
+            if (!res.ok) throw new Error(`HTTP ${res.status} for ${dataUrl}`);
+            const data = await res.json();
+            const nodes = Array.isArray(data?.nodes) ? data.nodes : [];
+
+            const stems = new Set();
+            const stemToDisplay = new Map();
+            for (const node of nodes) {
+                const itemStems = extractSanskritStemsFromNode(node);
+                itemStems.forEach((s) => stems.add(s));
+                const displayMap = extractSanskritStemDisplayMapFromNode(node);
+                displayMap.forEach((display, stem) => {
+                    if (!stemToDisplay.has(stem)) stemToDisplay.set(stem, display);
+                });
+            }
+            Object.keys(SANSKRIT_MANUAL_VARIANTS).forEach((k) => stems.add(foldSanskritText(k)));
+            Object.keys(SANSKRIT_MANUAL_VARIANTS).forEach((k) => {
+                const folded = foldSanskritText(k);
+                if (folded && !stemToDisplay.has(folded)) stemToDisplay.set(folded, k);
+            });
+
+            const variants = new Set();
+            const variantToStem = new Map();
+            stems.forEach((stem) => {
+                const forms = buildSanskritVariantSet(stem);
+                forms.forEach((f) => {
+                    variants.add(f);
+                    if (!variantToStem.has(f) || (variantToStem.get(f) || "").length < stem.length) {
+                        variantToStem.set(f, stem);
+                    }
+                });
+            });
+
+            // Priority for current MVP focus.
+            if (!variants.has("candra")) {
+                variants.add("candra");
+                variantToStem.set("candra", "candra");
+            }
+            (SANSKRIT_MANUAL_VARIANTS.candra || []).forEach((v) => {
+                const fv = foldSanskritText(v);
+                if (!fv) return;
+                variants.add(fv);
+                if (!variantToStem.has(fv) || (variantToStem.get(fv) || "").length < "candra".length) {
+                    variantToStem.set(fv, "candra");
+                }
+            });
+
+            return {
+                stems: Array.from(stems).filter(Boolean),
+                variants: Array.from(variants).filter(Boolean),
+                variantToStem,
+                stemToDisplay
+            };
+        }
+
+        function clearExistingSanskritHighlights(container) {
+            container.querySelectorAll(".tei-node-hit").forEach((mark) => {
+                const text = document.createTextNode(mark.textContent || "");
+                mark.replaceWith(text);
+            });
+        }
+
+        function buildVariantRegex(variants) {
+            const ordered = Array.from(new Set(variants))
+                .filter((v) => typeof v === "string" && v.length >= 4)
+                .sort((a, b) => b.length - a.length)
+                .map((v) => v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+            if (!ordered.length) return null;
+            // MVP: allow compound-internal matches and basic inflection tails.
+            return new RegExp(`(${ordered.join("|")}(?:[a-z]{0,10})?)`, "g");
+        }
+
+        function highlightSanskritTextNode(textNode, regex, lexicon, rawCounts, groupedCounts) {
+            const text = textNode.nodeValue || "";
+            const { folded, map } = buildFoldedTextWithMap(text);
+            regex.lastIndex = 0;
+            const matches = [];
+            let m;
+            while ((m = regex.exec(folded)) !== null) {
+                const term = m[1] || "";
+                if (!term) continue;
+                const startFolded = m.index;
+                const endFolded = startFolded + term.length - 1;
+                const stem = (lexicon?.variantToStem?.get(term) || "")
+                    || (lexicon?.stems || []).find((s) => term.startsWith(s))
+                    || "";
+                const startOriginal = map[startFolded];
+                const endStart = map[endFolded];
+                if (typeof startOriginal !== "number" || typeof endStart !== "number") continue;
+                const endOriginalExclusive = endStart + (text[endStart] ? text[endStart].length || 1 : 1);
+                matches.push({ start: startOriginal, end: endOriginalExclusive, stem });
+            }
+            if (!matches.length) return 0;
+
+            matches.sort((a, b) => a.start - b.start || a.end - b.end);
+            const merged = [];
+            for (const item of matches) {
+                const last = merged[merged.length - 1];
+                if (!last || item.start >= last.end) {
+                    merged.push({ ...item });
+                } else if (item.end > last.end) {
+                    last.end = item.end;
+                }
+            }
+
+            const frag = document.createDocumentFragment();
+            let cursor = 0;
+            let hits = 0;
+            for (const seg of merged) {
+                if (seg.start > cursor) {
+                    frag.appendChild(document.createTextNode(text.slice(cursor, seg.start)));
+                }
+                const mark = document.createElement("span");
+                mark.className = "tei-node-hit";
+                mark.textContent = text.slice(seg.start, seg.end);
+                mark.title = "Matched node term";
+                if (seg.stem) mark.dataset.nodeStem = seg.stem;
+                frag.appendChild(mark);
+                const form = (mark.textContent || "").trim();
+                if (form) {
+                    rawCounts.set(form, (rawCounts.get(form) || 0) + 1);
+                    const groupKey = seg.stem || foldSanskritText(form) || form;
+                    const bucket = groupedCounts.get(groupKey) || { total: 0, forms: new Map() };
+                    bucket.total += 1;
+                    bucket.forms.set(form, (bucket.forms.get(form) || 0) + 1);
+                    groupedCounts.set(groupKey, bucket);
+                }
+                hits += 1;
+                cursor = seg.end;
+            }
+            if (cursor < text.length) {
+                frag.appendChild(document.createTextNode(text.slice(cursor)));
+            }
+            textNode.parentNode?.replaceChild(frag, textNode);
+            return hits;
+        }
+
+        function renderSanskritHitSummary(stats) {
+            const container = document.querySelector(".xml-link-block") || document.body;
+            let block = document.getElementById("sanskritHitSummary");
+            if (!block) {
+                block = document.createElement("section");
+                block.id = "sanskritHitSummary";
+                block.className = "node-hit-summary";
+                container.insertAdjacentElement("beforebegin", block);
+            }
+
+            const items = (stats.groupedTerms || [])
+                .map(({ total, primary, forms }) => {
+                    const variants = (forms || [])
+                        .filter((f) => f.term !== primary)
+                        .slice(0, 3)
+                        .map((f) => `${f.term} ${f.hits}`)
+                        .join(" / ");
+                    const variantsHtml = variants ? `<span class="node-hit-variants">${escapeHtml(variants)}</span>` : "";
+                    return `<li><code>${escapeHtml(primary)}</code> <span>${total}</span>${variantsHtml}</li>`;
+                })
+                .join("");
+
+            block.innerHTML = `
+                <div class="node-hit-head">
+                    <button id="toggleSanskritHitPanel" class="node-hit-toggle-btn" type="button" aria-expanded="false">
+                        Matched terms
+                    </button>
+                </div>
+                <section id="sanskritHitPanel" class="node-hit-panel">
+                    <details class="node-hit-details" open>
+                        <summary>Grouped terms (top 30) · ${stats.matchedGroups || 0} groups / ${stats.totalHits || 0} hits</summary>
+                        <ul>${items || "<li><em>No matches</em></li>"}</ul>
+                    </details>
+                </section>
+            `;
+
+            const toggle = document.getElementById("toggleSanskritHitPanel");
+            const panel = document.getElementById("sanskritHitPanel");
+            toggle?.addEventListener("click", () => {
+                if (!panel) return;
+                const opened = panel.classList.toggle("is-open");
+                toggle.setAttribute("aria-expanded", opened ? "true" : "false");
+            });
+        }
+
+        function clearSanskritHitSummary() {
+            const block = document.getElementById("sanskritHitSummary");
+            block?.remove();
+        }
+
+        async function runSanskritNodeHighlightMVP(container) {
+            const root = container.querySelector(".tei-body");
+            if (!root) return;
+            clearExistingSanskritHighlights(root);
+            let lexicon;
+            try {
+                lexicon = await loadSanskritNodeLexiconMVP();
+            } catch (err) {
+                console.warn("[Sanskrit highlight MVP] lexicon load failed, fallback to manual variants:", err);
+                lexicon = {
+                    stems: ["candra"],
+                    variants: ["candra", ...(SANSKRIT_MANUAL_VARIANTS.candra || []).map(foldSanskritText)]
+                };
+            }
+
+            const regex = buildVariantRegex(lexicon.variants);
+            if (!regex) return;
+            sanskritVariantToStemMap = lexicon.variantToStem || new Map();
+
+            const walker = document.createTreeWalker(
+                root,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode(node) {
+                        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                        const parent = node.parentElement;
+                        if (!parent) return NodeFilter.FILTER_REJECT;
+                        if (parent.closest("h1")) return NodeFilter.FILTER_REJECT;
+                        if (parent.closest("script, style, a, button, code, pre, .tei-node-hit, .tei-corr-marker, .tei-supplied, .tei-unclear")) return NodeFilter.FILTER_REJECT;
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                }
+            );
+            const targets = [];
+            let n;
+            while ((n = walker.nextNode())) targets.push(n);
+
+            let totalHits = 0;
+            const rawCounts = new Map();
+            const groupedCounts = new Map();
+            targets.forEach((textNode) => {
+                totalHits += highlightSanskritTextNode(textNode, regex, lexicon, rawCounts, groupedCounts);
+            });
+            const groupedTerms = Array.from(groupedCounts.entries())
+                .map(([key, bucket]) => {
+                    const forms = Array.from(bucket.forms.entries())
+                        .sort((a, b) => b[1] - a[1] || b[0].length - a[0].length)
+                        .map(([term, hits]) => ({ term, hits }));
+                    return {
+                        key,
+                        total: bucket.total,
+                        primary: lexicon?.stemToDisplay?.get(key) || key,
+                        forms
+                    };
+                })
+                .sort((a, b) => b.total - a.total || (b.forms[0]?.term?.length || 0) - (a.forms[0]?.term?.length || 0))
+                .slice(0, 30);
+            renderSanskritHitSummary({
+                totalHits,
+                matchedGroups: groupedCounts.size,
+                groupedTerms
+            });
+            console.log(`[Sanskrit highlight MVP] hits=${totalHits} stems=${lexicon.stems.length} variants=${lexicon.variants.length}`);
+            bindSanskritNodePopup(root);
+        }
+
+        async function loadSanskritNodeData() {
+            if (sanskritNodeDataCache) return sanskritNodeDataCache;
+            const dataUrl = `${getBasePrefixForData()}/data.json`;
+            const res = await fetch(dataUrl, { headers: { "Accept": "application/json" } });
+            if (!res.ok) throw new Error(`HTTP ${res.status} for ${dataUrl}`);
+            const data = await res.json();
+            sanskritNodeDataCache = Array.isArray(data?.nodes) ? data.nodes : [];
+            return sanskritNodeDataCache;
+        }
+
+        function resolveStemFromHitElement(hitEl) {
+            const direct = foldSanskritText(hitEl.dataset.nodeStem || "");
+            if (direct) return direct;
+            const folded = foldSanskritText(hitEl.textContent || "");
+            if (!folded) return "";
+            let best = "";
+            sanskritVariantToStemMap.forEach((stem, variant) => {
+                if (folded.includes(variant) && variant.length > best.length) best = stem;
+            });
+            if (best) return best;
+            if (folded.includes("candr")) return "candra";
+            return folded;
+        }
+
+        function findNodeByStem(nodes, stem) {
+            if (!stem) return null;
+            const score = (node) => {
+                const p = node?.properties || {};
+                const candidates = [p.transliteration, p.name_sa, p.name, p.name_en, p.original_text_tr]
+                    .map((v) => foldSanskritText(v || ""));
+                let s = 0;
+                if (candidates.some((v) => v === stem)) s += 8;
+                if (candidates.some((v) => v.includes(stem))) s += 4;
+                if (candidates.some((v) => stem.includes(v) && v.length >= 4)) s += 2;
+                if ((node?.labels || []).some((l) => String(l).toLowerCase() === "sanskritsymbol")) s += 3;
+                return s;
+            };
+            let bestNode = null;
+            let bestScore = -1;
+            for (const node of nodes) {
+                const s = score(node);
+                if (s > bestScore) {
+                    bestScore = s;
+                    bestNode = node;
+                }
+            }
+            return bestScore > 0 ? bestNode : null;
+        }
+
+        function bindSanskritNodePopup(root) {
+            bindNodeHitPopup({
+                root,
+                panelId: "sanskritNodePanel",
+                panelTitle: "Node Details",
+                emptyText: "Click a highlighted Sanskrit match to view node details.",
+                valueFilter: ({ key }) => key !== "value",
+                resolveNode: async ({ hit }) => {
+                    const stem = resolveStemFromHitElement(hit);
+                    const nodes = await loadSanskritNodeData();
+                    return findNodeByStem(nodes, stem);
+                }
+            });
+        }
+
+        function getLineImageSrc(lineNo) {
+            const nn = String(lineNo).padStart(2, "0");
+            return `${BRHAT_LINE_IMAGE_BASE}/1r_l${nn}.jpg`;
+        }
+
+        function captureTranscriptionTextNodes(container) {
+            transcriptionTextNodes = [];
+            const bodyRoot = container.querySelector(".tei-body") || container;
+            const walker = document.createTreeWalker(bodyRoot, NodeFilter.SHOW_TEXT, null);
+            let node;
+            while ((node = walker.nextNode())) {
+                if (!node.nodeValue || !node.nodeValue.trim()) continue;
+                transcriptionTextNodes.push({ node, latin: node.nodeValue });
+            }
+        }
+
+        function transliterateIASTToDevanagari(input) {
+            const src = input.toLowerCase();
+            const vowelIndependent = {
+                a: "अ", ā: "आ", i: "इ", ī: "ई", u: "उ", ū: "ऊ",
+                ṛ: "ऋ", ṝ: "ॠ", ḷ: "ऌ", ḹ: "ॡ", e: "ए", ai: "ऐ", o: "ओ", au: "औ"
+            };
+            const vowelSigns = {
+                a: "", ā: "ा", i: "ि", ī: "ी", u: "ु", ū: "ू",
+                ṛ: "ृ", ṝ: "ॄ", ḷ: "ॢ", ḹ: "ॣ", e: "े", ai: "ै", o: "ो", au: "ौ"
+            };
+            const consonants = {
+                kh: "ख", gh: "घ", ch: "छ", jh: "झ", ṭh: "ठ", ḍh: "ढ", th: "थ", dh: "ध", ph: "फ", bh: "भ",
+                k: "क", g: "ग", ṅ: "ङ", c: "च", j: "ज", ñ: "ञ", ṭ: "ट", ḍ: "ड", ṇ: "ण",
+                t: "त", d: "द", n: "न", p: "प", b: "ब", m: "म", y: "य", r: "र", l: "ल", v: "व",
+                ś: "श", ṣ: "ष", s: "स", h: "ह", ḻ: "ळ"
+            };
+            const marks = { ṃ: "ं", ṁ: "ं", ḥ: "ः", "'": "ऽ" };
+            const devanagariDigits = { "0": "०", "1": "१", "2": "२", "3": "३", "4": "४", "5": "५", "6": "६", "7": "७", "8": "८", "9": "९" };
+            const virama = "्";
+            const vowelTokens = ["ai", "au", "ā", "ī", "ū", "ṛ", "ṝ", "ḷ", "ḹ", "a", "i", "u", "e", "o"];
+            const consonantTokens = ["kh", "gh", "ch", "jh", "ṭh", "ḍh", "th", "dh", "ph", "bh", "k", "g", "ṅ", "c", "j", "ñ", "ṭ", "ḍ", "ṇ", "t", "d", "n", "p", "b", "m", "y", "r", "l", "v", "ś", "ṣ", "s", "h", "ḻ"];
+            const readToken = (s, idx) => {
+                const two = s.slice(idx, idx + 2);
+                if (vowelTokens.includes(two) || consonantTokens.includes(two)) return two;
+                return s.slice(idx, idx + 1);
+            };
+
+            let out = "";
+            let i = 0;
+            while (i < src.length) {
+                const token = readToken(src, i);
+                const step = token.length;
+
+                if (consonants[token]) {
+                    const next = readToken(src, i + step);
+                    if (vowelSigns[next] !== undefined) {
+                        out += consonants[token] + vowelSigns[next];
+                        i += step + next.length;
+                    } else {
+                        out += consonants[token] + virama;
+                        i += step;
+                    }
+                    continue;
+                }
+
+                if (vowelIndependent[token]) {
+                    out += vowelIndependent[token];
+                    i += step;
+                    continue;
+                }
+
+                if (marks[token]) {
+                    out += marks[token];
+                    i += step;
+                    continue;
+                }
+
+                if (devanagariDigits[src[i]]) {
+                    out += devanagariDigits[src[i]];
+                    i += 1;
+                    continue;
+                }
+
+                out += src[i];
+                i += 1;
+            }
+
+            return out;
+        }
+
+        function applyTranscriptionScriptMode(mode) {
+            transcriptionScriptMode = mode;
+            transcriptionTextNodes.forEach((entry) => {
+                entry.node.nodeValue = mode === "devanagari"
+                    ? transliterateIASTToDevanagari(entry.latin)
+                    : entry.latin;
+            });
+            const digitMap = { "0": "०", "1": "१", "2": "२", "3": "३", "4": "४", "5": "५", "6": "६", "7": "७", "8": "८", "9": "९" };
+            const lines = document.querySelectorAll(".tei-ab-line");
+            lines.forEach((line) => {
+                const raw = line.getAttribute("data-line-no") || "";
+                const display = mode === "devanagari"
+                    ? raw.replace(/[0-9]/g, (d) => digitMap[d] || d)
+                    : raw;
+                line.setAttribute("data-line-display", display);
+            });
+            const container = document.getElementById("tei-container");
+            container?.classList.toggle("script-devanagari", mode === "devanagari");
+            const button = document.getElementById("scriptToggleButton");
+            if (!button) return;
+            button.dataset.scriptMode = mode;
+            button.textContent = mode === "devanagari" ? "Script: Devanagari" : "Script: Latin";
+        }
+
+        function closeLinePreview() {
+            if (!activeLinePreview) return;
+            activeLinePreview.remove();
+            activeLinePreview = null;
+        }
+
+        function updatePreviewZoom(panel, zoom) {
+            const clamped = clamp(zoom, 1, 3);
+            panel.dataset.zoom = String(clamped);
+            const image = panel.querySelector(".tei-line-preview-image");
+            if (image instanceof HTMLElement) {
+                image.style.transform = `scale(${clamped})`;
+                image.style.transformOrigin = "top left";
+                image.style.cursor = clamped > 1 ? "zoom-out" : "zoom-in";
+            }
+            const label = panel.querySelector(".tei-line-preview-zoom-label");
+            if (label) label.textContent = `${Math.round(clamped * 100)}%`;
+        }
+
+        function clamp(value, min, max) {
+            return Math.min(max, Math.max(min, value));
+        }
+
+        function rectsIntersect(a, b) {
+            return !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
+        }
+
+        function initLinePreviewDrag(panel, handle) {
+            let dragging = false;
+            let offsetX = 0;
+            let offsetY = 0;
+
+            const onPointerMove = (evt) => {
+                if (!dragging) return;
+                const margin = 8;
+                const rect = panel.getBoundingClientRect();
+                const x = clamp(evt.clientX - offsetX, margin, window.innerWidth - rect.width - margin);
+                const y = clamp(evt.clientY - offsetY, margin, window.innerHeight - rect.height - margin);
+                panel.style.left = `${x}px`;
+                panel.style.top = `${y}px`;
+            };
+
+            const stopDrag = () => {
+                if (!dragging) return;
+                dragging = false;
+                panel.classList.remove("is-dragging");
+                window.removeEventListener("pointermove", onPointerMove);
+                window.removeEventListener("pointerup", stopDrag);
+            };
+
+            handle.addEventListener("pointerdown", (evt) => {
+                if (evt.button !== 0) return;
+                evt.preventDefault();
+                const rect = panel.getBoundingClientRect();
+                dragging = true;
+                offsetX = evt.clientX - rect.left;
+                offsetY = evt.clientY - rect.top;
+                panel.classList.add("is-dragging");
+                window.addEventListener("pointermove", onPointerMove);
+                window.addEventListener("pointerup", stopDrag);
+            });
+        }
+
+        function showLinePreview(lineEl, lineNo) {
+            closeLinePreview();
+
+            const panel = document.createElement("div");
+            panel.className = "tei-line-preview";
+            panel.setAttribute("role", "dialog");
+            panel.setAttribute("aria-label", `Line ${lineNo} image preview`);
+
+            const header = document.createElement("div");
+            header.className = "tei-line-preview-header";
+            header.textContent = `Line ${lineNo}`;
+
+            const closeButton = document.createElement("button");
+            closeButton.className = "tei-line-preview-close";
+            closeButton.type = "button";
+            closeButton.textContent = "×";
+            closeButton.setAttribute("aria-label", "Close line preview");
+            closeButton.addEventListener("click", closeLinePreview);
+
+            const controls = document.createElement("div");
+            controls.className = "tei-line-preview-controls";
+
+            const zoomOut = document.createElement("button");
+            zoomOut.type = "button";
+            zoomOut.className = "tei-line-preview-zoom-btn";
+            zoomOut.textContent = "−";
+            zoomOut.setAttribute("aria-label", "Zoom out");
+
+            const zoomLabel = document.createElement("span");
+            zoomLabel.className = "tei-line-preview-zoom-label";
+            zoomLabel.textContent = "100%";
+
+            const zoomIn = document.createElement("button");
+            zoomIn.type = "button";
+            zoomIn.className = "tei-line-preview-zoom-btn";
+            zoomIn.textContent = "+";
+            zoomIn.setAttribute("aria-label", "Zoom in");
+
+            controls.appendChild(zoomOut);
+            controls.appendChild(zoomLabel);
+            controls.appendChild(zoomIn);
+            controls.appendChild(closeButton);
+            header.appendChild(controls);
+
+            const image = document.createElement("img");
+            image.className = "tei-line-preview-image";
+            image.src = getLineImageSrc(lineNo);
+            image.alt = `Manuscript segmented line ${lineNo}`;
+            image.addEventListener("click", () => {
+                const current = Number(panel.dataset.zoom || "1");
+                updatePreviewZoom(panel, current > 1 ? 1 : 2);
+            });
+            image.addEventListener("error", () => {
+                image.replaceWith(Object.assign(document.createElement("p"), {
+                    className: "tei-line-preview-error",
+                    textContent: `Line image not found: ${lineNo}`
+                }));
+            });
+
+            zoomIn.addEventListener("click", () => {
+                const current = Number(panel.dataset.zoom || "1");
+                updatePreviewZoom(panel, current + 0.25);
+            });
+            zoomOut.addEventListener("click", () => {
+                const current = Number(panel.dataset.zoom || "1");
+                updatePreviewZoom(panel, current - 0.25);
+            });
+            panel.addEventListener("wheel", (event) => {
+                if (!event.ctrlKey && !event.metaKey) return;
+                event.preventDefault();
+                const current = Number(panel.dataset.zoom || "1");
+                const delta = event.deltaY < 0 ? 0.12 : -0.12;
+                updatePreviewZoom(panel, current + delta);
+            }, { passive: false });
+
+            panel.appendChild(header);
+            panel.appendChild(image);
+            document.body.appendChild(panel);
+            activeLinePreview = panel;
+
+            const margin = 12;
+            const panelRect = panel.getBoundingClientRect();
+            const lineRect = lineEl.getBoundingClientRect();
+            const candidates = [
+                { left: lineRect.right + margin, top: lineRect.top },
+                { left: lineRect.left - panelRect.width - margin, top: lineRect.top },
+                { left: lineRect.left, top: lineRect.bottom + margin },
+                { left: lineRect.left, top: lineRect.top - panelRect.height - margin },
+            ];
+
+            let chosen = null;
+            for (const candidate of candidates) {
+                const left = clamp(candidate.left, margin, window.innerWidth - panelRect.width - margin);
+                const top = clamp(candidate.top, margin, window.innerHeight - panelRect.height - margin);
+                const previewRect = {
+                    left,
+                    top,
+                    right: left + panelRect.width,
+                    bottom: top + panelRect.height,
+                };
+                if (!rectsIntersect(previewRect, lineRect)) {
+                    chosen = { left, top };
+                    break;
+                }
+            }
+
+            if (!chosen) {
+                chosen = {
+                    left: clamp(window.innerWidth - panelRect.width - margin, margin, window.innerWidth - panelRect.width - margin),
+                    top: margin
+                };
+            }
+
+            panel.style.left = `${chosen.left}px`;
+            panel.style.top = `${chosen.top}px`;
+            initLinePreviewDrag(panel, header);
+            updatePreviewZoom(panel, 1);
+        }
+
+        function bindLineImagePreview(container) {
+            const lines = Array.from(container.querySelectorAll(".tei-ab-line"));
+            lines.forEach((line) => {
+                const lineNo = Number(line.dataset.lineNo || "");
+                if (!lineNo) return;
+                line.addEventListener("dblclick", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    showLinePreview(line, lineNo);
+                });
+            });
+        }
+
+        function bindLineHighlightSuppression(container) {
+            const suppressSelectors = [
+                ".tei-node-hit",
+                ".tei-supplied",
+                ".tei-unclear",
+                ".tei-corr-marker",
+                ".tei-gap-ornamental",
+                ".tei-note-inline"
+            ].join(",");
+
+            const marks = Array.from(container.querySelectorAll(suppressSelectors));
+            marks.forEach((mark) => {
+                mark.addEventListener("mouseenter", () => {
+                    const line = mark.closest(".tei-ab-line");
+                    line?.classList.add("tei-line-hover-blocked");
+                });
+                mark.addEventListener("mouseleave", () => {
+                    const line = mark.closest(".tei-ab-line");
+                    line?.classList.remove("tei-line-hover-blocked");
+                });
+                mark.addEventListener("focusin", () => {
+                    const line = mark.closest(".tei-ab-line");
+                    line?.classList.add("tei-line-hover-blocked");
+                });
+                mark.addEventListener("focusout", () => {
+                    const line = mark.closest(".tei-ab-line");
+                    line?.classList.remove("tei-line-hover-blocked");
+                });
+            });
+        }
+
+        function getCurrentFolio() {
+            return FOLIOS[currentFolioIndex];
+        }
+
+        function setFolioHeroImage(folio) {
+            const heroImage = document.getElementById("folioHeroImage");
+            const heroLabel = document.getElementById("folioHeroLabel");
+            if (heroImage instanceof HTMLElement) {
+                heroImage.style.backgroundImage = `url("${folio.image}")`;
+            }
+            if (heroLabel) heroLabel.textContent = `FOLIO ${folio.key.toUpperCase()}`;
+        }
+
+        function syncHeroTitleFromContent(folio) {
+            const heroTitle = document.getElementById("folioHeroTitle");
+            const contentTitle = teiContainer?.querySelector("h1");
+            if (contentTitle instanceof HTMLElement) {
+                contentTitle.classList.add("tei-hidden-title");
+            }
+            if (heroTitle) {
+                heroTitle.textContent = "Bṛhatsaṃhitā (MS Add.2329)";
+            }
+        }
+
+        function placeLineInteractionHint(container) {
+            const hint = document.getElementById("lineInteractionHint");
+            if (!(hint instanceof HTMLElement)) return;
+            const bibl = container?.querySelector?.(".tei-bibl");
+            if (bibl instanceof HTMLElement && bibl.parentElement) {
+                bibl.parentElement.insertBefore(hint, bibl);
+                return;
+            }
+            const xmlLink = document.querySelector(".xml-link-block");
+            if (xmlLink instanceof HTMLElement) {
+                xmlLink.insertAdjacentElement("beforebegin", hint);
+                return;
+            }
+            container?.insertAdjacentElement?.("afterend", hint);
+        }
+
+        function renderFolioPlaceholder(target, folio) {
+            const wrapper = document.createElement("article");
+            wrapper.className = "tei-doc";
+
+            const h1 = document.createElement("h1");
+            h1.textContent = `Bṛhatsaṃhitā (MS Add.2329, fol. ${folio.key})`;
+            wrapper.appendChild(h1);
+
+            const toolsHint = document.createElement("p");
+            toolsHint.className = "tei-folio-placeholder-note";
+            toolsHint.textContent = "Transcription for this folio is not yet available. Placeholder layout shown.";
+            wrapper.appendChild(toolsHint);
+
+            const body = document.createElement("div");
+            body.className = "tei-body tei-manuscript-grid tei-placeholder-grid";
+            for (let i = 1; i <= 19; i += 1) {
+                const line = document.createElement("p");
+                line.className = "tei-line tei-ab-line";
+                if (i % 5 === 0) line.classList.add("tei-ab-major-line");
+                line.dataset.lineNo = String(i);
+                const text = document.createElement("span");
+                text.className = "tei-ab-line-text";
+                text.innerHTML = "&nbsp;";
+                line.appendChild(text);
+                body.appendChild(line);
+            }
+            wrapper.appendChild(body);
+
+            target.innerHTML = "";
+            target.appendChild(wrapper);
+            clearSanskritHitSummary();
+            placeLineInteractionHint(target);
+            captureTranscriptionTextNodes(target);
+            applyTranscriptionScriptMode("latin");
+            syncViewerPlacementByViewport();
+        }
+
+        const scriptToggleButton = document.getElementById("scriptToggleButton");
+        scriptToggleButton?.addEventListener("click", () => {
+            const nextMode = transcriptionScriptMode === "latin" ? "devanagari" : "latin";
+            applyTranscriptionScriptMode(nextMode);
+        });
 
         const backButton = document.getElementById("legacyBackButton");
         backButton?.addEventListener("click", () => {
@@ -562,12 +1975,399 @@
             }
             window.location.href = "../../transcriptions/";
         });
+        const legacyBack = document.querySelector(".legacy-back");
+
+        function updateBackButtonVisibility(pointerEvent = null) {
+            if (!(legacyBack instanceof HTMLElement)) return;
+            const nearTopLeft = pointerEvent
+                ? pointerEvent.clientX <= 170 && pointerEvent.clientY <= 120
+                : false;
+            const shouldShow = nearTopLeft || window.scrollY > 40;
+            legacyBack.classList.toggle("is-visible", shouldShow);
+        }
+
+        document.addEventListener("pointermove", (event) => {
+            updateBackButtonVisibility(event);
+        });
+        window.addEventListener("scroll", () => {
+            updateBackButtonVisibility(null);
+        }, { passive: true });
+        updateBackButtonVisibility(null);
+
+        const viewerMediaQuery = window.matchMedia("(max-width: 1180px)");
+        const loadCudlViewerButton = document.getElementById("loadCudlViewerButton");
+        const cudlFrame = document.getElementById("cudlFrame");
+        const cudlStatus = document.getElementById("cudlStatus");
+        const cudlPlaceholder = document.getElementById("cudlPlaceholder");
+        const cudlPanel = document.querySelector(".cudl-panel");
+        const transcriptionMain = document.getElementById("transcriptionMain");
+        const transcriptionTools = document.getElementById("transcriptionTools");
+        const folioChapterSpan = document.getElementById("folioChapterSpan");
+        const teiContainer = document.getElementById("tei-container");
+        const folioHero = document.getElementById("folioHero");
+        const folioPrevBtn = document.getElementById("folioPrevBtn");
+        const folioNextBtn = document.getElementById("folioNextBtn");
+        const cudlOpenLink = document.querySelector(".cudl-link a:first-child");
+        const cudlDownloadLink = document.querySelector(".cudl-link a:last-child");
+        const cudlCaptionInline = document.querySelector(".cudl-caption-inline");
+        const floatingMenuToggle = document.getElementById("floatingMenuToggle");
+        const floatingSideNav = document.getElementById("floatingSideNav");
+        const floatingNavBackdrop = document.getElementById("floatingNavBackdrop");
+
+        function closeFloatingNav() {
+            if (!(floatingSideNav instanceof HTMLElement)) return;
+            floatingSideNav.classList.remove("open");
+            if (floatingMenuToggle instanceof HTMLElement) {
+                floatingMenuToggle.setAttribute("aria-expanded", "false");
+                floatingMenuToggle.textContent = "☰";
+            }
+            if (floatingNavBackdrop instanceof HTMLElement) {
+                floatingNavBackdrop.classList.remove("open");
+                floatingNavBackdrop.hidden = true;
+            }
+        }
+
+        function openFloatingNav() {
+            if (!(floatingSideNav instanceof HTMLElement)) return;
+            floatingSideNav.classList.add("open");
+            if (floatingMenuToggle instanceof HTMLElement) {
+                floatingMenuToggle.setAttribute("aria-expanded", "true");
+                floatingMenuToggle.textContent = "×";
+            }
+            if (floatingNavBackdrop instanceof HTMLElement) {
+                floatingNavBackdrop.hidden = false;
+                requestAnimationFrame(() => {
+                    floatingNavBackdrop.classList.add("open");
+                });
+            }
+        }
+
+        floatingMenuToggle?.addEventListener("click", () => {
+            if (!(floatingSideNav instanceof HTMLElement)) return;
+            const isOpen = floatingSideNav.classList.contains("open");
+            if (isOpen) {
+                closeFloatingNav();
+            } else {
+                openFloatingNav();
+            }
+        });
+
+        floatingNavBackdrop?.addEventListener("click", closeFloatingNav);
+        floatingSideNav?.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", closeFloatingNav);
+        });
+
+        function updateFolioLinks(folio) {
+            const viewUrl = `https://cudl.lib.cam.ac.uk/view/MS-ADD-02329/${folio.cudlPage}`;
+            if (cudlOpenLink instanceof HTMLAnchorElement) {
+                cudlOpenLink.href = viewUrl;
+            }
+            if (cudlDownloadLink instanceof HTMLAnchorElement) {
+                cudlDownloadLink.href = folio.image;
+                cudlDownloadLink.download = `MS-Add-2329_fol-${folio.key}.jpg`;
+            }
+            if (cudlCaptionInline) {
+                cudlCaptionInline.textContent = `Cambridge University Library, MS Add.2329, fol. ${folio.key}`;
+            }
+            if (cudlFrame instanceof HTMLIFrameElement) {
+                cudlFrame.dataset.src = viewUrl;
+            }
+            if (cudlPlaceholder instanceof HTMLElement) {
+                cudlPlaceholder.style.setProperty("--folio-bg-url", `url("${folio.image}")`);
+            }
+        }
+
+        function syncViewerPlacementByViewport() {
+            const viewer = document.querySelector(".transcription-viewer");
+            const layout = document.querySelector(".transcription-layout");
+            const main = document.querySelector(".transcription-main");
+            const title = document.querySelector("#tei-container h1");
+            if (!viewer || !layout || !main) return;
+
+            // Mobile stacked order: Title -> Viewer -> Transcription body
+            if (viewerMediaQuery.matches && title) {
+                if (viewer.parentElement !== title.parentElement || viewer.previousElementSibling !== title) {
+                    title.insertAdjacentElement("afterend", viewer);
+                }
+                if (transcriptionTools && viewer.nextElementSibling !== transcriptionTools) {
+                    viewer.insertAdjacentElement("afterend", transcriptionTools);
+                }
+                return;
+            }
+
+            // Desktop order: main transcription (left) + viewer (right)
+            if (viewer.parentElement !== layout) {
+                layout.appendChild(viewer);
+            }
+            if (transcriptionTools && teiContainer) {
+                if (title) {
+                    if (transcriptionTools.parentElement !== title.parentElement || transcriptionTools.previousElementSibling !== title) {
+                        title.insertAdjacentElement("afterend", transcriptionTools);
+                    }
+                } else if (transcriptionTools.parentElement !== transcriptionMain) {
+                    transcriptionMain.insertBefore(transcriptionTools, teiContainer);
+                }
+            }
+        }
+
+        async function renderCurrentFolio() {
+            const folio = getCurrentFolio();
+            const subtitle = document.getElementById("transcriptionSubtitle");
+            if (subtitle) subtitle.textContent = `Transcription · ${folio.key}`;
+            if (folioChapterSpan instanceof HTMLElement) {
+                if (folio.chapterSpanCompact) {
+                    const strong = document.createElement("strong");
+                    strong.textContent = "Chapter span: ";
+                    const text = document.createElement("span");
+                    text.textContent = folio.chapterSpanCompact;
+                    if (folio.chapterSpanTitle) text.title = folio.chapterSpanTitle;
+                    folioChapterSpan.replaceChildren(strong, text);
+                    folioChapterSpan.hidden = false;
+                } else {
+                    folioChapterSpan.hidden = true;
+                    folioChapterSpan.textContent = "";
+                }
+            }
+            setFolioHeroImage(folio);
+            updateFolioLinks(folio);
+            closeLinePreview();
+
+            if (!folio.hasTei || !folio.xml) {
+                renderFolioPlaceholder(teiContainer, folio);
+                const button = document.getElementById("scriptToggleButton");
+                if (button) {
+                    button.dataset.scriptMode = "latin";
+                    button.textContent = "Script: Latin";
+                    button.disabled = true;
+                }
+            } else {
+                await loadTEI(folio.xml, "#tei-container");
+                transcriptionScriptMode = "latin";
+                const button = document.getElementById("scriptToggleButton");
+                if (button) {
+                    button.dataset.scriptMode = "latin";
+                    button.textContent = "Script: Latin";
+                    button.disabled = false;
+                }
+            }
+
+            syncHeroTitleFromContent(folio);
+
+            if (cudlPlaceholder instanceof HTMLElement) {
+                cudlPlaceholder.hidden = false;
+            }
+            if (cudlFrame instanceof HTMLIFrameElement) {
+                cudlFrame.hidden = true;
+                cudlFrame.src = "about:blank";
+            }
+            if (loadCudlViewerButton) loadCudlViewerButton.textContent = "Load Viewer";
+            if (cudlStatus) {
+                cudlStatus.textContent = "Tip: static preview by default. Load Viewer for interactive mode.";
+            }
+        }
+
+        function animateFolioSwitch(direction) {
+            const heroImage = document.getElementById("folioHeroImage");
+            const mainPanel = document.querySelector(".transcription-main");
+            const viewerPanel = document.querySelector(".transcription-viewer");
+            const isNext = direction > 0;
+            const heroStartX = isNext ? 150 : -150;
+            const contentStartX = isNext ? -104 : 104;
+            if (heroImage instanceof HTMLElement) {
+                heroImage.animate(
+                    [
+                        {
+                            transform: `translateX(${heroStartX}px) translateY(var(--hero-parallax, 0px)) scale(1.38)`,
+                            opacity: 0.58
+                        },
+                        {
+                            transform: "translateX(0) translateY(var(--hero-parallax, 0px)) scale(1.34)",
+                            opacity: 0.96
+                        }
+                    ],
+                    { duration: 560, easing: "cubic-bezier(.18,.78,.2,1)", fill: "both" }
+                );
+            }
+            if (mainPanel instanceof HTMLElement) {
+                mainPanel.animate(
+                    [
+                        { transform: `translateX(${contentStartX}px)`, opacity: 0.7 },
+                        { transform: "translateX(0)", opacity: 1 }
+                    ],
+                    {
+                        duration: 620,
+                        delay: 0,
+                        easing: "cubic-bezier(.2,.72,.12,1)",
+                        fill: "both"
+                    }
+                );
+            }
+            if (viewerPanel instanceof HTMLElement) {
+                viewerPanel.animate(
+                    [
+                        { transform: `translateX(${contentStartX}px)`, opacity: 0.66 },
+                        { transform: "translateX(0)", opacity: 1 }
+                    ],
+                    {
+                        duration: 620,
+                        delay: 110,
+                        easing: "cubic-bezier(.2,.72,.12,1)",
+                        fill: "both"
+                    }
+                );
+            }
+        }
+
+        async function switchFolioBy(delta) {
+            currentFolioIndex = (currentFolioIndex + delta + FOLIOS.length) % FOLIOS.length;
+            await renderCurrentFolio();
+            const folio = getCurrentFolio();
+            const nextUrl = `${window.location.pathname}?folio=${encodeURIComponent(folio.key)}`;
+            window.history.replaceState({}, "", nextUrl);
+            animateFolioSwitch(delta > 0 ? 1 : -1);
+        }
+
+        if (typeof viewerMediaQuery.addEventListener === "function") {
+            viewerMediaQuery.addEventListener("change", syncViewerPlacementByViewport);
+        } else {
+            viewerMediaQuery.addListener(syncViewerPlacementByViewport);
+        }
+
+        function updateHeroParallax() {
+            const heroImage = document.getElementById("folioHeroImage");
+            if (!(heroImage instanceof HTMLElement) || !(folioHero instanceof HTMLElement)) return;
+            const rect = folioHero.getBoundingClientRect();
+            const heroDocTop = window.scrollY + rect.top;
+            const scrolledPastHeroTop = window.scrollY - heroDocTop;
+            // Down-scroll => background also drifts downward, but with small amplitude.
+            const offset = clamp(scrolledPastHeroTop * 0.08, -12, 64);
+            heroImage.style.setProperty("--hero-parallax", `${offset}px`);
+        }
+
+        folioPrevBtn?.addEventListener("click", () => {
+            switchFolioBy(-1);
+        });
+        folioNextBtn?.addEventListener("click", () => {
+            switchFolioBy(1);
+        });
+
+        window.addEventListener("scroll", updateHeroParallax, { passive: true });
+        window.addEventListener("resize", updateHeroParallax);
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowLeft") switchFolioBy(-1);
+            if (event.key === "ArrowRight") switchFolioBy(1);
+            if (event.key === "Escape") closeFloatingNav();
+        });
+
+        loadCudlViewerButton?.addEventListener("click", () => {
+            if (!(cudlFrame instanceof HTMLIFrameElement)) return;
+            const targetSrc = cudlFrame.dataset.src;
+            if (!targetSrc) return;
+            if (cudlPlaceholder instanceof HTMLElement) {
+                cudlPlaceholder.hidden = true;
+            }
+            cudlFrame.hidden = false;
+            // Always allow manual reload when user clicks again.
+            cudlFrame.src = targetSrc;
+            loadCudlViewerButton.textContent = "Reload Viewer";
+            if (cudlStatus) {
+                cudlStatus.textContent = "Tip: interactive viewer loaded. Reload only if needed.";
+            }
+        });
+
+        function setCudlShadow(xPx, yPx, blurPx, alpha) {
+            if (!(cudlPanel instanceof HTMLElement)) return;
+            cudlPanel.style.setProperty("--panel-shadow-x", `${xPx}px`);
+            cudlPanel.style.setProperty("--panel-shadow-y", `${yPx}px`);
+            cudlPanel.style.setProperty("--panel-shadow-blur", `${blurPx}px`);
+            cudlPanel.style.setProperty("--panel-shadow-alpha", String(alpha));
+        }
+
+        function resetCudlShadow() {
+            setCudlShadow(0, 14, 30, 0.24);
+        }
+
+        function updateCudlShadowByPointer(clientX, clientY) {
+            if (!(cudlPanel instanceof HTMLElement)) return;
+            const rect = cudlPanel.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = clientX - cx;
+            const dy = clientY - cy;
+            const len = Math.hypot(dx, dy) || 1;
+            const dirX = dx / len;
+            const dirY = dy / len;
+
+            const outX = Math.max(rect.left - clientX, 0, clientX - rect.right);
+            const outY = Math.max(rect.top - clientY, 0, clientY - rect.bottom);
+            const dist = Math.hypot(outX, outY);
+            const intensity = clamp(dist / 460, 0, 1);
+
+            // Virtual light follows cursor: farther pointer => longer/deeper opposite shadow.
+            const offset = 10 + intensity * 24;
+            const shadowX = -dirX * offset;
+            const shadowY = -dirY * offset + 6;
+            const blur = 22 + intensity * 24;
+            const alpha = 0.2 + intensity * 0.22;
+            setCudlShadow(shadowX, shadowY, blur, alpha);
+        }
+
+        document.addEventListener("pointermove", (event) => {
+            updateCudlShadowByPointer(event.clientX, event.clientY);
+        });
+        document.addEventListener("pointerleave", resetCudlShadow);
+        resetCudlShadow();
+
+        const initialFolioKey = new URLSearchParams(window.location.search).get("folio");
+        const initialIndex = FOLIOS.findIndex((f) => f.key === initialFolioKey);
+        if (initialIndex >= 0) currentFolioIndex = initialIndex;
+        renderCurrentFolio().then(updateHeroParallax);
+
+        document.addEventListener("click", (event) => {
+            if (!activeLinePreview) return;
+            const target = event.target;
+            if (target instanceof Element && target.closest(".tei-line-preview")) return;
+            closeLinePreview();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closeLinePreview();
+        });
     </script>
 
     <style>
         /* Minimal styling */
         .tei-doc {
             line-height: 1.6;
+        }
+
+        .tei-hidden-title {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+
+        .tei-folio-placeholder-note {
+            margin: -0.7rem 0 1rem;
+            font-size: 0.86rem;
+            color: #7b6b57;
+            font-style: italic;
+        }
+
+        .tei-placeholder-grid .tei-ab-line-text {
+            min-width: min(62vw, 720px);
+            min-height: 1.05em;
+            border-bottom: 1px dashed rgba(90, 74, 56, 0.2);
+        }
+
+        #tei-container.script-devanagari .tei-manuscript-grid {
+            font-family: "Noto Serif Devanagari", "Nirmala UI", "Kohinoor Devanagari", serif;
+            letter-spacing: 0;
         }
 
         .tei-note {
@@ -588,6 +2388,265 @@
 
         .tei-line {
             margin: 0;
+        }
+
+        .tei-line-preview {
+            position: fixed;
+            z-index: 1200;
+            width: min(900px, 96vw);
+            max-height: 90vh;
+            overflow: auto;
+            scrollbar-gutter: stable both-edges;
+            background: #fffdf9;
+            border: 1px solid rgba(90, 74, 56, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+            padding: 0.6rem 0.6rem 1.2rem;
+        }
+
+        .tei-line-preview.is-dragging {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+        }
+
+        .tei-line-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            color: #4a3e30;
+            margin-bottom: 0.4rem;
+            cursor: move;
+            user-select: none;
+        }
+
+        .tei-line-preview-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.28rem;
+        }
+
+        .tei-line-preview-zoom-btn {
+            border: 1px solid rgba(90, 74, 56, 0.28);
+            background: #f6efe5;
+            color: #4a3e30;
+            border-radius: 5px;
+            width: 1.4rem;
+            height: 1.4rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0;
+            font-size: 0.95rem;
+        }
+
+        .tei-line-preview-zoom-label {
+            min-width: 2.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #5a4d3d;
+        }
+
+        .tei-line-preview-close {
+            border: none;
+            background: transparent;
+            color: #6a5842;
+            cursor: pointer;
+            font-size: 1.1rem;
+            line-height: 1;
+            padding: 0 0.2rem;
+        }
+
+        .tei-line-preview-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            background: #f3ece2;
+            margin-bottom: 0.35rem;
+            transition: transform 0.18s ease;
+        }
+
+        .tei-line-preview-error {
+            margin: 0.2rem 0 0;
+            color: #8b3f1f;
+            font-size: 0.9rem;
+        }
+
+        .tei-manuscript-grid {
+            --line-no-gutter: 3.3rem;
+            margin-top: 0.6rem;
+            font-size: 0.86rem;
+            line-height: 1.55;
+            letter-spacing: 0.01em;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: visible;
+            scrollbar-gutter: stable;
+            padding-bottom: 1.1rem;
+            margin-bottom: 0.35rem;
+            position: relative;
+            box-shadow: none;
+        }
+
+        .tei-body {
+            padding-left: var(--line-no-gutter);
+        }
+
+        .tei-ab-line {
+            white-space: nowrap;
+            margin: 0;
+            position: relative;
+            font-variant-ligatures: none;
+            width: max-content;
+            min-width: 100%;
+            transition: color 0.22s ease;
+        }
+
+        .tei-ab-line-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tei-ab-line-text::after {
+            content: "";
+            position: absolute;
+            left: -0.2rem;
+            right: -0.2rem;
+            top: -0.04em;
+            bottom: -0.02em;
+            border-radius: 6px;
+            opacity: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(115% 82% at 8% 62%, rgba(255, 225, 170, 0.2), rgba(255, 225, 170, 0) 74%),
+                radial-gradient(115% 82% at 92% 62%, rgba(255, 225, 170, 0.2), rgba(255, 225, 170, 0) 74%),
+                linear-gradient(180deg,
+                    rgba(0, 0, 0, 0) 30%,
+                    rgba(245, 206, 139, 0.34) 34%,
+                    rgba(245, 206, 139, 0.34) 90%,
+                    rgba(0, 0, 0, 0) 94%);
+            filter: blur(0.78px);
+            transition: opacity 0.6s ease-in-out, filter 0.6s ease-in-out;
+        }
+
+        .tei-ab-line:hover:not(.tei-line-hover-blocked),
+        .tei-ab-line:focus-within:not(.tei-line-hover-blocked) {
+            color: #2f2a25;
+        }
+
+        .tei-ab-line:hover:not(.tei-line-hover-blocked) .tei-ab-line-text::after,
+        .tei-ab-line:focus-within:not(.tei-line-hover-blocked) .tei-ab-line-text::after {
+            opacity: 0.6;
+            filter: blur(0.62px);
+            animation: tei-line-breathe 1.8s ease-in-out infinite alternate;
+        }
+
+        .tei-ab-line:not(:hover):not(:focus-within) .tei-ab-line-text::after {
+            animation: none;
+        }
+
+        @keyframes tei-line-breathe {
+            0% {
+                filter: blur(0.58px);
+            }
+
+            100% {
+                filter: blur(0.76px);
+            }
+        }
+
+        .tei-ab-line::before {
+            content: attr(data-line-display);
+            position: absolute;
+            left: calc(var(--line-no-gutter) * -1);
+            top: 0;
+            width: calc(var(--line-no-gutter) - 1.7rem);
+            text-align: right;
+            color: transparent;
+            pointer-events: none;
+            transition: color 0.15s ease;
+        }
+
+        .tei-ab-line.tei-ab-major-line::before {
+            color: #4c4338;
+        }
+
+        .tei-body:hover .tei-ab-line::before,
+        .tei-body:focus-within .tei-ab-line::before {
+            color: #b0aaa1;
+        }
+
+        .tei-ab-line+.tei-ab-line {
+            margin-top: 0.03rem;
+        }
+
+        .tei-body .tei-ab-line:last-child {
+            margin-bottom: 0.25rem;
+        }
+
+        .tei-gap-ornamental {
+            display: inline-block;
+            margin: 0 0.18em;
+            padding: 0 0.1em;
+            font-size: 0.74em;
+            line-height: 1;
+            color: #7a4e00;
+            vertical-align: 0.1em;
+            border-radius: 3px;
+            cursor: default;
+            user-select: none;
+            transition: color 0.18s ease, background 0.18s ease;
+        }
+
+        .tei-gap-ornamental:hover,
+        .tei-gap-ornamental:focus {
+            color: #a56300;
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0) 40%,
+                    rgba(255, 225, 170, 0.32) 40%,
+                    rgba(255, 225, 170, 0.32) 92%,
+                    rgba(0, 0, 0, 0) 92%);
+            outline: none;
+        }
+
+        .tei-node-hit {
+            color: #6f4a12;
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 236, 189, 0) 46%,
+                    rgba(255, 221, 156, 0.58) 46%,
+                    rgba(255, 221, 156, 0.58) 100%);
+            border-radius: 0.2em;
+            padding: 0 0.08em;
+            transition: color 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+            border-bottom: 1px dotted rgba(111, 74, 18, 0.45);
+        }
+
+        .tei-node-hit:hover,
+        .tei-node-hit:focus {
+            color: #8a5a1a;
+            background-color: rgba(255, 225, 170, 0.34);
+            outline: none;
+        }
+
+        .tei-corr-marker {
+            cursor: default;
+            color: #86582b;
+            font-weight: 400;
+            border-radius: 3px;
+            padding: 0 0.08em;
+            transition: color 0.18s ease, background 0.18s ease;
+            outline: none;
+        }
+
+        .tei-corr-marker:hover,
+        .tei-corr-marker:focus {
+            color: #a56300;
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0) 40%,
+                    rgba(255, 225, 170, 0.42) 40%,
+                    rgba(255, 225, 170, 0.42) 92%,
+                    rgba(0, 0, 0, 0) 92%);
         }
 
         /* —— inline 注释：和正文同一行，无灰线 —— */
@@ -614,6 +2673,24 @@
         .tei-note-inline:hover {
             color: #a56300;
             background-color: rgba(255, 225, 170, 0.3);
+        }
+
+        .tei-supplied,
+        .tei-unclear {
+            color: #7a4e00;
+            border-radius: 3px;
+            padding: 0 0.12em;
+            transition: color 0.18s ease, background 0.18s ease;
+        }
+
+        .tei-supplied:hover,
+        .tei-unclear:hover {
+            color: #a56300;
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0) 40%,
+                    rgba(255, 225, 170, 0.32) 40%,
+                    rgba(255, 225, 170, 0.32) 92%,
+                    rgba(0, 0, 0, 0) 92%);
         }
 
 
@@ -691,6 +2768,107 @@
 
         .tei-title-article {
             font-style: normal;
+        }
+
+        .tei-bibl a {
+            color: #3f6e9a;
+            font-weight: 400;
+        }
+
+        .tei-bibl a:hover {
+            color: #32597b;
+        }
+
+        .node-hit-head {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 0.45rem;
+            margin-bottom: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .node-hit-toggle-btn {
+            border: 1px solid rgba(122, 96, 68, 0.28);
+            border-radius: 8px;
+            background: #f6efe5;
+            color: #4f3d29;
+            font-family: Georgia, serif;
+            font-size: 0.82rem;
+            padding: 0.28rem 0.55rem;
+            cursor: pointer;
+            box-shadow: 0 2px 0 rgba(74, 62, 48, 0.18);
+            transition: background-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .node-hit-toggle-btn:hover {
+            background: #efe5d8;
+        }
+
+        .node-hit-toggle-btn:active {
+            transform: translateY(1px);
+        }
+
+        .node-hit-panel {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-3px);
+            transition: max-height 0.32s ease, opacity 0.24s ease, transform 0.24s ease;
+        }
+
+        .node-hit-panel.is-open {
+            max-height: 520px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .node-hit-details {
+            margin: 0.25rem 0 0.8rem;
+            font-size: 0.82rem;
+            color: #4b3d2d;
+        }
+
+        .node-hit-details summary {
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .node-hit-details ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            columns: 2;
+            column-gap: 1.2rem;
+        }
+
+        .node-hit-details li {
+            list-style: disc;
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+            margin: 0 0 0.2rem 0;
+            border-radius: 0;
+            break-inside: avoid;
+        }
+
+        .node-hit-details code {
+            background: rgba(255, 243, 219, 0.65);
+            border-radius: 4px;
+            padding: 0.02rem 0.24rem;
+            font-size: 0.78rem;
+        }
+
+        .node-hit-details span {
+            color: #7a654a;
+            margin-left: 0.25rem;
+        }
+
+        .node-hit-variants {
+            display: inline-block;
+            margin-left: 0.46rem;
+            color: #7a654a;
+            font-size: 0.74rem;
         }
     </style>
 

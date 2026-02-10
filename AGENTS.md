@@ -24,3 +24,8 @@ When adding a completed event to log, use one entry per event with:
 For any newly imported transcription HTML page under `src/transcriptions/tei_hanshu/`:
 1. Keep the project top header/navigation bar visible at the top.
 2. Add a visible back button (prefer: back to transcriptions list; fallback to browser history back).
+
+## Data Safety Guardrail (High Priority)
+- For node-entry discussions and UI iteration, changes must stay in display/render logic only.
+- Do **not** modify or delete canonical data source files such as `src/data.json` unless the user explicitly asks for data-layer edits in that turn.
+- Search matching behavior may evolve in code, but underlying JSON records must be preserved as source of truth.

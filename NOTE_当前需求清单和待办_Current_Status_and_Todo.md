@@ -9,6 +9,7 @@
 - Transcriptions：已接入 `src/transcriptions/tei_hanshu/lingyue.html` 与 `src/transcriptions/tei_hanshu/lingyue.xml` 的旧逻辑入口用于验证渲染链路。
 - Transcriptions：`src/transcriptions/tei_brhat/` 已建立并可访问 `1r` 测试页。
 - 数据现状：搜索使用 `src/data.json`，可视化使用 `static/*.csv`，存在双数据源并行。
+- CText 检索现状：`/api/ctext/search` 依赖 Eleventy 本地 dev middleware（`server/ctextSearchMiddleware.js`）；当前 GitHub Pages 线上静态部署不提供该后端接口，线上仅可使用外链 fallback 查询。
 
 ## 紧急 TODO（下次继续）
 - [ ] `Matched terms` 展示增强：
@@ -17,14 +18,23 @@
   - 参考显示目标：`黃鐘 3 / 黄钟 2 / 黄鐘 1`（按同一 node 聚合统计并展示词形分布）。
   - 展开/收起交互动效优化：替换当前生硬开合，改为平滑过渡（高度/透明度/轻微位移），并保证快速点击时状态一致。
 - [ ] CText 外部检索稳定性（高优先）：
-  - 现状：黄钟（`黃鐘`）词条及其变体已有可用返回，但**黄钟之外的多数高亮词条**仍存在“未正确返回/未捕捉到检索结果信息”的问题。
-  - 目标：确保点击任一高亮词条时，该节点全部变体都能稳定返回并提取 `檢索範圍/條件/符合次數`，而非仅返回壳页。
-  - 排障方向：继续基于 `attempts + parseStatus + query used + markers + extracted` 定位失败类型（上游模板差异 vs 解析漏提取）。
+  - 现状：在 `CTEXT_FETCH_MODE=browser` + 缓存 + 节流下，常见高亮词条检索已显著稳定。
+  - 当前实现基线（2026-02-09）：
+    - 文本/章节与次数统一从 `searchu=...&reqtype=stats` 统计页提取（避免普通结果页分页/模板噪音）。
+    - 检索范围/条件/符合次数仍从 `searchu=...` 主结果页解析。
+    - 同一节点在页面不同位置点击时，前端按归一化 `queryKey` 复用同一请求与结果（含 in-flight 去重）。
+    - 后端默认缓存 TTL 已提升为 24 小时（可由 `CTEXT_CACHE_TTL_MS` 覆盖）。
+    - 结果浮窗支持中英切换（当前已移除空白“检索内容 / Search details”标题行）。
+  - 目标：把“可运行”提升为“可长期维护”，并降低对 HTML 模板的依赖。
+  - 下一步：优先推进 JSON API 迁移；保留当前链路作为 fallback，并持续观察 `parseStatus` 中的上游风控信号。
 
 ## P0 高优先级待办（阻塞稳定性）
 - [ ] 统一唯一数据源：明确 `src/data.json` 与 `static/*.csv` 的主从关系，避免数据漂移。
 - [ ] 自动导出链路：补齐从 Neo4j 自动导出到 JSON/CSV 的脚本，并接入 `start/build` 前置步骤。
 - [ ] 修复脚本可移植性：`generate_simp_trad_map.py` 去除绝对路径与失效输入路径引用。
+- [ ] CText 接口治理升级：调研并改用对方 JSON API（替代 HTML 抓取解析）。
+  - 目标：减少对 HTML 模板波动和风控页分流的耦合，提高长期稳定性与合规性。
+  - 过渡策略：保留现有浏览器态抓取 + 缓存 + 节流作为 fallback，待 JSON API 字段映射稳定后再切主链路。
 
 ## P1 中优先级待办（质量与维护）
 - [ ] 清理重复 edge：`src/data.json` 中重复关系需去重并补校验。
