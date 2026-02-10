@@ -29,6 +29,7 @@ title: Transcriptions
     </div>
     <div class="card-body">
       <p>Selected section: 律历志 Lüli zhi</p>
+      <ul></ul>
       <p>Manuscript witness: late 12th c.</p>
     </div>
     <div class="card-actions">
@@ -42,7 +43,11 @@ title: Transcriptions
       <p class="card-subtitle">Sanskrit · Divinatory · 6th c. CE</p>
     </div>
     <div class="card-body">
-      <p>Selected chapter: उपनयनाध्यायः upanayanādhyāyaḥ</p>
+      <p>Selected chapter(s):</p>
+      <ul>
+        <li>उपनयनाध्यायः upanayanādhyāyaḥ</li>
+        <li>संवत्सरसूत्राध्यायः sāṃvatsarasūtrādhyāyaḥ (in progress)</li>
+      </ul>
       <p>Manuscript witness: 16–17th c.</p>
     </div>
     <div class="card-actions">

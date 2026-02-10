@@ -10,6 +10,7 @@
 - Transcriptions：`src/transcriptions/tei_brhat/` 已建立并可访问 `1r` 测试页。
 - 数据现状：搜索使用 `src/data.json`，可视化使用 `static/*.csv`，存在双数据源并行。
 - CText 检索现状：`/api/ctext/search` 依赖 Eleventy 本地 dev middleware（`server/ctextSearchMiddleware.js`）；当前 GitHub Pages 线上静态部署不提供该后端接口，线上仅可使用外链 fallback 查询。
+- Brhat 本地编辑器现状：`src/transcriptions/tei_brhat/1r.html` 支持本地草稿编辑模式，仅在 `localhost/127.0.0.1` 且 URL 带 `?edit=1` 时显示 `Editor` 按钮；编辑结果仅写入浏览器 `localStorage`，不会改动 XML 源文件。
 
 ## 紧急 TODO（下次继续）
 - [ ] `Matched terms` 展示增强：
@@ -45,6 +46,12 @@
 - [ ] 本地样式未生效问题复查：Search 分隔线、Filter 装饰线、Transcriptions 背景框与边距在 localhost 的一致性。
 - [ ] 转写页面后续演进：在“已可用”的基础上，再评估是否把旧 HTML 渲染逻辑模块化到站内组件。
 - [ ] 详细转写页返回按钮样式统一：使用常规 `Back` 按钮（无边框、带轻微底部阴影），不使用左侧悬浮箭头方案。
+- [ ] Brhat annotate 独立工作台（待实现）：
+  - 形态：单独页面（不混入正式阅读页），视觉风格与现有 Brhat transcription 页面一致。
+  - 功能：保留 line images + 草稿编辑（可本地保存/导入导出），用于提升转写效率。
+  - 数据流：页面编辑先生成草稿 patch（JSON），不直接写 XML 源文件。
+  - 入库：通过独立 apply 脚本写回 XML，要求包含校验、自动备份、old/new diff。
+  - 标记转换：支持把编辑时输入的可视化简写符号（如 `< >` 等约定）在写回时自动转换为对应 TEI/XML 标签（反向映射可配置）。
 - [ ] 节点词命中的数字语境精细规则：在保留“阿拉伯数字默认不匹配”的基础上，为常用汉字数字建立语境过滤。
   - 参考思路：对常见序数/结构搭配词做正则过滤（例如 `一曰/二曰/三曰`、条目编号、枚举序号等），避免把结构词误判为概念节点命中。
   - 目标：保留象数语境中的有效数字词命中，降低格式性数字用法的误命中。

@@ -759,3 +759,50 @@
    - 当前功能边界与线上行为预期被明确记录，降低“本地可用但线上不可用”造成的误判风险。
 5. 复盘 / Retrospective
    - 涉及部署差异的能力（本地 middleware / 线上静态托管）应在 `NOTE` 持续可见，避免被实现细节淹没。
+
+## [2026-02-10] Brhat 行图片预览联动：对应行常亮直到关闭/切换
+1. Time
+   - 2026-02-10
+2. 需求明确 / Goal
+   - 打开某个行图片时，对应正文行应保持常亮；只有关闭预览或切换到其他行图片时才取消/转移高亮。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_brhat/1r.html` 新增 `activePreviewLineEl` 状态。
+   - `showLinePreview(...)` 打开预览前先关闭旧预览，并给当前行添加 `is-line-preview-active`。
+   - `closeLinePreview()` 统一移除 `is-line-preview-active` 并清理状态。
+   - CSS 增加 `.tei-ab-line.is-line-preview-active` 与对应 `::after` 规则，使常亮视觉与 hover 高亮一致。
+4. 解决 / Outcome
+   - 行图片预览与正文行形成稳定一一对应的持久高亮反馈。
+   - 切换行图片时高亮自动转移；关闭预览后高亮自动清除。
+5. 复盘 / Retrospective
+   - 这类“外部浮层对应正文上下文”的交互应使用显式状态类，而非仅依赖 hover/focus 临时态。
+
+## [2026-02-10] Brhat 本地专用 Editor 模式（?edit=1）
+1. Time
+   - 2026-02-10
+2. 需求明确 / Goal
+   - 为 Brhat 页面提供仅作者本人可用的快速编辑入口，支持在页面上直接改行文本用于迭代。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_brhat/1r.html` 增加 `Editor` 按钮（默认隐藏，URL 带 `?edit=1` 才显示）。
+   - 新增编辑态逻辑：
+     - 行文本 `.tei-ab-line-text` 可编辑（`contentEditable`）；
+     - 编辑内容按 folio 键写入 `localStorage` 草稿；
+     - 重新加载对应 folio 时自动回填草稿。
+   - 编辑态下禁用 `Script` 切换并清理高亮面板，避免编辑与高亮/转写脚本互相覆盖。
+4. 解决 / Outcome
+   - 可在页面上快速试改转写内容并保存为本地草稿，适合个人迭代。
+   - 该模式不改动 XML 源文件，符合当前数据安全边界。
+5. 复盘 / Retrospective
+   - 浏览器端编辑适合“草稿/试改”，正式入库仍应回写 XML 以保持可追溯与可协作。
+
+## [2026-02-10] Brhat Editor 加固：限制为 localhost 可见
+1. Time
+   - 2026-02-10
+2. 需求明确 / Goal
+   - 避免线上用户通过 `?edit=1` 看到编辑入口，把 Editor 明确收口为本地个人工具。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_brhat/1r.html` 增加主机名判断：仅 `localhost/127.0.0.1/::1` 且 `?edit=1` 时 `BRHAT_EDITOR_UNLOCKED` 为真。
+   - 在 `NOTE_当前需求清单和待办_Current_Status_and_Todo.md` 增加本地编辑器说明（入口、作用范围、数据边界）。
+4. 解决 / Outcome
+   - 线上部署环境不再暴露 Editor 入口；本地仍可用同一流程进行草稿编辑。
+5. 复盘 / Retrospective
+   - 纯前端“个人工具”功能应默认按环境收口，避免把调试能力误暴露到公开页面。

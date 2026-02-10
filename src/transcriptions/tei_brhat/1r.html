@@ -273,6 +273,18 @@
             cursor: not-allowed;
         }
 
+        .editor-toggle-button {
+            width: auto;
+            min-width: 7rem;
+            margin-left: 0.4rem;
+        }
+
+        .tei-editor-on .tei-ab-line-text {
+            outline: 1px dashed rgba(111, 74, 18, 0.45);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
         .line-interaction-hint {
             display: block;
             font-size: 0.84rem;
@@ -646,7 +658,7 @@
         <section id="folioHero" class="folio-hero" aria-label="Manuscript folio background navigator">
             <div id="folioHeroImage" class="folio-hero-image"></div>
             <div class="folio-hero-overlay"></div>
-            <div id="folioHeroTitle" class="folio-hero-title">Bṛhatsaṃhitā (MS Add.2329)</div>
+            <div id="folioHeroTitle" class="folio-hero-title">BṛhatSaṃhitā (MS Add.2329)</div>
             <button id="folioPrevBtn" class="folio-nav-btn folio-nav-prev" type="button"
                 aria-label="Previous folio">‹</button>
             <button id="folioNextBtn" class="folio-nav-btn folio-nav-next" type="button"
@@ -659,6 +671,9 @@
                     <div id="transcriptionSubtitle" class="transcription-subtitle">Transcription · 1r</div>
                     <button id="scriptToggleButton" class="script-toggle-button" type="button" data-script-mode="latin">
                         Script: Latin
+                    </button>
+                    <button id="editorToggleButton" class="script-toggle-button editor-toggle-button" type="button" hidden>
+                        Editor: Off
                     </button>
                 </div>
                 <div id="folioChapterSpan" class="folio-chapter-span" hidden></div>
@@ -705,6 +720,7 @@
         let brhatAbLineCounter = 0;
         const BRHAT_LINE_IMAGE_BASE = "../../assets/tei_brhat/1r_lines";
         let activeLinePreview = null;
+        let activePreviewLineEl = null;
         let transcriptionScriptMode = "latin";
         let transcriptionTextNodes = [];
         let sanskritNodeDataCache = null;
@@ -731,6 +747,99 @@
             { key: "2r", image: "../../assets/tei_brhat/2r.jpg", xml: null, hasTei: false, cudlPage: 3 },
         ];
         let currentFolioIndex = 0;
+        const BRHAT_EDITOR_PARAM = "edit";
+        const BRHAT_EDITOR_STORAGE_PREFIX = "brhat_editor_draft_";
+        const BRHAT_EDITOR_LOCALHOST = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+        const BRHAT_EDITOR_UNLOCKED = BRHAT_EDITOR_LOCALHOST
+            && new URLSearchParams(window.location.search).get(BRHAT_EDITOR_PARAM) === "1";
+        let brhatEditorEnabled = false;
+
+        function getCurrentEditorStorageKey() {
+            const folio = getCurrentFolio();
+            const key = folio?.key || "unknown";
+            return `${BRHAT_EDITOR_STORAGE_PREFIX}${key}`;
+        }
+
+        function loadEditorDraft() {
+            try {
+                const raw = localStorage.getItem(getCurrentEditorStorageKey());
+                const parsed = JSON.parse(raw || "{}");
+                return parsed && typeof parsed === "object" ? parsed : {};
+            } catch {
+                return {};
+            }
+        }
+
+        function saveEditorDraft(draft) {
+            try {
+                localStorage.setItem(getCurrentEditorStorageKey(), JSON.stringify(draft || {}));
+            } catch {
+                // ignore localStorage failures
+            }
+        }
+
+        function applyEditorDraftToContainer(container) {
+            const draft = loadEditorDraft();
+            const lines = Array.from(container.querySelectorAll(".tei-ab-line"));
+            lines.forEach((line) => {
+                const lineNo = line.getAttribute("data-line-no") || line.dataset.lineNo || "";
+                const textWrap = line.querySelector(".tei-ab-line-text");
+                if (!(textWrap instanceof HTMLElement) || !lineNo) return;
+                const nextText = draft[lineNo];
+                if (typeof nextText === "string" && nextText.length) {
+                    textWrap.textContent = nextText;
+                }
+            });
+        }
+
+        function saveCurrentEditorDraft(container) {
+            const draft = {};
+            const lines = Array.from(container.querySelectorAll(".tei-ab-line"));
+            lines.forEach((line) => {
+                const lineNo = line.getAttribute("data-line-no") || line.dataset.lineNo || "";
+                const textWrap = line.querySelector(".tei-ab-line-text");
+                if (!(textWrap instanceof HTMLElement) || !lineNo) return;
+                draft[lineNo] = (textWrap.textContent || "").trim();
+            });
+            saveEditorDraft(draft);
+        }
+
+        function setBrhatEditorMode(enabled) {
+            if (!BRHAT_EDITOR_UNLOCKED) return;
+            brhatEditorEnabled = Boolean(enabled);
+            const container = document.getElementById("tei-container");
+            const button = document.getElementById("editorToggleButton");
+            const scriptBtn = document.getElementById("scriptToggleButton");
+            if (button instanceof HTMLElement) {
+                button.textContent = brhatEditorEnabled ? "Editor: On" : "Editor: Off";
+                button.setAttribute("aria-pressed", brhatEditorEnabled ? "true" : "false");
+            }
+            document.body.classList.toggle("tei-editor-on", brhatEditorEnabled);
+            if (scriptBtn instanceof HTMLButtonElement) {
+                scriptBtn.disabled = brhatEditorEnabled;
+            }
+            if (!(container instanceof HTMLElement)) return;
+
+            if (brhatEditorEnabled) {
+                if (transcriptionScriptMode !== "latin") applyTranscriptionScriptMode("latin");
+                const body = container.querySelector(".tei-body");
+                if (body instanceof HTMLElement) {
+                    clearExistingSanskritHighlights(body);
+                    clearSanskritHitSummary();
+                }
+            }
+
+            container.querySelectorAll(".tei-ab-line-text").forEach((el) => {
+                if (!(el instanceof HTMLElement)) return;
+                el.contentEditable = brhatEditorEnabled ? "true" : "false";
+                el.spellcheck = false;
+            });
+
+            if (!brhatEditorEnabled) {
+                saveCurrentEditorDraft(container);
+                captureTranscriptionTextNodes(container);
+            }
+        }
 
         async function loadTEI(fileName, targetSelector) {
             const target = document.querySelector(targetSelector);
@@ -758,6 +867,7 @@
                 const html = teiNodeToHTML(xml.documentElement);
                 target.innerHTML = "";
                 target.appendChild(html);
+                applyEditorDraftToContainer(target);
                 placeLineInteractionHint(target);
                 syncViewerPlacementByViewport();
                 bindLineImagePreview(target);
@@ -1662,6 +1772,10 @@
             if (!activeLinePreview) return;
             activeLinePreview.remove();
             activeLinePreview = null;
+            if (activePreviewLineEl instanceof HTMLElement) {
+                activePreviewLineEl.classList.remove("is-line-preview-active");
+            }
+            activePreviewLineEl = null;
         }
 
         function updatePreviewZoom(panel, zoom) {
@@ -1669,8 +1783,9 @@
             panel.dataset.zoom = String(clamped);
             const image = panel.querySelector(".tei-line-preview-image");
             if (image instanceof HTMLElement) {
-                image.style.transform = `scale(${clamped})`;
-                image.style.transformOrigin = "top left";
+                image.style.width = `${Math.round(clamped * 100)}%`;
+                image.style.maxWidth = "none";
+                image.style.transform = "none";
                 image.style.cursor = clamped > 1 ? "zoom-out" : "zoom-in";
             }
             const label = panel.querySelector(".tei-line-preview-zoom-label");
@@ -1723,6 +1838,10 @@
 
         function showLinePreview(lineEl, lineNo) {
             closeLinePreview();
+            if (lineEl instanceof HTMLElement) {
+                lineEl.classList.add("is-line-preview-active");
+                activePreviewLineEl = lineEl;
+            }
 
             const panel = document.createElement("div");
             panel.className = "tei-line-preview";
@@ -1904,7 +2023,7 @@
                 contentTitle.classList.add("tei-hidden-title");
             }
             if (heroTitle) {
-                heroTitle.textContent = "Bṛhatsaṃhitā (MS Add.2329)";
+                heroTitle.textContent = "BṛhatSaṃhitā (MS Add.2329)";
             }
         }
 
@@ -1965,6 +2084,23 @@
         scriptToggleButton?.addEventListener("click", () => {
             const nextMode = transcriptionScriptMode === "latin" ? "devanagari" : "latin";
             applyTranscriptionScriptMode(nextMode);
+        });
+        const editorToggleButton = document.getElementById("editorToggleButton");
+        if (editorToggleButton instanceof HTMLElement) {
+            editorToggleButton.hidden = !BRHAT_EDITOR_UNLOCKED;
+            editorToggleButton.addEventListener("click", () => {
+                setBrhatEditorMode(!brhatEditorEnabled);
+            });
+        }
+        document.getElementById("tei-container")?.addEventListener("input", (event) => {
+            if (!brhatEditorEnabled) return;
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) return;
+            if (!target.closest(".tei-ab-line-text")) return;
+            const editorRoot = document.getElementById("tei-container");
+            if (!(editorRoot instanceof HTMLElement)) return;
+            saveCurrentEditorDraft(editorRoot);
+            captureTranscriptionTextNodes(editorRoot);
         });
 
         const backButton = document.getElementById("legacyBackButton");
@@ -2113,7 +2249,11 @@
         async function renderCurrentFolio() {
             const folio = getCurrentFolio();
             const subtitle = document.getElementById("transcriptionSubtitle");
+            const editorBtn = document.getElementById("editorToggleButton");
             if (subtitle) subtitle.textContent = `Transcription · ${folio.key}`;
+            if (editorBtn instanceof HTMLElement) {
+                editorBtn.hidden = !(BRHAT_EDITOR_UNLOCKED && folio.hasTei && folio.xml);
+            }
             if (folioChapterSpan instanceof HTMLElement) {
                 if (folio.chapterSpanCompact) {
                     const strong = document.createElement("strong");
@@ -2140,6 +2280,7 @@
                     button.textContent = "Script: Latin";
                     button.disabled = true;
                 }
+                setBrhatEditorMode(false);
             } else {
                 await loadTEI(folio.xml, "#tei-container");
                 transcriptionScriptMode = "latin";
@@ -2148,6 +2289,9 @@
                     button.dataset.scriptMode = "latin";
                     button.textContent = "Script: Latin";
                     button.disabled = false;
+                }
+                if (brhatEditorEnabled) {
+                    setBrhatEditorMode(true);
                 }
             }
 
@@ -2462,7 +2606,7 @@
             border-radius: 6px;
             background: #f3ece2;
             margin-bottom: 0.35rem;
-            transition: transform 0.18s ease;
+            transition: width 0.18s ease;
         }
 
         .tei-line-preview-error {
@@ -2534,14 +2678,19 @@
         }
 
         .tei-ab-line:hover:not(.tei-line-hover-blocked) .tei-ab-line-text::after,
-        .tei-ab-line:focus-within:not(.tei-line-hover-blocked) .tei-ab-line-text::after {
+        .tei-ab-line:focus-within:not(.tei-line-hover-blocked) .tei-ab-line-text::after,
+        .tei-ab-line.is-line-preview-active .tei-ab-line-text::after {
             opacity: 0.6;
             filter: blur(0.62px);
             animation: tei-line-breathe 1.8s ease-in-out infinite alternate;
         }
 
-        .tei-ab-line:not(:hover):not(:focus-within) .tei-ab-line-text::after {
+        .tei-ab-line:not(:hover):not(:focus-within):not(.is-line-preview-active) .tei-ab-line-text::after {
             animation: none;
+        }
+
+        .tei-ab-line.is-line-preview-active {
+            color: #2f2a25;
         }
 
         @keyframes tei-line-breathe {

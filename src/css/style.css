@@ -679,6 +679,24 @@ body.home-floating-nav main {
   color: #333;
 }
 
+.card-body p {
+  margin: 0.45rem 0;
+}
+
+.card-body ul {
+  margin: 0.15rem 0 0.55rem 1.2rem;
+  padding: 0;
+  list-style: disc;
+}
+
+.card-body ul li {
+  margin: 0.2rem 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .card-actions {
   margin-top: auto;
   padding-top: 1rem;
