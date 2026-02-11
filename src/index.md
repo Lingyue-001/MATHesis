@@ -54,7 +54,7 @@ title: Home
 
 <section id="intro" class="intro-text">
   <p>
-    <strong>MATHesis</strong> is a digital tool designed to explore how numbers and mathematical operations were symbolically expressed in ancient Indian and Chinese cultures. Drawing on sources such as Sanskrit word-numerals and Chinese divination systems, this tool allows you to search, compare, and visualize historical terms, meanings, and symbolic associations. It helps uncover hidden structures of knowledge and poetic logic behind premodern mathematical thought.
+    <strong>MATHesis</strong> is an exploratory digital tool for mapping how numbers and mathematical operations were symbolically expressed and organized in Chinese and Sanskrit contexts. Using a node-based model anchored to specific textual passages, it allows users to explore numerical and symbolic expressions across texts and traditions.
   </p>
 </section>
 

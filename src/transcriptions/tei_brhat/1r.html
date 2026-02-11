@@ -672,7 +672,8 @@
                     <button id="scriptToggleButton" class="script-toggle-button" type="button" data-script-mode="latin">
                         Script: Latin
                     </button>
-                    <button id="editorToggleButton" class="script-toggle-button editor-toggle-button" type="button" hidden>
+                    <button id="editorToggleButton" class="script-toggle-button editor-toggle-button" type="button"
+                        hidden>
                         Editor: Off
                     </button>
                 </div>
@@ -708,7 +709,7 @@
                             Download image
                         </a>
                     </div>
-                    <div id="cudlStatus" class="cudl-status">Tip: static preview by default. Load Viewer for interactive
+                    <div id="cudlStatus" class="cudl-status">Tip: static preview by default, load Viewer for interactive
                         mode.</div>
                 </section>
             </aside>
@@ -2317,6 +2318,10 @@
             const isNext = direction > 0;
             const heroStartX = isNext ? 150 : -150;
             const contentStartX = isNext ? -104 : 104;
+            const leadDelay = 0;
+            const followDelay = 35;
+            const mainDelay = isNext ? followDelay : leadDelay;
+            const viewerDelay = isNext ? leadDelay : followDelay;
             if (heroImage instanceof HTMLElement) {
                 heroImage.animate(
                     [
@@ -2340,7 +2345,7 @@
                     ],
                     {
                         duration: 620,
-                        delay: 0,
+                        delay: mainDelay,
                         easing: "cubic-bezier(.2,.72,.12,1)",
                         fill: "both"
                     }
@@ -2354,7 +2359,7 @@
                     ],
                     {
                         duration: 620,
-                        delay: 110,
+                        delay: viewerDelay,
                         easing: "cubic-bezier(.2,.72,.12,1)",
                         fill: "both"
                     }
@@ -2415,7 +2420,7 @@
             cudlFrame.src = targetSrc;
             loadCudlViewerButton.textContent = "Reload Viewer";
             if (cudlStatus) {
-                cudlStatus.textContent = "Tip: interactive viewer loaded. Reload only if needed.";
+                cudlStatus.textContent = "Tip: interactive viewer loaded, reload only if needed.";
             }
         });
 
@@ -2497,7 +2502,7 @@
         }
 
         .tei-folio-placeholder-note {
-            margin: -0.7rem 0 1rem;
+            margin: 0.95rem 0 1rem;
             font-size: 0.86rem;
             color: #7b6b57;
             font-style: italic;

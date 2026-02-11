@@ -29,3 +29,7 @@ For any newly imported transcription HTML page under `src/transcriptions/tei_han
 - For node-entry discussions and UI iteration, changes must stay in display/render logic only.
 - Do **not** modify or delete canonical data source files such as `src/data.json` unless the user explicitly asks for data-layer edits in that turn.
 - Search matching behavior may evolve in code, but underlying JSON records must be preserved as source of truth.
+
+## Commit Message Convention (Codex Auto Push)
+- For Codex-generated auto-push commits, do **not** use `feat:` as the message prefix.
+- End commit messages with: `Implemented with Codex assistance.`
