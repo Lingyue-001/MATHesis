@@ -933,3 +933,22 @@
    - 当上游 JSON API 不可用时，用户可直接看到错误与 fallback 链接，而不是一组不可解释的空卡片。
 5. 复盘 / Retrospective
    - 外部 API 接入必须区分“真实零命中”和“请求/解析失败”；失败应显式暴露，不应被 UI 正常态吞掉。
+
+## [2026-03-04] CText JSON 跨域失败兜底（公共 CORS 代理 fallback）
+0. Tags / 标签
+   - ctext, infra
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 修复线上页面出现 `NetworkError when attempting to fetch resource` 导致 CText JSON API 不可用的问题。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_hanshu/1a.html` 中为 `searchtexts` 增加请求候选链：
+     - 直连 `api.ctext.org`；
+     - 失败后依次尝试公共 CORS 代理：
+       - `https://cors.isomorphic-git.org/...`
+       - `https://corsproxy.io/?...`
+   - 保留原有错误态与外链 fallback 展示逻辑。
+4. 解决 / Outcome
+   - 在浏览器直连受限时，仍有机会通过代理链路拿到 JSON 结果，降低线上检索失效率。
+5. 复盘 / Retrospective
+   - 纯前端直连第三方 API 时，跨域与网络策略是常见单点故障；应默认准备可切换的传输兜底链路。
