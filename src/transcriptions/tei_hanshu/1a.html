@@ -248,7 +248,7 @@
         <div id="tei-container"></div>
         <span id="lineInteractionHintHanshu" class="line-interaction-hint">Tip: single-click a highlighted matched node for details; double-click a matched node to query CText.</span>
         <div class="xml-link-block">
-            <a href="./lingyue.xml" target="_blank" rel="noopener">view XML</a>
+            <a href="./1a.xml" target="_blank" rel="noopener">view XML</a>
         </div>
     </main>
     <script type="module">
@@ -1423,7 +1423,7 @@
 
         // Call it with your file name and target container
         // Example: a file at ./sample.xml -> render into #tei-container
-        loadTEI("lingyue.xml", "#tei-container");
+        loadTEI("1a.xml", "#tei-container");
 
         const backButton = document.getElementById("legacyBackButton");
         const hanshuScriptButton = document.getElementById("scriptToggleButtonHanshu");
@@ -1432,7 +1432,7 @@
             await applyHanshuScriptMode(nextMode);
             const container = document.getElementById("tei-container");
             if (container) {
-                await runNodeHighlightPrototype(container, "lingyue.xml");
+                await runNodeHighlightPrototype(container, "1a.xml");
             }
         });
         backButton?.addEventListener("click", () => {

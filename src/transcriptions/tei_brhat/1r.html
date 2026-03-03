@@ -779,7 +779,9 @@
             }
         }
 
-        function applyEditorDraftToContainer(container) {
+        function applyEditorDraftToContainer(container, options = {}) {
+            const force = options && options.force === true;
+            if (!force && !brhatEditorEnabled) return;
             const draft = loadEditorDraft();
             const lines = Array.from(container.querySelectorAll(".tei-ab-line"));
             lines.forEach((line) => {
@@ -822,6 +824,7 @@
             if (!(container instanceof HTMLElement)) return;
 
             if (brhatEditorEnabled) {
+                applyEditorDraftToContainer(container, { force: true });
                 if (transcriptionScriptMode !== "latin") applyTranscriptionScriptMode("latin");
                 const body = container.querySelector(".tei-body");
                 if (body instanceof HTMLElement) {

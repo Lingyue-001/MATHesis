@@ -1,41 +1,60 @@
+import argparse
 import json
+from pathlib import Path
+
 import opencc
 
-print("🔍 当前脚本路径：", __file__)
 
-# 加载简繁转换器
-converter = opencc.OpenCC('s2t')
-reverse_converter = opencc.OpenCC('t2s')
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate simp->trad character map from project node data."
+    )
+    base_dir = Path(__file__).resolve().parent
+    parser.add_argument(
+        "--input",
+        type=Path,
+        default=base_dir / "src" / "data.json",
+        help="Path to input JSON file (default: ./src/data.json)",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=base_dir / "simp_to_trad_map.json",
+        help="Path to output map file (default: ./simp_to_trad_map.json)",
+    )
+    return parser.parse_args()
 
-import os
 
-base_path = os.path.dirname(__file__)  # 获取脚本所在目录
-json_path = os.path.join(base_path, "src", "js", "data.json")
+def main() -> None:
+    args = parse_args()
+    input_path = args.input.resolve()
+    output_path = args.output.resolve()
 
-with open(json_path, "r", encoding="utf-8") as f:
-    data = json.load(f)
+    converter = opencc.OpenCC("s2t")
+    reverse_converter = opencc.OpenCC("t2s")
 
-# 读取你的 JSON 文件路径
-with open("/Users/lma/Downloads/eleventy-symbolic-math/src/data.json", "r", encoding="utf-8") as f:
-    data = json.load(f)
+    with input_path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
 
-# 收集所有节点中的字符
-all_chars = set()
-for node in data.get("nodes", []):
-    for val in node.get("properties", {}).values():
-        if isinstance(val, str):
-            all_chars.update(val)
+    all_chars = set()
+    for node in data.get("nodes", []):
+        for val in node.get("properties", {}).values():
+            if isinstance(val, str):
+                all_chars.update(val)
 
-# 构建简体 → 繁体映射
-mapping = {}
-for char in all_chars:
-    trad = converter.convert(char)
-    simp = reverse_converter.convert(char)
-    if simp != trad:
-        mapping[simp] = trad
+    mapping = {}
+    for char in all_chars:
+        trad = converter.convert(char)
+        simp = reverse_converter.convert(char)
+        if simp != trad:
+            mapping[simp] = trad
 
-# 输出结果为 JSON 文件
-with open("simp_to_trad_map.json", "w", encoding="utf-8") as f:
-    json.dump(mapping, f, ensure_ascii=False, indent=2)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(mapping, f, ensure_ascii=False, indent=2)
 
-print("✔️ 已生成 simp_to_trad_map.json 映射文件")
+    print(f"Generated map: {output_path}")
+
+
+if __name__ == "__main__":
+    main()

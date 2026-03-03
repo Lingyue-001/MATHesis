@@ -33,3 +33,4 @@ For any newly imported transcription HTML page under `src/transcriptions/tei_han
 ## Commit Message Convention (Codex Auto Push)
 - For Codex-generated auto-push commits, do **not** use `feat:` as the message prefix.
 - End commit messages with: `Implemented with Codex assistance.`
+- If Codex directly performs the push, end the commit message with: `(with Codex)`.

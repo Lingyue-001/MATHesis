@@ -76,7 +76,7 @@
       基于日本历史民俗博物馆藏本扫描
     </desc>
     <surface xml:id="HS_CY21_P1097" n="P1097">
-      <graphic url="../../assets/tei_hanshu/lingyue.jpeg" mimeType="image/jpeg"/> <!-- 图片文件路径 -->
+      <graphic url="../../assets/tei_hanshu/1a.jpeg" mimeType="image/jpeg"/> <!-- 图片文件路径 -->
     </surface>
   </facsimile>
 

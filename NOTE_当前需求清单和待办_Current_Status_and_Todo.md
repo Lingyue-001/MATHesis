@@ -6,7 +6,7 @@
 
 ## 当前状态（Current Status）
 - 站点基础：Eleventy 站点可用，Search / Transcriptions / Visualization / About 已有页面框架。
-- Transcriptions：已接入 `src/transcriptions/tei_hanshu/lingyue.html` 与 `src/transcriptions/tei_hanshu/lingyue.xml` 的旧逻辑入口用于验证渲染链路。
+- Transcriptions：已接入 `src/transcriptions/tei_hanshu/1a.html` 与 `src/transcriptions/tei_hanshu/1a.xml` 的旧逻辑入口用于验证渲染链路。
 - Transcriptions：`src/transcriptions/tei_brhat/` 已建立并可访问 `1r` 测试页。
 - 数据现状：搜索使用 `src/data.json`，可视化使用 `static/*.csv`，存在双数据源并行。
 - CText 检索现状：`/api/ctext/search` 依赖 Eleventy 本地 dev middleware（`server/ctextSearchMiddleware.js`）；当前 GitHub Pages 线上静态部署不提供该后端接口，线上仅可使用外链 fallback 查询。
@@ -41,6 +41,9 @@
 - [ ] 清理重复 edge：`src/data.json` 中重复关系需去重并补校验。
 - [ ] 清理冗余代码：`src/js/filter.js` 未使用变量 `displayedName`。
 - [ ] 文档补齐：完善数据导出命令、字段约束、更新流程。
+- [ ] 复盘机制补全（未完成）：
+  - 背景：此前已确认“改正错误后需要补反思”，但边界条件与 prompt 模板没有写清楚，导致后续执行口径不稳定。
+  - 待补：新增可复用的“边界条件清单 + prompt 模板 + 触发时机”规范，并在 AGENTS/流程文档中固化。
 
 ## P2 体验优化待办（不阻塞主流程）
 - [ ] 本地样式未生效问题复查：Search 分隔线、Filter 装饰线、Transcriptions 背景框与边距在 localhost 的一致性。
@@ -49,6 +52,13 @@
 - [ ] 首页视觉风格优化（Hero）：
   - 保持黑底整页景深方向，继续微调象数主体尺度、中心层次、标题阴影风格与 CTA 对比度。
   - 目标：在保留现有品牌字体的前提下，提升首屏质感与可读性，减少“硬边”效果。
+- [ ] Folio Tracker 状态页（讨论版，待后续实现）：
+  - 目标：在 `Transcriptions index` 与详细页之间增加“状态总览 + gallery 预览”的串联层，支持 `Grid / Detail` 视图切换。
+  - 已确认需求字段：
+    - 自动：当前作品已有哪些 folio（以已有单页网页 + 手稿图片为准）、是否有转写、是否支持图片下载、是否有高分辨率外部 viewer（并注明来源）。
+    - 手动：转写状态中的“定稿/进行中”（默认“进行中”，定稿需手动更新）。
+  - 数据策略：采用“单一状态源（manifest）”供 index / tracker / detail 复用，避免三层页面重复维护。
+  - 技术备注：此前最小版 tracker 试做已因 Liquid template 渲染问题; tag "set" not found回滚；后续需先明确 Eleventy 数据加载与模板语法边界，再分步恢复实现。
 - [ ] Brhat annotate 独立工作台（待实现）：
   - 形态：单独页面（不混入正式阅读页），视觉风格与现有 Brhat transcription 页面一致。
   - 功能：保留 line images + 草稿编辑（可本地保存/导入导出），用于提升转写效率。
@@ -77,4 +87,4 @@
 - [已实现] 详细转写页提供 `Back` 按钮（无边框 + 轻微底部阴影）。
 - [已实现] 详细转写页末尾提供 `View XML` 入口。
 - [已实现] 标题分隔线与 bibliography 顶部分隔线统一为 About 风格渐变线。
-- [已实现] `lingyue` 页已接入“只高亮不加链接”的节点词命中原型（含页面内命中摘要与控制台统计）。
+- [已实现] `1a` 页已接入“只高亮不加链接”的节点词命中原型（含页面内命中摘要与控制台统计）。

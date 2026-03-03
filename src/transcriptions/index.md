@@ -33,7 +33,7 @@ title: Transcriptions
       <p>Manuscript witness: late 12th c.</p>
     </div>
     <div class="card-actions">
-      <a class="card-link" href="{{ '/transcriptions/tei_hanshu/lingyue.html' | url }}">Open</a> <!-- 文件名和路径要指向对应html -->
+      <a class="card-link" href="{{ '/transcriptions/tei_hanshu/1a.html' | url }}">Open</a> <!-- 文件名和路径要指向对应html -->
     </div>
   </article>
 
