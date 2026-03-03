@@ -1036,17 +1036,6 @@
             return [direct.toString(), funcStyle.toString()];
         }
 
-        function buildSearchtextsUrlsWithProxyFallback(variant) {
-            const directUrls = buildSearchtextsUrls(variant);
-            const wrapped = [];
-            directUrls.forEach((u) => {
-                wrapped.push(u);
-                wrapped.push(`https://cors.isomorphic-git.org/${u}`);
-                wrapped.push(`https://corsproxy.io/?${encodeURIComponent(u)}`);
-            });
-            return Array.from(new Set(wrapped));
-        }
-
         function buildGetlinkUrl(urn) {
             if (!urn) return "";
             const api = new URL("https://api.ctext.org/getlink");
@@ -1100,7 +1089,7 @@
         }
 
         async function fetchSearchtextsJson(variant) {
-            const urls = buildSearchtextsUrlsWithProxyFallback(variant);
+            const urls = buildSearchtextsUrls(variant);
             let lastError = null;
             for (let i = 0; i < urls.length; i += 1) {
                 const apiUrl = urls[i];
@@ -1112,13 +1101,7 @@
                         headers: { "Accept": "application/json" }
                     });
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    const rawTxt = await res.clone().text();
-                    let data;
-                    try {
-                        data = JSON.parse(rawTxt);
-                    } catch {
-                        data = await res.json();
-                    }
+                    const data = await res.json();
                     if (data && data.error) {
                         throw new Error(String(data.error.code || data.error.description || "API error"));
                     }
