@@ -253,6 +253,7 @@
     </main>
     <script type="module">
         import { bindNodeHitPopup, resolveNodeByTerm } from "../../js/nodeEntryPopup.js";
+        import { getDebugFlagsFromSearch, resolveCtextSourceMode } from "../../js/debugFlags.mjs";
 
         let nodeRecordsCache = null;
         let hanshuScriptMode = "traditional";
@@ -678,6 +679,10 @@
         const ctextResultCache = new Map();
         const ctextInFlightCache = new Map();
 
+        function getCtextDebugFlags() {
+            return getDebugFlagsFromSearch(window.location.search || "");
+        }
+
         function openCtextPanelWithEnterAnimation(panel) {
             if (!(panel instanceof HTMLElement)) return;
             if (panel.classList.contains("is-open")) return;
@@ -911,7 +916,8 @@
                     return a.idx - b.idx;
                 })
                 .map(x => x.item);
-            const ctextDebug = new URLSearchParams(window.location.search).get("ctextDebug") === "1";
+            const flags = getCtextDebugFlags();
+            const ctextDebug = flags.ctextDebug;
 
             const blocks = searches.map(item => {
                 const hasNumericHit = typeof item?.hitCount === "number" && Number.isFinite(item.hitCount);
@@ -980,10 +986,183 @@
 
             body.innerHTML = `
                 <p class="ctext-query"><strong>${t.query}</strong>${escapeHtml(term)}</p>
+                ${ctextDebug && payload?.sourceMode ? `<p class="ctext-query-sub">Source: ${escapeHtml(payload.sourceMode)}</p>` : ""}
                 <p class="ctext-query-sub">${t.variantSearch}（${escapeHtml(payload?.variantsSearched ?? (payload?.variants || []).length)}）：${escapeHtml((payload.variants || []).join(" / ")) || "—"}</p>
                 ${blocks || `<p class='ctext-empty'>${t.noResult}</p>`}
             `;
             openCtextPanelWithEnterAnimation(panel);
+        }
+
+        function buildVariantsForClient(term) {
+            const base = String(term || "").trim();
+            if (!base) return [];
+            const stopChars = new Set([
+                "之", "其", "而", "以", "于", "於", "也", "者", "焉", "乎", "矣",
+                "曰", "云", "所", "不", "無", "无", "有", "為", "为", "與", "与"
+            ]);
+            const variants = new Set([base]);
+            const chars = Array.from(base);
+
+            if (chars.length >= 2) {
+                for (let i = 0; i < chars.length - 1; i += 1) {
+                    const bi = chars.slice(i, i + 2).join("");
+                    if (bi.length > 1) variants.add(bi);
+                }
+            }
+
+            chars.forEach(ch => {
+                if (stopChars.has(ch)) return;
+                if (/\s/.test(ch)) return;
+                variants.add(ch);
+            });
+
+            return Array.from(variants)
+                .filter(Boolean)
+                .sort((a, b) => b.length - a.length)
+                .slice(0, 12);
+        }
+
+        function buildSearchtextsUrl(variant) {
+            const api = new URL("https://api.ctext.org/searchtexts");
+            api.searchParams.set("if", "gb");
+            api.searchParams.set("searchTerms", variant);
+            api.searchParams.set("json", "1");
+            return api.toString();
+        }
+
+        function buildGetlinkUrl(urn) {
+            if (!urn) return "";
+            const api = new URL("https://api.ctext.org/getlink");
+            api.searchParams.set("if", "gb");
+            api.searchParams.set("urn", urn);
+            api.searchParams.set("redirect", "1");
+            return api.toString();
+        }
+
+        function summarizeSearchtextsResult(texts) {
+            const groups = [];
+            let hitCount = 0;
+            (Array.isArray(texts) ? texts : []).forEach(textItem => {
+                const textTitle = String(textItem?.title || "").trim();
+                const textUrn = String(textItem?.urn || "").trim();
+                const paragraphs = Array.isArray(textItem?.paragraphs) ? textItem.paragraphs : [];
+                const chapterMap = new Map();
+                paragraphs.forEach(p => {
+                    const chapterUrn = String(p?.urn || "").trim();
+                    if (!chapterUrn) return;
+                    const old = chapterMap.get(chapterUrn) || { count: 0 };
+                    old.count += 1;
+                    chapterMap.set(chapterUrn, old);
+                });
+                const chapters = Array.from(chapterMap.entries()).map(([chapterUrn, meta]) => ({
+                    label: chapterUrn,
+                    url: buildGetlinkUrl(chapterUrn),
+                    count: meta.count,
+                    countUrl: ""
+                }));
+                const textCount = paragraphs.length;
+                hitCount += textCount;
+                groups.push({
+                    text: {
+                        label: textTitle || textUrn || "—",
+                        url: buildGetlinkUrl(textUrn),
+                        count: textCount,
+                        countUrl: ""
+                    },
+                    chapters
+                });
+            });
+            return { textGroups: groups, hitCount };
+        }
+
+        async function requestCtextSearchViaJsonApi(normalizedKey, ctextDebug) {
+            const variants = buildVariantsForClient(normalizedKey);
+            const searches = [];
+            for (let i = 0; i < variants.length; i += 1) {
+                const variant = variants[i];
+                const apiUrl = buildSearchtextsUrl(variant);
+                try {
+                    const res = await fetch(apiUrl, {
+                        method: "GET",
+                        mode: "cors",
+                        credentials: "include",
+                        headers: { "Accept": "application/json" }
+                    });
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const data = await res.json();
+                    if (data && data.error) {
+                        throw new Error(String(data.error.code || data.error.description || "API error"));
+                    }
+                    const texts = Array.isArray(data?.texts) ? data.texts : [];
+                    const summary = summarizeSearchtextsResult(texts);
+                    const item = {
+                        variant,
+                        searchUrl: `https://ctext.org/mathematics/zh?if=gb&searchu=${encodeURIComponent(variant)}`,
+                        scope: "CTP JSON API",
+                        searchType: "searchtexts",
+                        condition: `包含 "${variant}"`,
+                        hitCount: summary.hitCount,
+                        rangeLine: "",
+                        structured: { corpus: null, text: null, chapter: null, textGroups: summary.textGroups },
+                        links: [],
+                        attempts: 1,
+                        sourceEndpoint: "json-api-searchtexts",
+                        queryUsed: variant
+                    };
+                    if (ctextDebug) {
+                        item.debug = {
+                            apiUrl,
+                            textsReturned: texts.length,
+                            parseStatus: "ok_json_api"
+                        };
+                    }
+                    searches.push(item);
+                } catch (err) {
+                    const failed = {
+                        variant,
+                        searchUrl: `https://ctext.org/mathematics/zh?if=gb&searchu=${encodeURIComponent(variant)}`,
+                        scope: "",
+                        searchType: "searchtexts",
+                        condition: `包含 "${variant}"`,
+                        hitCount: null,
+                        rangeLine: "",
+                        structured: { corpus: null, text: null, chapter: null, textGroups: [] },
+                        links: [],
+                        attempts: 1,
+                        sourceEndpoint: "json-api-searchtexts",
+                        queryUsed: variant,
+                        error: err?.message || "request failed"
+                    };
+                    if (ctextDebug) {
+                        failed.debug = {
+                            apiUrl,
+                            parseStatus: "request_error_json_api",
+                            error: err?.message || "request failed"
+                        };
+                    }
+                    searches.push(failed);
+                }
+            }
+            return {
+                query: normalizedKey,
+                endpoint: "https://api.ctext.org/searchtexts",
+                variants,
+                variantsSearched: searches.length,
+                generatedAt: new Date().toISOString(),
+                searches,
+                cached: false,
+                sourceMode: "json"
+            };
+        }
+
+        async function requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh) {
+            const apiUrl = `${basePrefix}/api/ctext/search?q=${encodeURIComponent(normalizedKey)}${ctextDebug ? "&debug=1" : ""}${forceRefresh ? "&refresh=1" : ""}`;
+            const res = await fetch(apiUrl, {
+                headers: { "Accept": "application/json" }
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const payload = await res.json();
+            return { ...payload, sourceMode: "middleware" };
         }
 
         async function requestCtextSearch(term, queryKey) {
@@ -991,11 +1170,12 @@
             const basePrefix = path.includes("/transcriptions/")
                 ? path.split("/transcriptions/")[0]
                 : "";
-            const params = new URLSearchParams(window.location.search);
-            const ctextDebug = params.get("ctextDebug") === "1";
-            const forceRefresh = params.get("ctextRefresh") === "1";
+            const flags = getCtextDebugFlags();
+            const ctextDebug = flags.ctextDebug;
+            const forceRefresh = flags.ctextRefresh;
+            const sourceMode = resolveCtextSourceMode(flags, window.location.hostname || "");
             const normalizedKey = normalizeLookupKey(queryKey || term) || (term || "").trim();
-            const cacheKey = `q=${normalizedKey}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
+            const cacheKey = `q=${normalizedKey}|source=${sourceMode}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
             if (!forceRefresh && ctextResultCache.has(cacheKey)) {
                 return ctextResultCache.get(cacheKey);
             }
@@ -1003,13 +1183,18 @@
                 return ctextInFlightCache.get(cacheKey);
             }
 
-            const apiUrl = `${basePrefix}/api/ctext/search?q=${encodeURIComponent(normalizedKey)}${ctextDebug ? "&debug=1" : ""}${forceRefresh ? "&refresh=1" : ""}`;
             const reqPromise = (async () => {
-                const res = await fetch(apiUrl, {
-                    headers: { "Accept": "application/json" }
-                });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.json();
+                if (sourceMode === "json") {
+                    return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
+                }
+                if (sourceMode === "middleware") {
+                    return requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh);
+                }
+                try {
+                    return await requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh);
+                } catch {
+                    return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
+                }
             })();
             ctextInFlightCache.set(cacheKey, reqPromise);
             try {
@@ -1551,15 +1736,20 @@
             position: absolute;
             top: 0.65rem;
             bottom: 0.65rem;
-            width: 12px;
+            width: 10px;
             z-index: 4;
             cursor: ew-resize;
             border-radius: 6px;
             opacity: 0;
+            background: transparent;
             transition: opacity 0.15s ease;
         }
 
         .ctext-result-panel:hover .ctext-resize-handle {
+            opacity: 0;
+        }
+
+        .ctext-result-panel.is-resizing .ctext-resize-handle {
             opacity: 1;
         }
 
@@ -1570,8 +1760,8 @@
         }
 
         .ctext-result-panel.side-right .ctext-resize-handle {
-            left: -6px;
-            background: linear-gradient(270deg, rgba(74, 62, 48, 0.05), rgba(74, 62, 48, 0.2));
+            left: -5px;
+            border-left: 1px solid rgba(74, 62, 48, 0.24);
         }
 
         .ctext-result-panel.side-left {
@@ -1581,8 +1771,8 @@
         }
 
         .ctext-result-panel.side-left .ctext-resize-handle {
-            right: -6px;
-            background: linear-gradient(90deg, rgba(74, 62, 48, 0.05), rgba(74, 62, 48, 0.2));
+            right: -5px;
+            border-right: 1px solid rgba(74, 62, 48, 0.24);
         }
 
         @media (min-width: 1260px) {

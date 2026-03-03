@@ -31,6 +31,20 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 ## Development
 - Start: `npm run start`
 - Build: `npm run build`
+- Debug query flags reference: `docs/debug-flags.md` (auto-generated from `src/js/debugFlags.mjs`)
+- Beginner quick guide: `docs/debug-flags-quickstart.md`
+
+## Debug Flags Navigation (Quick Index)
+- If you want a simple “what should I click/use now” guide:
+  - `docs/debug-flags-quickstart.md`
+- If you want full parameter table and exact defaults:
+  - `docs/debug-flags.md`
+- If you need to add or change a debug URL flag:
+  - `src/js/debugFlags.mjs`
+- If you need to check how the page actually consumes flags:
+  - `src/transcriptions/tei_hanshu/1a.html`
+- If you need to change how docs are auto-generated:
+  - `scripts/generate-debug-flags-doc.mjs`
 
 ### CText lookup (dev middleware)
 - API: `/api/ctext/search?q=<term>`

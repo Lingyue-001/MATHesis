@@ -833,3 +833,28 @@
 5. 复盘 / Retrospective
    - “可运行”之外还需保证“可迁移”：路径/命名/入口的一致性应与代码修复同优先级维护。
    - 流程反思若不把边界条件和 prompt 模板写成明确规范，容易在后续迭代中重复出现口径偏差；该项已在 NOTE 保持为进行中待办。
+
+## [2026-03-04] CText 调试参数治理与协作边界固化
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 将 CText 调试 URL 参数从分散写法收敛为统一配置与可查文档，降低维护门槛。
+   - 固化协作注意事项：未经确认不写 NOTE/LOG；非功能型 UI 外观改动必须先沟通确认，不可静默落代码。
+3. 操作 / Actions
+   - 新增统一参数源 `src/js/debugFlags.mjs`，集中定义与解析：
+     - `ctextDebug`、`ctextRefresh`、`ctextSource`。
+   - 新增文档生成脚本 `scripts/generate-debug-flags-doc.mjs`，输出 `docs/debug-flags.md`。
+   - 在 `package.json` 增加自动流程：
+     - `generate:debug-flags-doc`；
+     - `prestart`/`prebuild` 自动更新调试参数文档。
+   - 在 `src/transcriptions/tei_hanshu/1a.html` 改为读取统一参数模块，不再散落解析 URL 参数。
+   - 新增 `docs/debug-flags-quickstart.md`（小白快速指引），并在 `README.md` 增加“去哪看什么”的导航索引。
+   - 在 `AGENTS.md` 增加两条协作边界规则：
+     - 文档更新确认规则（NOTE/LOG）；
+     - UI 变更确认规则（提议可先提，但非功能外观改动需先确认）。
+4. 解决 / Outcome
+   - CText 调试尾巴有了单一来源、自动文档与小白指引，后续新增参数可控且可追踪。
+   - 协作边界从口头约定变为仓库内显式规则，减少“未确认先改/先记”的重复风险。
+5. 复盘 / Retrospective
+   - 参数与文档若分离维护，长期必然漂移；应以“配置为源、文档自动生成”为默认策略。
+   - 对可见 UI 变化和文档落库时机，应先确认再执行；把规则写进 AGENTS 比依赖记忆更稳。

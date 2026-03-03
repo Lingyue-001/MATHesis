@@ -20,6 +20,13 @@ When adding a completed event to log, use one entry per event with:
 4. 解决 / Outcome
 5. 复盘 / Retrospective
 
+## Documentation Update Confirmation Rule
+- Do not update `NOTE_当前需求清单和待办_Current_Status_and_Todo.md` or `LOG_已完成改动和复盘_Completed_Changes_and_Retrospective.md` until the user explicitly confirms the proposed change is acceptable in that turn, unless the user explicitly asks to update these files immediately.
+
+## UI Change Confirmation Rule
+- Suggestions are encouraged, but any visible UI appearance change that is not a direct functional bug fix must be explicitly communicated to the user and confirmed before code is changed.
+- Do not silently add or adjust visual effects, decorative styles, layout changes, or debug-facing UI text without prior user confirmation.
+
 ## Transcription HTML UI Guardrail
 For any newly imported transcription HTML page under `src/transcriptions/tei_hanshu/`:
 1. Keep the project top header/navigation bar visible at the top.

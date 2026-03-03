@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "A symbolic math exploration site using Eleventy",
   "scripts": {
+    "generate:debug-flags-doc": "node scripts/generate-debug-flags-doc.mjs",
+    "prestart": "npm run generate:debug-flags-doc",
     "start": "npx eleventy --serve",
+    "prebuild": "npm run generate:debug-flags-doc",
     "build": "npx eleventy"
   },
   "devDependencies": {
