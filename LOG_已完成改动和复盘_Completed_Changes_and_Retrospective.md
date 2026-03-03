@@ -913,3 +913,23 @@
 5. 复盘 / Retrospective
    - 对当前项目阶段，命名清晰的根目录入口比额外目录分层更有实际价值。
    - 标签系统应先简后繁：先保证可执行与可维护，再按需要细分。
+
+## [2026-03-04] CText API 线上空结果卡片修复（test ctext api）
+0. Tags / 标签
+   - ctext, search
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 修复线上 CText 检索出现“请求失败却渲染为空卡片（全是 —）”的问题，恢复可诊断错误态与回退路径。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_hanshu/1a.html` 调整 JSON API 调用：
+     - 请求凭证从 `credentials: include` 改为 `credentials: omit`，降低跨域凭证失败概率；
+     - `searchtexts` 增加双入口尝试：`/searchtexts` 与 `?func=searchtexts`；
+     - 解析兼容 `texts / result.texts / data.texts` 三种结构。
+   - 增加失败判定收敛：
+     - 若所有变体都失败，不再渲染“空结果卡片”，而是抛错进入现有 `renderCtextError` 错误态与外链 fallback。
+4. 解决 / Outcome
+   - 避免了“静默失败伪装为正常空结果”的误导显示。
+   - 当上游 JSON API 不可用时，用户可直接看到错误与 fallback 链接，而不是一组不可解释的空卡片。
+5. 复盘 / Retrospective
+   - 外部 API 接入必须区分“真实零命中”和“请求/解析失败”；失败应显式暴露，不应被 UI 正常态吞掉。

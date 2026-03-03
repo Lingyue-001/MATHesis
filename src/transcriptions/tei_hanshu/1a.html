@@ -1022,12 +1022,18 @@
                 .slice(0, 12);
         }
 
-        function buildSearchtextsUrl(variant) {
-            const api = new URL("https://api.ctext.org/searchtexts");
-            api.searchParams.set("if", "gb");
-            api.searchParams.set("searchTerms", variant);
-            api.searchParams.set("json", "1");
-            return api.toString();
+        function buildSearchtextsUrls(variant) {
+            const direct = new URL("https://api.ctext.org/searchtexts");
+            direct.searchParams.set("if", "gb");
+            direct.searchParams.set("searchTerms", variant);
+            direct.searchParams.set("json", "1");
+
+            const funcStyle = new URL("https://api.ctext.org/");
+            funcStyle.searchParams.set("if", "gb");
+            funcStyle.searchParams.set("func", "searchtexts");
+            funcStyle.searchParams.set("searchTerms", variant);
+            funcStyle.searchParams.set("json", "1");
+            return [direct.toString(), funcStyle.toString()];
         }
 
         function buildGetlinkUrl(urn) {
@@ -1075,17 +1081,23 @@
             return { textGroups: groups, hitCount };
         }
 
-        async function requestCtextSearchViaJsonApi(normalizedKey, ctextDebug) {
-            const variants = buildVariantsForClient(normalizedKey);
-            const searches = [];
-            for (let i = 0; i < variants.length; i += 1) {
-                const variant = variants[i];
-                const apiUrl = buildSearchtextsUrl(variant);
+        function extractSearchtextsArray(data) {
+            if (Array.isArray(data?.texts)) return data.texts;
+            if (Array.isArray(data?.result?.texts)) return data.result.texts;
+            if (Array.isArray(data?.data?.texts)) return data.data.texts;
+            return [];
+        }
+
+        async function fetchSearchtextsJson(variant) {
+            const urls = buildSearchtextsUrls(variant);
+            let lastError = null;
+            for (let i = 0; i < urls.length; i += 1) {
+                const apiUrl = urls[i];
                 try {
                     const res = await fetch(apiUrl, {
                         method: "GET",
                         mode: "cors",
-                        credentials: "include",
+                        credentials: "omit",
                         headers: { "Accept": "application/json" }
                     });
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1093,7 +1105,24 @@
                     if (data && data.error) {
                         throw new Error(String(data.error.code || data.error.description || "API error"));
                     }
-                    const texts = Array.isArray(data?.texts) ? data.texts : [];
+                    return { data, apiUrl };
+                } catch (err) {
+                    lastError = new Error(`${apiUrl} -> ${err?.message || "request failed"}`);
+                }
+            }
+            throw (lastError || new Error("searchtexts request failed"));
+        }
+
+        async function requestCtextSearchViaJsonApi(normalizedKey, ctextDebug) {
+            const variants = buildVariantsForClient(normalizedKey);
+            const searches = [];
+            const errorMessages = [];
+            let successCount = 0;
+            for (let i = 0; i < variants.length; i += 1) {
+                const variant = variants[i];
+                try {
+                    const { data, apiUrl } = await fetchSearchtextsJson(variant);
+                    const texts = extractSearchtextsArray(data);
                     const summary = summarizeSearchtextsResult(texts);
                     const item = {
                         variant,
@@ -1109,6 +1138,7 @@
                         sourceEndpoint: "json-api-searchtexts",
                         queryUsed: variant
                     };
+                    successCount += 1;
                     if (ctextDebug) {
                         item.debug = {
                             apiUrl,
@@ -1118,6 +1148,7 @@
                     }
                     searches.push(item);
                 } catch (err) {
+                    errorMessages.push(`${variant}: ${err?.message || "request failed"}`);
                     const failed = {
                         variant,
                         searchUrl: `https://ctext.org/mathematics/zh?if=gb&searchu=${encodeURIComponent(variant)}`,
@@ -1142,6 +1173,10 @@
                     }
                     searches.push(failed);
                 }
+            }
+
+            if (successCount === 0) {
+                throw new Error(`JSON API request failed for all variants. ${errorMessages[0] || ""}`.trim());
             }
             return {
                 query: normalizedKey,
