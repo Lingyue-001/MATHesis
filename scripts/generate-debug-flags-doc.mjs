@@ -31,7 +31,7 @@ lines.push("- `?ctextDebug=1`");
 lines.push("- `?ctextDebug=1&ctextSource=json`");
 lines.push("- `?ctextDebug=1&ctextRefresh=1&ctextSource=middleware`");
 
-const outPath = path.join(repoRoot, "docs", "debug-flags.md");
+const outPath = path.join(repoRoot, "DEBUG_FLAGS_REFERENCE.md");
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, `${lines.join("\n")}\n`, "utf8");
 console.log(`Updated ${path.relative(repoRoot, outPath)}`);

@@ -4,9 +4,10 @@
   "description": "A symbolic math exploration site using Eleventy",
   "scripts": {
     "generate:debug-flags-doc": "node scripts/generate-debug-flags-doc.mjs",
-    "prestart": "npm run generate:debug-flags-doc",
+    "generate:log-by-tag": "node scripts/generate-log-by-tag.mjs",
+    "prestart": "npm run generate:debug-flags-doc && npm run generate:log-by-tag",
     "start": "npx eleventy --serve",
-    "prebuild": "npm run generate:debug-flags-doc",
+    "prebuild": "npm run generate:debug-flags-doc && npm run generate:log-by-tag",
     "build": "npx eleventy"
   },
   "devDependencies": {

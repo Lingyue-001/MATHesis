@@ -14,14 +14,25 @@ At the start of every new Codex session in this repository, read these files fir
 
 ## Logging Convention
 When adding a completed event to log, use one entry per event with:
+0. Tags / 标签（1-2 tags, comma separated; from allowed tag list below）
 1. Time
 2. 需求明确 / Goal
 3. 操作 / Actions
 4. 解决 / Outcome
 5. 复盘 / Retrospective
 
+Allowed tags:
+- `ctext`
+- `transcriptions`
+- `search`
+- `data`
+- `infra`
+- `project-docs`
+
 ## Documentation Update Confirmation Rule
 - Do not update `NOTE_当前需求清单和待办_Current_Status_and_Todo.md` or `LOG_已完成改动和复盘_Completed_Changes_and_Retrospective.md` until the user explicitly confirms the proposed change is acceptable in that turn, unless the user explicitly asks to update these files immediately.
+- If the user asks to commit/push the current turn's changes, treat that as approval for this turn's implemented updates/plan, and update NOTE/LOG accordingly before commit.
+- Before commit/push, record completed progress and retrospective notes in the appropriate NOTE/LOG files for that turn.
 
 ## UI Change Confirmation Rule
 - Suggestions are encouraged, but any visible UI appearance change that is not a direct functional bug fix must be explicitly communicated to the user and confirmed before code is changed.

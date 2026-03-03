@@ -224,6 +224,8 @@
    - 缓存降低了重复请求成本，串行节流进一步降低了单位时间压力；两者组合比单独启用任何一个都更稳妥。
 
 ## [2026-02-09] CText 检索长期卡点复盘（为何此前反复失败、最终如何稳定）
+0. Tags / 标签
+   - ctext, search
 1. Time
    - 2026-02-09
 2. 需求明确 / Goal
@@ -253,6 +255,7 @@
    - 根因不是单一正则 bug，而是“上游模板分流 + 本地抓取策略不匹配”的系统性问题。
    - 外部检索接入应优先建设三件事：可观测状态、失败分类、请求治理（缓存/节流/并发控制）。
    - 后续优化不应继续堆 parser patch，优先转向对方官方 JSON API 或授权接口，减少 HTML 模板耦合与策略波动风险。
+   - 后续回应（2026-03-04）：已在 `1a` 页面落地 JSON API 试点（`searchtexts`）并保留 middleware fallback，验证了“静态托管可用 + 本地链路可对照”的过渡路线。
 
 ## [2026-02-09] CText 结果展示收敛（移除候选链接，文本名聚合全部章节）
 1. Time
@@ -808,6 +811,8 @@
    - 纯前端“个人工具”功能应默认按环境收口，避免把调试能力误暴露到公开页面。
 
 ## [2026-03-03] 文档与转写入口同步（1a 替换 + 脚本可移植性 + Editor 草稿回填修正）
+0. Tags / 标签
+   - transcriptions, infra
 1. Time
    - 2026-03-03
 2. 需求明确 / Goal
@@ -835,6 +840,8 @@
    - 流程反思若不把边界条件和 prompt 模板写成明确规范，容易在后续迭代中重复出现口径偏差；该项已在 NOTE 保持为进行中待办。
 
 ## [2026-03-04] CText 调试参数治理与协作边界固化
+0. Tags / 标签
+   - ctext, project-docs
 1. Time
    - 2026-03-04
 2. 需求明确 / Goal
@@ -843,12 +850,12 @@
 3. 操作 / Actions
    - 新增统一参数源 `src/js/debugFlags.mjs`，集中定义与解析：
      - `ctextDebug`、`ctextRefresh`、`ctextSource`。
-   - 新增文档生成脚本 `scripts/generate-debug-flags-doc.mjs`，输出 `docs/debug-flags.md`。
+   - 新增文档生成脚本 `scripts/generate-debug-flags-doc.mjs`，输出 `DEBUG_FLAGS_REFERENCE.md`。
    - 在 `package.json` 增加自动流程：
      - `generate:debug-flags-doc`；
      - `prestart`/`prebuild` 自动更新调试参数文档。
    - 在 `src/transcriptions/tei_hanshu/1a.html` 改为读取统一参数模块，不再散落解析 URL 参数。
-   - 新增 `docs/debug-flags-quickstart.md`（小白快速指引），并在 `README.md` 增加“去哪看什么”的导航索引。
+   - 新增 `DEBUG_FLAGS_QUICKSTART.md`（小白快速指引），并在 `README.md` 增加“去哪看什么”的导航索引。
    - 在 `AGENTS.md` 增加两条协作边界规则：
      - 文档更新确认规则（NOTE/LOG）；
      - UI 变更确认规则（提议可先提，但非功能外观改动需先确认）。
@@ -858,3 +865,51 @@
 5. 复盘 / Retrospective
    - 参数与文档若分离维护，长期必然漂移；应以“配置为源、文档自动生成”为默认策略。
    - 对可见 UI 变化和文档落库时机，应先确认再执行；把规则写进 AGENTS 比依赖记忆更稳。
+
+## [2026-03-04] CText JSON API 试点落地（静态托管可用 + 双源对照）
+0. Tags / 标签
+   - ctext, search
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 在不依赖本地 dev middleware 的前提下，让 CText 检索在 GitHub Pages 静态托管场景可运行。
+   - 保留本地 middleware 路径作为对照与回退，降低迁移风险。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_hanshu/1a.html` 增加 JSON API 调用链路：
+     - 使用 `https://api.ctext.org/searchtexts` 获取检索结果；
+     - 将返回的 `texts/paragraphs/urn` 映射到现有结果面板结构（`textGroups/hitCount`）。
+   - 保留 middleware 路径并形成双源策略：
+     - 本地默认 `middleware`，非本地默认 `json`；
+     - 支持 `ctextSource=json|middleware` 强制切换。
+   - 增加调试与排障参数统一入口（配合 `debugFlags`）：
+     - `ctextDebug`、`ctextRefresh`、`ctextSource`。
+4. 解决 / Outcome
+   - CText 检索在静态部署场景具备可用路径，不再被“线上无本地后端接口”完全阻塞。
+   - 本地与线上可在同一页面做双源对照，便于逐步验证迁移质量。
+5. 复盘 / Retrospective
+   - JSON API 解决的是“部署形态”问题（静态站可调用），不是一次性解决所有字段同构问题；展示口径仍需持续对齐。
+   - 迁移期保留双源切换开关是必要缓冲层：既保证可用性，也保留可诊断性与回退能力。
+
+## [2026-03-04] 日志体系精简与根目录收敛（Timeline + Tag）
+0. Tags / 标签
+   - infra, project-docs
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 将日志能力保留为“时间线主文件 + 按标签视图”最小方案，避免文档和目录层级继续膨胀。
+   - 将常用说明文档收敛到根目录，提升入口可见性与记忆成本友好度。
+3. 操作 / Actions
+   - 标签体系收敛为 6 个：`ctext`, `transcriptions`, `search`, `data`, `infra`, `project-docs`。
+   - 在 `AGENTS.md` 固化日志事件写法：新增 `0. Tags / 标签`，每条 1-2 tags。
+   - 新增 `scripts/generate-log-by-tag.mjs`，从主 LOG 生成按标签视图。
+   - 文档迁移到根目录并统一命名：
+     - `DEBUG_FLAGS_REFERENCE.md`
+     - `DEBUG_FLAGS_QUICKSTART.md`
+     - `LOG_按标签视图_By_Tag.md`
+   - 同步更新 `README.md`、生成脚本输出路径与相关引用。
+4. 解决 / Outcome
+   - 日志导航收敛为两视图：按时间（主 LOG）与按标签（自动生成），使用路径更直观。
+   - 常用文档全部在根目录可见，降低“去哪个文件夹找文档”的摩擦。
+5. 复盘 / Retrospective
+   - 对当前项目阶段，命名清晰的根目录入口比额外目录分层更有实际价值。
+   - 标签系统应先简后繁：先保证可执行与可维护，再按需要细分。

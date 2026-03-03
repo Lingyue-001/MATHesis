@@ -31,20 +31,25 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 ## Development
 - Start: `npm run start`
 - Build: `npm run build`
-- Debug query flags reference: `docs/debug-flags.md` (auto-generated from `src/js/debugFlags.mjs`)
-- Beginner quick guide: `docs/debug-flags-quickstart.md`
+- Debug query flags reference: `DEBUG_FLAGS_REFERENCE.md` (auto-generated from `src/js/debugFlags.mjs`)
+- Beginner quick guide: `DEBUG_FLAGS_QUICKSTART.md`
 
 ## Debug Flags Navigation (Quick Index)
 - If you want a simple “what should I click/use now” guide:
-  - `docs/debug-flags-quickstart.md`
+  - `DEBUG_FLAGS_QUICKSTART.md`
 - If you want full parameter table and exact defaults:
-  - `docs/debug-flags.md`
+  - `DEBUG_FLAGS_REFERENCE.md`
 - If you need to add or change a debug URL flag:
   - `src/js/debugFlags.mjs`
 - If you need to check how the page actually consumes flags:
   - `src/transcriptions/tei_hanshu/1a.html`
 - If you need to change how docs are auto-generated:
   - `scripts/generate-debug-flags-doc.mjs`
+
+## Log Navigation (Timeline + Tag)
+- Timeline source (primary): `LOG_已完成改动和复盘_Completed_Changes_and_Retrospective.md`
+- Tag-grouped view (auto-generated): `LOG_按标签视图_By_Tag.md`
+- Update command: `npm run generate:log-by-tag`
 
 ### CText lookup (dev middleware)
 - API: `/api/ctext/search?q=<term>`

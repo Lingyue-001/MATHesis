@@ -24,10 +24,10 @@
 
 ## 我该看哪个文件？
 
-1. 日常先看：`docs/debug-flags-quickstart.md`（本文件）
+1. 日常先看：`DEBUG_FLAGS_QUICKSTART.md`（本文件）
 - 你想快速知道“这个尾巴干嘛用”时看这里。
 
-2. 规范明细：`docs/debug-flags.md`
+2. 规范明细：`DEBUG_FLAGS_REFERENCE.md`
 - 你想看完整参数表、默认值、标准说明时看这里。
 
 3. 参数源头：`src/js/debugFlags.mjs`
