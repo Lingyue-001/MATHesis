@@ -981,3 +981,26 @@
 5. 复盘 / Retrospective
    - `production` 不是平台语义；构建环境与部署平台必须分开判断。
    - 多平台部署时，路径前缀应绑定“目标平台”而不是通用环境变量。
+
+## [2026-03-04] test ctext api：将 localhost 经验迁移为线上优先 JSON API（服务端）策略
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 目标从“错误提示优化”转为“线上部署环境也能实际拿到检索和自动提取结果”。
+   - 复用 localhost 阶段有效经验中“可迁移到 serverless”的部分，减少继续试错。
+3. 操作 / Actions
+   - 在 `server/ctextSearchMiddleware.js` 新增 JSON API 服务端请求链路：
+     - 请求 `https://api.ctext.org/?if=gb&func=searchtexts&searchTerms=...&json=1`。
+     - 新增 JSON 解码与 parse 校验，非 JSON 直接报错并记录。
+     - 将 JSON API 的 `texts/paragraphs` 汇总为现有前端可消费的 `textGroups + hitCount` 结构。
+   - 查询流程改为：
+     - 每个变体先尝试 JSON API；
+     - JSON API 失败时再回退原 HTML 抓取解析链路（兼容旧方案）。
+4. 解决 / Outcome
+   - 线上 middleware/function 不再依赖单一路径抓 HTML，可优先走更稳定的结构化接口返回结果。
+   - 保持向后兼容：JSON API 不可用时仍有 HTML fallback。
+5. 复盘 / Retrospective
+   - localhost 经验应拆分为“可迁移/不可迁移”：
+     - 可迁移：接口优先级、结构化解析、降级顺序。
+     - 不可直接迁移：持久浏览器会话（serverless 环境稳定性不足）。
+   - 线上优先用结构化 API，再保留 HTML fallback，是当前约束下性价比最高的方案。
