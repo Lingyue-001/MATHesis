@@ -33,6 +33,9 @@
 `?ctextDebug=1&ctextSource=middleware&ctextProxy=https://<your-netlify-site>.netlify.app`
 
 ## 5. 失败时的快速判断
+- 如果首页变成“裸 HTML（蓝色链接、无样式）”：  
+  - 通常是 `pathPrefix` 错配。  
+  - 本项目已修正为：仅 GitHub Actions 构建使用 `/MATHesis/`，Netlify 构建使用根路径 `/`。
 - 如果看到 `Source: middleware` 但卡片全空：
   - 先看 debug 里的 `parseStatus`。
 - 如果直接报错 `JSON.parse unexpected character`：

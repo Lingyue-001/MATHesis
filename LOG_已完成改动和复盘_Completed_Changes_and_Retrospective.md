@@ -965,3 +965,19 @@
    - 架构方案必须包含“可执行部署前提”并在代码中可验证；只写思路不落地等于未完成。
    - 错误处理必须与业务目标一致：对检索场景而言“全失败 + 空结构”应 fail-fast，而不是静默渲染。
    - UI 外观变化与功能修复需严格分离：非功能外观改动必须先确认再落代码与记录。
+
+## [2026-03-04] test ctext api：定位 Netlify 部署炸样式根因并修正 pathPrefix 触发条件
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 对“deploy 后页面样式丢失”的故障先定位根因，再在回滚后重做可用方案。
+3. 操作 / Actions
+   - 先回滚当次提交，再在干净基线上重做 middleware 方案。
+   - 排查确认根因：`.eleventy.js` 以 `NODE_ENV=production` 触发 `pathPrefix=/MATHesis/`，Netlify 生产构建同样命中该条件，导致静态资源 URL 错位。
+   - 修正前缀策略：`pathPrefix` 改为仅在 `GITHUB_ACTIONS=true` 时使用 `/MATHesis/`；Netlify 使用根路径 `/`。
+   - 在 Netlify 部署文档中补充“裸 HTML”故障快速判断。
+4. 解决 / Outcome
+   - GitHub Pages 与 Netlify 的构建前缀条件分离，避免 Netlify 复现全站样式失效。
+5. 复盘 / Retrospective
+   - `production` 不是平台语义；构建环境与部署平台必须分开判断。
+   - 多平台部署时，路径前缀应绑定“目标平台”而不是通用环境变量。
