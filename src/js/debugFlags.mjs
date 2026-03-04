@@ -21,15 +21,7 @@ export const DEBUG_FLAG_SPECS = [
     defaultValue: "auto",
     values: ["auto", "json", "middleware"],
     scope: "CText data source selector",
-    description: "Force CText request source; auto defaults to middleware."
-  },
-  {
-    key: "ctextProxy",
-    type: "string",
-    defaultValue: "",
-    values: ["https://your-netlify-site.netlify.app"],
-    scope: "CText middleware proxy origin",
-    description: "Optional origin used when page host has no middleware endpoint (e.g., GitHub Pages)."
+    description: "Force CText request source; auto chooses middleware on localhost and json on non-localhost."
   }
 ];
 
@@ -49,8 +41,7 @@ export function getDebugFlagsFromSearch(search = "") {
   return {
     ctextDebug: parseBooleanFlag(params.get("ctextDebug"), false),
     ctextRefresh: parseBooleanFlag(params.get("ctextRefresh"), false),
-    ctextSource,
-    ctextProxy: String(params.get("ctextProxy") || "").trim()
+    ctextSource
   };
 }
 
@@ -63,5 +54,5 @@ export function resolveCtextSourceMode(flags, hostname = "") {
   if (flags?.ctextSource === "json" || flags?.ctextSource === "middleware") {
     return flags.ctextSource;
   }
-  return "middleware";
+  return isLocalhost(hostname) ? "middleware" : "json";
 }

@@ -8,12 +8,10 @@ This file is auto-generated from `src/js/debugFlags.mjs`. Do not edit manually.
 | --- | --- | --- | --- | --- | --- |
 | `ctextDebug` | boolean | `0`, `1` | `false` | CText lookup UI | Show CText debug details (source mode and per-variant debug block). |
 | `ctextRefresh` | boolean | `0`, `1` | `false` | CText middleware | Bypass middleware cache for this request. |
-| `ctextSource` | enum | `auto`, `json`, `middleware` | `auto` | CText data source selector | Force CText request source; auto defaults to middleware. |
-| `ctextProxy` | string | `https://your-netlify-site.netlify.app` | `` | CText middleware proxy origin | Optional origin used when page host has no middleware endpoint (e.g., GitHub Pages). |
+| `ctextSource` | enum | `auto`, `json`, `middleware` | `auto` | CText data source selector | Force CText request source; auto chooses middleware on localhost and json on non-localhost. |
 
 ## Examples
 
 - `?ctextDebug=1`
 - `?ctextDebug=1&ctextSource=json`
-- `?ctextDebug=1&ctextSource=middleware&ctextRefresh=1`
-- `?ctextDebug=1&ctextSource=middleware&ctextProxy=https://mathesis.netlify.app`
+- `?ctextDebug=1&ctextRefresh=1&ctextSource=middleware`
