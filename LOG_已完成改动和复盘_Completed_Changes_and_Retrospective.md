@@ -952,17 +952,3 @@
    - 方案从“仅代码模板”升级为“代码 + 部署清单”闭环，减少因账号侧步骤缺失导致的失败。
 5. 复盘 / Retrospective
    - 涉及第三方平台账号权限的能力，必须同步提供“必须人工执行步骤”，否则方案即便代码正确也不可用。
-
-## [2026-03-04] Netlify 发布目录修正（dist -> _site）
-0. Tags / 标签
-   - infra
-1. Time
-   - 2026-03-04
-2. 需求明确 / Goal
-   - 修复 Netlify 构建日志中“Deploy directory 'dist' does not exist”的配置错误，消除发布目录与实际构建产物不一致问题。
-3. 操作 / Actions
-   - 将 `netlify.toml` 的 `[build].publish` 从 `dist` 改为 `_site`。
-4. 解决 / Outcome
-   - Netlify 不再被配置文件强制指向不存在的 `dist` 目录；UI 设置与仓库配置冲突问题解除。
-5. 复盘 / Retrospective
-   - 当日志显示 `publishOrigin: config` 时，说明 UI 改动不会生效，必须以仓库内 `netlify.toml` 为准修复。
