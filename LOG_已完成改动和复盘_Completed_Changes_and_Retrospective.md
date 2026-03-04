@@ -913,3 +913,18 @@
 5. 复盘 / Retrospective
    - 对当前项目阶段，命名清晰的根目录入口比额外目录分层更有实际价值。
    - 标签系统应先简后繁：先保证可执行与可维护，再按需要细分。
+
+## [2026-03-04] 回滚全部 test ctext api 提交并重置基线
+0. Tags / 标签
+   - ctext, infra
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 线上 CText 仍失败，先回滚全部 `test ctext api` 相关变更，恢复到可控基线，避免继续叠加临时补丁。
+3. 操作 / Actions
+   - 回滚 `ddb906f`（proxy 前置条件 + fail-fast 试验）。
+   - 回滚 `eb506c9`（Cloudflare proxy 接入试验）。
+4. 解决 / Outcome
+   - test API 试验代码已撤回，代码基线恢复为 test 系列之前状态。
+5. 复盘 / Retrospective
+   - 当验证链路依赖外部部署状态但不可观测时，应先回滚试验分支，避免把失败实验长期留在主干。
