@@ -943,3 +943,25 @@
    - test API 第二轮试验代码已全部撤回；仓库恢复到试验前可控状态。
 5. 复盘 / Retrospective
    - 在连续实验失败后，应分阶段清理历史试验改动，再进入下一条技术路线，避免跨方案残留互相干扰。
+
+## [2026-03-04] test ctext api：回归 middleware 主链路（Netlify Function 试点）并补齐 fail-fast
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 回滚所有 test api 失败实验后，重新落地可用于线上静态页面的 middleware 方案。
+   - 修复上版两类问题：架构前提未落地（代理未真正启用）与全失败未 fail-fast（空卡片误判成功）。
+3. 操作 / Actions
+   - 将 CText 请求处理抽象为共享处理器：`handleCtextSearchRequest(...)`，供本地 dev middleware 与 Netlify Function 共用，避免双实现漂移。
+   - 新增 Netlify Function 入口：`netlify/functions/ctext-search.js`。
+   - 新增 Netlify 配置：`netlify.toml`（build: `NODE_ENV=production npm run build`，publish: `dist`，functions: `netlify/functions`）。
+   - 前端默认 `ctextSource=middleware`，并新增 `ctextProxy` 参数用于 GitHub Pages -> Netlify 跨域代理。
+   - 在 middleware 返回体中新增 `allFailed`，前端对“全部变体失败”直接抛错，避免空结果卡片继续显示为成功。
+   - 补齐配套文档：`NETLIFY_CTEXT_PROXY_SETUP.md`、README 与 debug flags 文档。
+4. 解决 / Outcome
+   - 当前代码基线已切回 middleware 主链路，并具备线上可接入的 Netlify Function 代理入口。
+   - 空卡片被定义为失败态，避免误判“功能可用”。
+   - 手动部署与验证路径已文档化，便于后续联调。
+5. 复盘 / Retrospective
+   - 架构方案必须包含“可执行部署前提”并在代码中可验证；只写思路不落地等于未完成。
+   - 错误处理必须与业务目标一致：对检索场景而言“全失败 + 空结构”应 fail-fast，而不是静默渲染。
+   - UI 外观变化与功能修复需严格分离：非功能外观改动必须先确认再落代码与记录。

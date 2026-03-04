@@ -728,58 +728,109 @@ async function searchAcrossVariants(query) {
   };
 }
 
+function isSearchItemSuccessful(item) {
+  if (!item || typeof item !== "object") return false;
+  const status = String(item?.debug?.parseStatus || "");
+  if (status === "ok" || status === "ok_via_query_normalization") return true;
+  if (typeof item.hitCount === "number") return true;
+  if (item.scope || item.condition || item.searchType || item.rangeLine) return true;
+  return false;
+}
+
+function buildPublicPayload(payload, debug) {
+  if (debug) {
+    return payload;
+  }
+  return {
+    ...payload,
+    searches: (payload.searches || []).map(({ debug: _dbg, ...rest }) => rest)
+  };
+}
+
+async function handleCtextSearchRequest(input = {}) {
+  const method = String(input.method || "GET").toUpperCase();
+  const requestUrl = String(input.url || "");
+  const baseUrl = String(input.baseUrl || "http://localhost");
+  const requestPathPrefix = String(input.requestPathPrefix || "/api/ctext/search");
+
+  if (method !== "GET") {
+    return {
+      statusCode: 405,
+      payload: { error: "Method not allowed" }
+    };
+  }
+
+  const fullUrl = new URL(requestUrl, baseUrl);
+  const q = (fullUrl.searchParams.get("q") || "").trim();
+  const debug = fullUrl.searchParams.get("debug") === "1";
+  const refresh = fullUrl.searchParams.get("refresh") === "1";
+  if (!q) {
+    return {
+      statusCode: 400,
+      payload: { error: "Missing query parameter q" }
+    };
+  }
+
+  try {
+    const cacheKey = hashKey(`q=${q}|mode=${FETCH_MODE}|schema=${CACHE_SCHEMA_VERSION}`);
+    if (!refresh) {
+      const cachedPayload = readCache(cacheKey);
+      if (cachedPayload) {
+        const responsePayload = buildPublicPayload(cachedPayload, debug);
+        const searches = Array.isArray(cachedPayload?.searches) ? cachedPayload.searches : [];
+        const successfulCount = searches.filter(isSearchItemSuccessful).length;
+        return {
+          statusCode: 200,
+          payload: {
+            ...responsePayload,
+            cached: true,
+            requestPathPrefix,
+            allFailed: searches.length > 0 && successfulCount === 0
+          }
+        };
+      }
+    }
+
+    const payload = await searchAcrossVariants(q);
+    writeCache(cacheKey, payload);
+    const responsePayload = buildPublicPayload(payload, debug);
+    const searches = Array.isArray(payload?.searches) ? payload.searches : [];
+    const successfulCount = searches.filter(isSearchItemSuccessful).length;
+    return {
+      statusCode: 200,
+      payload: {
+        ...responsePayload,
+        cached: false,
+        requestPathPrefix,
+        allFailed: searches.length > 0 && successfulCount === 0
+      }
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      payload: { error: err.message || "Unknown ctext search error" }
+    };
+  }
+}
+
 function createCtextSearchMiddleware() {
   return async function ctextSearchMiddleware(req, res, next) {
     if (!req.url || !req.url.startsWith("/api/ctext/search")) {
       next();
       return;
     }
-    if (req.method !== "GET") {
-      res.writeHead(405, { "Content-Type": "application/json; charset=utf-8" });
-      res.end(JSON.stringify({ error: "Method not allowed" }));
-      return;
-    }
-
-    const fullUrl = new URL(req.url, "http://localhost");
-    const q = (fullUrl.searchParams.get("q") || "").trim();
-    const debug = fullUrl.searchParams.get("debug") === "1";
-    const refresh = fullUrl.searchParams.get("refresh") === "1";
-    if (!q) {
-      res.writeHead(400, { "Content-Type": "application/json; charset=utf-8" });
-      res.end(JSON.stringify({ error: "Missing query parameter q" }));
-      return;
-    }
-
-    try {
-      const cacheKey = hashKey(`q=${q}|mode=${FETCH_MODE}|schema=${CACHE_SCHEMA_VERSION}`);
-      if (!refresh) {
-        const cachedPayload = readCache(cacheKey);
-        if (cachedPayload) {
-          const responsePayload = debug ? cachedPayload : {
-            ...cachedPayload,
-            searches: (cachedPayload.searches || []).map(({ debug: _dbg, ...rest }) => rest)
-          };
-          res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
-          res.end(JSON.stringify({ ...responsePayload, cached: true }));
-          return;
-        }
-      }
-
-      const payload = await searchAcrossVariants(q);
-      writeCache(cacheKey, payload);
-      const responsePayload = debug ? payload : {
-        ...payload,
-        searches: (payload.searches || []).map(({ debug: _dbg, ...rest }) => rest)
-      };
-      res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
-      res.end(JSON.stringify({ ...responsePayload, cached: false }));
-    } catch (err) {
-      res.writeHead(500, { "Content-Type": "application/json; charset=utf-8" });
-      res.end(JSON.stringify({ error: err.message || "Unknown ctext search error" }));
-    }
+    const { statusCode, payload } = await handleCtextSearchRequest({
+      method: req.method,
+      url: req.url,
+      baseUrl: "http://localhost",
+      requestPathPrefix: "/api/ctext/search"
+    });
+    res.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8" });
+    res.end(JSON.stringify(payload));
   };
 }
 
 module.exports = {
-  createCtextSearchMiddleware
+  createCtextSearchMiddleware,
+  handleCtextSearchRequest
 };

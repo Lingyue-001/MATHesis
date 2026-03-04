@@ -62,6 +62,17 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - For browser mode, install dependency once:
   - `npm i -D playwright`
 
+### CText lookup (Netlify middleware function)
+- Function endpoint: `/.netlify/functions/ctext-search?q=<term>`
+- Netlify config:
+  - Build command: `NODE_ENV=production npm run build`
+  - Publish directory: `dist`
+  - Functions directory: `netlify/functions`
+- If your page runs on GitHub Pages and middleware runs on Netlify, add URL flag:
+  - `?ctextSource=middleware&ctextProxy=https://<your-netlify-site>.netlify.app`
+- Full step-by-step manual setup:
+  - `NETLIFY_CTEXT_PROXY_SETUP.md`
+
 ## Deployment checklist (GitHub Pages)
 1) Pages source set to **GitHub Actions** (not `/docs` branch).
 2) Build output matches workflow artifact path (`dist`).

@@ -1156,13 +1156,45 @@
         }
 
         async function requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh) {
-            const apiUrl = `${basePrefix}/api/ctext/search?q=${encodeURIComponent(normalizedKey)}${ctextDebug ? "&debug=1" : ""}${forceRefresh ? "&refresh=1" : ""}`;
+            const apiUrl = `${basePrefix}?q=${encodeURIComponent(normalizedKey)}${ctextDebug ? "&debug=1" : ""}${forceRefresh ? "&refresh=1" : ""}`;
             const res = await fetch(apiUrl, {
                 headers: { "Accept": "application/json" }
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const payload = await res.json();
+            if (!payload || typeof payload !== "object") {
+                throw new Error("Invalid middleware payload");
+            }
+            const searches = Array.isArray(payload.searches) ? payload.searches : [];
+            const allFailed = payload.allFailed === true
+                || (searches.length > 0 && searches.every(item => {
+                    const status = String(item?.debug?.parseStatus || "");
+                    const parseOk = status === "ok" || status === "ok_via_query_normalization";
+                    const hasCoreFields = Boolean(item?.scope || item?.condition || item?.searchType || item?.rangeLine);
+                    const hasHitCount = typeof item?.hitCount === "number";
+                    return !parseOk && !hasCoreFields && !hasHitCount;
+                }));
+            if (allFailed) {
+                const firstErr = searches.find(item => item?.error)?.error || payload.error || "All variants failed";
+                throw new Error(firstErr);
+            }
             return { ...payload, sourceMode: "middleware" };
+        }
+
+        function resolveMiddlewareEndpoint(basePrefix, flags) {
+            const localApi = `${basePrefix}/api/ctext/search`;
+            const netlifyFnPath = "/.netlify/functions/ctext-search";
+            const hostname = window.location.hostname || "";
+            const localHosts = new Set(["localhost", "127.0.0.1", "::1"]);
+            if (localHosts.has(hostname)) {
+                return localApi;
+            }
+
+            const proxyOrigin = String(flags?.ctextProxy || "").replace(/\/+$/, "");
+            if (proxyOrigin) {
+                return `${proxyOrigin}${netlifyFnPath}`;
+            }
+            return `${window.location.origin}${netlifyFnPath}`;
         }
 
         async function requestCtextSearch(term, queryKey) {
@@ -1188,10 +1220,12 @@
                     return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
                 if (sourceMode === "middleware") {
-                    return requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh);
+                    const middlewareEndpoint = resolveMiddlewareEndpoint(basePrefix, flags);
+                    return requestCtextSearchViaMiddleware(middlewareEndpoint, normalizedKey, ctextDebug, forceRefresh);
                 }
                 try {
-                    return await requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh);
+                    const middlewareEndpoint = resolveMiddlewareEndpoint(basePrefix, flags);
+                    return await requestCtextSearchViaMiddleware(middlewareEndpoint, normalizedKey, ctextDebug, forceRefresh);
                 } catch {
                     return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
