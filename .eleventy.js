@@ -13,10 +13,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("assets");
 
   // === 环境变量判断 ===
-  // 生产构建目录仍由 NODE_ENV 控制；pathPrefix 仅在 GitHub Pages 构建时启用。
+  // GitHub Actions 会自动注入 NODE_ENV=production
   const isProduction = process.env.NODE_ENV === "production";
-  const isGitHubPagesBuild = process.env.GITHUB_ACTIONS === "true";
-  const pathPrefix = isGitHubPagesBuild ? "/MATHesis/" : "/";
+  const pathPrefix = isProduction ? "/MATHesis/" : "/";
 
   const ctextMiddleware = createCtextSearchMiddleware();
 
