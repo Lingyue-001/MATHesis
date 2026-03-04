@@ -46,6 +46,14 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - If you need to change how docs are auto-generated:
   - `scripts/generate-debug-flags-doc.mjs`
 
+## Independent CText proxy (recommended for stable variant search)
+- Local run: `npm run start:ctext-proxy` (default `http://localhost:8787`).
+- Health check: `GET /healthz`.
+- Deploy guide (Render free subdomain + Netlify env wiring):
+  - `NETLIFY_CTEXT_PROXY_SETUP.md`
+- Netlify build-time env var for frontend default proxy:
+  - `CTEXT_PROXY_ORIGIN=https://<your-proxy>.onrender.com`
+
 ## Log Navigation (Timeline + Tag)
 - Timeline source (primary): `LOG_已完成改动和复盘_Completed_Changes_and_Retrospective.md`
 - Tag-grouped view (auto-generated): `LOG_按标签视图_By_Tag.md`

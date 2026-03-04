@@ -251,6 +251,9 @@
             <a id="xmlSourceLinkHanshu" href="#" target="_blank" rel="noopener">view XML</a>
         </div>
     </main>
+    <script>
+        window.__CTEXT_PROXY_ORIGIN = "{{ ctextProxyOrigin | escape }}";
+    </script>
     <script type="module">
         import { bindNodeHitPopup, resolveNodeByTerm } from "../../../js/nodeEntryPopup.js";
         import { getDebugFlagsFromSearch, resolveCtextSourceMode } from "../../../js/debugFlags.mjs";

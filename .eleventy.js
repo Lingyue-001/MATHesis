@@ -19,6 +19,8 @@ module.exports = function(eleventyConfig) {
   const pathPrefix = isGitHubActionsBuild ? "/MATHesis/" : "/";
 
   const ctextMiddleware = createCtextSearchMiddleware();
+  const ctextProxyOrigin = String(process.env.CTEXT_PROXY_ORIGIN || "").trim();
+  eleventyConfig.addGlobalData("ctextProxyOrigin", ctextProxyOrigin);
 
   // Eleventy v3 dev server path
   if (typeof eleventyConfig.setServerOptions === "function") {

@@ -1,0 +1,9 @@
+node_modules
+.git
+.github
+.netlify
+_site
+dist
+tmp
+.DS_Store
+*.log

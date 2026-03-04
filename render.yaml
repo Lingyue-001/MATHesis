@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: mathesis-ctext-proxy
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile.ctext-proxy
+    autoDeploy: true
+    healthCheckPath: /healthz
+    envVars:
+      - key: CTEXT_FETCH_MODE
+        value: browser
+      - key: CTEXT_SKIP_STATS
+        value: "1"
+      - key: CTEXT_GLOBAL_GAP_MS
+        value: "1200"
+      - key: CTEXT_REQUEST_GAP_MS
+        value: "120"
+      - key: CTEXT_SINGLE_CHAR_FALLBACK_ON_EMPTY
+        value: "1"
+      - key: CTEXT_SINGLE_CHAR_FALLBACK_MAX
+        value: "2"
+      - key: CTEXT_PROXY_ALLOW_ORIGIN
+        sync: false

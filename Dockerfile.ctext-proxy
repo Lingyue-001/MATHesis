@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/playwright:v1.58.2-noble
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY server ./server
+COPY simp_to_trad_map.json ./simp_to_trad_map.json
+
+RUN mkdir -p tmp/ctext_cache tmp/ctext_session
+
+ENV NODE_ENV=production
+ENV CTEXT_FETCH_MODE=browser
+ENV CTEXT_SKIP_STATS=1
+ENV CTEXT_GLOBAL_GAP_MS=1200
+ENV CTEXT_REQUEST_GAP_MS=120
+ENV CTEXT_SINGLE_CHAR_FALLBACK_ON_EMPTY=1
+ENV CTEXT_SINGLE_CHAR_FALLBACK_MAX=2
+
+EXPOSE 8787
+
+CMD ["node", "server/ctextProxyServer.js"]
