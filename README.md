@@ -62,15 +62,6 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - For browser mode, install dependency once:
   - `npm i -D playwright`
 
-### CText lookup (production via Netlify proxy)
-- GitHub Pages remains static frontend host.
-- JSON mode should use Netlify Function proxy:
-  - `?ctextSource=json&ctextProxy=https://<your-netlify-site>`
-- Proxy function code:
-  - `netlify/functions/ctext-searchtexts.js`
-- Required manual account-side steps:
-  - `NETLIFY_CTEXT_PROXY_SETUP.md`
-
 ## Deployment checklist (GitHub Pages)
 1) Pages source set to **GitHub Actions** (not `/docs` branch).
 2) Build output matches workflow artifact path (`dist`).
