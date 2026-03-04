@@ -17,3 +17,6 @@ This file is auto-generated from `src/js/debugFlags.mjs`. Do not edit manually.
 - `?ctextDebug=1&ctextSource=json`
 - `?ctextDebug=1&ctextRefresh=1&ctextSource=middleware`
 - `?ctextSource=json&ctextProxy=https://<your-worker-domain>`
+
+Note:
+- In non-localhost environments, `ctextSource=json` requires `ctextProxy` to be provided; otherwise the request fails fast with an explicit error.

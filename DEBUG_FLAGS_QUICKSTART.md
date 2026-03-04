@@ -19,6 +19,7 @@
 4. `?ctextProxy=https://<你的 worker 域名>`
 - 用途：让 JSON 检索走你自己的代理（推荐线上使用）。
 - 适合：线上浏览器直连 `api.ctext.org` 失败时（`NetworkError` / CORS）。
+- 注意：非 localhost 场景下，`ctextSource=json` 现在要求设置 `ctextProxy`，否则会直接报错而不是显示空卡片。
 
 ## 常用组合（可直接复制）
 

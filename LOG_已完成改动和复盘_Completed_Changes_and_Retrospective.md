@@ -933,3 +933,26 @@
    - 前端测试链路从“不受控公共代理”切换为“项目可控代理端点”，为后续稳定上线提供可执行路径。
 5. 复盘 / Retrospective
    - 公共 CORS 代理适合临时排障，不适合主链路；线上稳定性应依赖自有代理与可观测错误返回。
+
+## [2026-03-04] CText JSON 前置条件与 fail-fast 落地（test ctext api）
+0. Tags / 标签
+   - ctext, search
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 修复上版两处核心问题：
+     - 架构前提未落地（代理未启用）；
+     - 全失败未 fail-fast（错误被空卡片伪装）。
+3. 操作 / Actions
+   - `src/transcriptions/tei_hanshu/1a.html`：
+     - 新增非 localhost 下 JSON 模式的前置校验：未配置 `ctextProxy` 直接报错；
+     - JSON 请求候选端点收敛为官方两种形式（`/searchtexts` 与 `func=searchtexts`）；
+     - 新增宽松 JSON 解析与 schema 识别（`texts / result.texts / data.texts`）；
+     - 若所有变体都失败，抛出 `JSON API request failed for all variants...`，不再继续渲染空卡片成功态。
+   - 更新 `DEBUG_FLAGS_REFERENCE.md` 与 `DEBUG_FLAGS_QUICKSTART.md`，明确 `ctextSource=json` 在非 localhost 需要 `ctextProxy`。
+4. 解决 / Outcome
+   - “代理未启用”从隐式假定改为显式前置条件，避免再次出现“方案写了但没真正启用”。
+   - “全失败空卡片”改为明确错误态，排障路径更直接。
+5. 复盘 / Retrospective
+   - 任何依赖外部服务的方案都应把前置条件写成可执行校验，而不是文档约定。
+   - 失败必须显式暴露；把失败显示成正常结果会显著放大排障成本与误判概率。
