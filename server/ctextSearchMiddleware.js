@@ -5,7 +5,6 @@ const path = require("path");
 const crypto = require("crypto");
 
 const C_TEXT_RESULT_ENDPOINT = "https://ctext.org/mathematics/zh?if=gb&searchu=";
-const C_TEXT_JSON_API_ENDPOINT = "https://api.ctext.org/";
 const REQUEST_GAP_MS = 120;
 const MAX_VARIANTS = 12;
 const MAX_REDIRECTS = 5;
@@ -218,67 +217,6 @@ function fetchText(url, redirectCount = 0) {
               statusCode,
               body
             });
-          } catch (err) {
-            reject(new Error(`Decode failed for ${url}: ${err.message}`));
-          }
-        });
-      }
-    );
-    req.on("error", reject);
-    req.on("timeout", () => req.destroy(new Error(`Timeout for ${url}`)));
-    req.end();
-  });
-}
-
-function fetchJson(url, redirectCount = 0) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(
-      url,
-      {
-        method: "GET",
-        headers: {
-          "User-Agent": "MATHesis-Codex-Prototype/1.0",
-          "Accept": "application/json,text/plain,*/*",
-          "Accept-Encoding": "gzip, deflate, br",
-          "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-          "Referer": "https://ctext.org/tools/api/zh"
-        },
-        timeout: REQUEST_TIMEOUT_MS
-      },
-      (res) => {
-        const statusCode = res.statusCode || 0;
-        const location = res.headers.location;
-        if (statusCode >= 300 && statusCode < 400 && location) {
-          if (redirectCount >= MAX_REDIRECTS) {
-            reject(new Error(`Too many redirects for ${url}`));
-            res.resume();
-            return;
-          }
-          const nextUrl = new URL(location, url).toString();
-          res.resume();
-          fetchJson(nextUrl, redirectCount + 1).then(resolve).catch(reject);
-          return;
-        }
-        if (statusCode >= 400) {
-          reject(new Error(`HTTP ${statusCode} for ${url}`));
-          res.resume();
-          return;
-        }
-        const chunks = [];
-        res.on("data", chunk => { chunks.push(chunk); });
-        res.on("end", () => {
-          try {
-            const compressed = Buffer.concat(chunks);
-            const text = decodeBody(compressed, res.headers["content-encoding"]);
-            let parsed;
-            try {
-              parsed = JSON.parse(text);
-            } catch {
-              const preview = stripHtml(String(text || "")).slice(0, 120);
-              reject(new Error(`JSON.parse failed for ${url}; preview: ${preview || "(empty)"}`));
-              return;
-            }
-            resolve({ url, statusCode, data: parsed });
           } catch (err) {
             reject(new Error(`Decode failed for ${url}: ${err.message}`));
           }
@@ -525,112 +463,6 @@ function buildStatsUrl(baseUrl) {
   return u.toString();
 }
 
-function buildJsonApiSearchtextsUrl(searchTerms) {
-  const u = new URL(C_TEXT_JSON_API_ENDPOINT);
-  u.searchParams.set("if", "gb");
-  u.searchParams.set("func", "searchtexts");
-  u.searchParams.set("searchTerms", searchTerms);
-  u.searchParams.set("json", "1");
-  return u.toString();
-}
-
-function buildJsonApiGetlinkUrl(urn) {
-  if (!urn) return "";
-  const u = new URL(C_TEXT_JSON_API_ENDPOINT);
-  u.searchParams.set("if", "gb");
-  u.searchParams.set("func", "getlink");
-  u.searchParams.set("urn", urn);
-  u.searchParams.set("redirect", "1");
-  return u.toString();
-}
-
-function summarizeJsonApiTexts(texts = []) {
-  const groups = [];
-  let totalHits = 0;
-  for (const textItem of texts) {
-    const textTitle = String(textItem?.title || "").trim();
-    const textUrn = String(textItem?.urn || "").trim();
-    const paragraphs = Array.isArray(textItem?.paragraphs) ? textItem.paragraphs : [];
-    totalHits += paragraphs.length;
-
-    const chapterMap = new Map();
-    for (const p of paragraphs) {
-      const chapterUrn = String(p?.urn || "").trim();
-      if (!chapterUrn) continue;
-      chapterMap.set(chapterUrn, (chapterMap.get(chapterUrn) || 0) + 1);
-    }
-
-    const chapters = Array.from(chapterMap.entries()).map(([chapterUrn, count]) => ({
-      label: chapterUrn,
-      url: buildJsonApiGetlinkUrl(chapterUrn),
-      count,
-      countUrl: ""
-    }));
-
-    groups.push({
-      text: {
-        label: textTitle || textUrn || "—",
-        url: buildJsonApiGetlinkUrl(textUrn),
-        count: paragraphs.length,
-        countUrl: ""
-      },
-      chapters
-    });
-  }
-  return { textGroups: groups, hitCount: totalHits };
-}
-
-async function fetchVariantViaJsonApi(variant) {
-  const queryCandidates = buildQueryCandidates(variant);
-  let lastError = null;
-  for (const queryUsed of queryCandidates) {
-    const apiUrl = buildJsonApiSearchtextsUrl(queryUsed);
-    try {
-      const response = await runWithGlobalThrottle(() => fetchJson(apiUrl));
-      const data = response?.data;
-      if (!data || typeof data !== "object") {
-        throw new Error("Empty JSON API payload");
-      }
-      if (data.error) {
-        const code = String(data.error.code || "ERR_GENERIC");
-        const desc = stripHtml(String(data.error.description || "")).trim();
-        throw new Error(`${code}${desc ? `: ${desc}` : ""}`);
-      }
-      const texts = Array.isArray(data.texts) ? data.texts : [];
-      const summary = summarizeJsonApiTexts(texts);
-      return {
-        variant,
-        searchUrl: `${C_TEXT_RESULT_ENDPOINT}${encodeURIComponent(queryUsed)}`,
-        scope: "CTP JSON API",
-        searchType: "searchtexts",
-        condition: `包含 "${queryUsed}"`,
-        hitCount: summary.hitCount,
-        rangeLine: "",
-        structured: {
-          corpus: null,
-          text: null,
-          chapter: null,
-          textGroups: summary.textGroups
-        },
-        links: [],
-        sourceEndpoint: "json-api-searchtexts",
-        queryUsed,
-        attempts: 1,
-        debug: {
-          queryUsed,
-          parseOk: true,
-          parseStatus: queryUsed === variant ? "ok_json_api" : "ok_json_api_via_query_normalization",
-          apiUrl,
-          textsReturned: texts.length
-        }
-      };
-    } catch (err) {
-      lastError = err;
-    }
-  }
-  throw (lastError || new Error(`JSON API failed for variant: ${variant}`));
-}
-
 function parseStructured(rawHtml, variant, searchUrl) {
   const text = stripHtml(rawHtml);
   const lines = extractLines(text);
@@ -851,13 +683,6 @@ async function searchAcrossVariants(query) {
   for (let i = 0; i < variants.length; i += 1) {
     const variant = variants[i];
     if (i > 0) await delay(REQUEST_GAP_MS);
-    try {
-      const jsonItem = await fetchVariantViaJsonApi(variant);
-      searches.push(jsonItem);
-      continue;
-    } catch (jsonErr) {
-      // JSON API may be unavailable for some terms or user group; fallback to html parsing chain.
-    }
     try {
       const { parsed, finalUrl, statusCode, attempts, queryUsed } = await fetchVariantWithRetries(variant);
 
