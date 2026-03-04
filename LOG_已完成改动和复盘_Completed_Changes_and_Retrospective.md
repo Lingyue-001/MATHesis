@@ -928,3 +928,27 @@
    - test API 试验代码已撤回，代码基线恢复为 test 系列之前状态。
 5. 复盘 / Retrospective
    - 当验证链路依赖外部部署状态但不可观测时，应先回滚试验分支，避免把失败实验长期留在主干。
+
+## [2026-03-04] Netlify 代理链路落地（含必需人工步骤说明）
+0. Tags / 标签
+   - ctext, infra
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 将 CText JSON 检索切换为“GitHub Pages 前端 + Netlify Function 代理”的可执行方案，并明确哪些步骤必须由账号持有人手动完成。
+3. 操作 / Actions
+   - 新增 Netlify Function：
+     - `netlify/functions/ctext-searchtexts.js`（代理 `api.ctext.org` 的 `searchtexts` 请求，返回带 CORS 的 JSON）。
+   - 新增 `netlify.toml`，声明 functions 目录。
+   - 前端接入：
+     - `src/js/debugFlags.mjs` 增加 `ctextProxy` 参数；
+     - `src/transcriptions/tei_hanshu/1a.html` 支持 `ctextProxy`；
+     - 非 localhost 下 `ctextSource=json` 未配置 `ctextProxy` 时直接报错；
+     - 全变体失败时 fail-fast 抛错，避免空卡片伪成功。
+   - 文档同步：
+     - 新增 `NETLIFY_CTEXT_PROXY_SETUP.md`（必须人工执行的 Netlify 操作清单）；
+     - 更新 `README.md` 与 debug 参数文档。
+4. 解决 / Outcome
+   - 方案从“仅代码模板”升级为“代码 + 部署清单”闭环，减少因账号侧步骤缺失导致的失败。
+5. 复盘 / Retrospective
+   - 涉及第三方平台账号权限的能力，必须同步提供“必须人工执行步骤”，否则方案即便代码正确也不可用。

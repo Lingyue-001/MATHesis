@@ -30,6 +30,12 @@ lines.push("");
 lines.push("- `?ctextDebug=1`");
 lines.push("- `?ctextDebug=1&ctextSource=json`");
 lines.push("- `?ctextDebug=1&ctextRefresh=1&ctextSource=middleware`");
+if (DEBUG_FLAG_SPECS.some(x => x.key === "ctextProxy")) {
+  lines.push("- `?ctextSource=json&ctextProxy=https://<your-netlify-site>`");
+  lines.push("");
+  lines.push("Note:");
+  lines.push("- In non-localhost environments, `ctextSource=json` requires `ctextProxy`.");
+}
 
 const outPath = path.join(repoRoot, "DEBUG_FLAGS_REFERENCE.md");
 fs.mkdirSync(path.dirname(outPath), { recursive: true });

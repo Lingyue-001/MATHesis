@@ -22,6 +22,14 @@ export const DEBUG_FLAG_SPECS = [
     values: ["auto", "json", "middleware"],
     scope: "CText data source selector",
     description: "Force CText request source; auto chooses middleware on localhost and json on non-localhost."
+  },
+  {
+    key: "ctextProxy",
+    type: "string",
+    defaultValue: "",
+    values: ["<url>"],
+    scope: "CText proxy endpoint",
+    description: "Proxy base URL for JSON mode. Recommended: your Netlify site domain."
   }
 ];
 
@@ -41,7 +49,8 @@ export function getDebugFlagsFromSearch(search = "") {
   return {
     ctextDebug: parseBooleanFlag(params.get("ctextDebug"), false),
     ctextRefresh: parseBooleanFlag(params.get("ctextRefresh"), false),
-    ctextSource
+    ctextSource,
+    ctextProxy: String(params.get("ctextProxy") || "").trim()
   };
 }
 

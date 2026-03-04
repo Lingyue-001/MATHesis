@@ -1030,6 +1030,72 @@
             return api.toString();
         }
 
+        function resolveCtextProxyEndpoint() {
+            const flags = getCtextDebugFlags();
+            const raw = String(flags?.ctextProxy || "").trim();
+            if (!raw) return "";
+            if (!/^https?:\/\//i.test(raw)) return "";
+            return raw.replace(/\/$/, "");
+        }
+
+        function isLocalRuntimeHost() {
+            const host = String(window.location.hostname || "").toLowerCase();
+            return host === "localhost" || host === "127.0.0.1" || host === "::1";
+        }
+
+        function buildProxySearchtextsUrl(proxyEndpoint, variant) {
+            const base = proxyEndpoint.endsWith("/.netlify/functions/ctext-searchtexts")
+                ? proxyEndpoint
+                : `${proxyEndpoint}/.netlify/functions/ctext-searchtexts`;
+            const api = new URL(base);
+            api.searchParams.set("if", "gb");
+            api.searchParams.set("searchTerms", variant);
+            api.searchParams.set("json", "1");
+            return api.toString();
+        }
+
+        function buildSearchtextsCandidateUrls(variant, proxyEndpoint) {
+            if (proxyEndpoint) {
+                return [buildProxySearchtextsUrl(proxyEndpoint, variant)];
+            }
+            const direct = buildSearchtextsUrl(variant);
+            const funcStyle = new URL("https://api.ctext.org/");
+            funcStyle.searchParams.set("if", "gb");
+            funcStyle.searchParams.set("func", "searchtexts");
+            funcStyle.searchParams.set("searchTerms", variant);
+            funcStyle.searchParams.set("json", "1");
+            return [direct, funcStyle.toString()];
+        }
+
+        function tryParseJsonLoose(text) {
+            const raw = String(text || "").trim();
+            if (!raw) return null;
+            try {
+                return JSON.parse(raw);
+            } catch {
+                const start = raw.indexOf("{");
+                const end = raw.lastIndexOf("}");
+                if (start >= 0 && end > start) {
+                    const sliced = raw.slice(start, end + 1);
+                    try {
+                        return JSON.parse(sliced);
+                    } catch {
+                        return null;
+                    }
+                }
+                return null;
+            }
+        }
+
+        function extractSearchtextsPayload(data) {
+            if (!data || typeof data !== "object") return { texts: [], recognized: false };
+            if (Array.isArray(data.texts)) return { texts: data.texts, recognized: true };
+            if (Array.isArray(data?.result?.texts)) return { texts: data.result.texts, recognized: true };
+            if (Array.isArray(data?.data?.texts)) return { texts: data.data.texts, recognized: true };
+            if (data.error) return { texts: [], recognized: true };
+            return { texts: [], recognized: false };
+        }
+
         function buildGetlinkUrl(urn) {
             if (!urn) return "";
             const api = new URL("https://api.ctext.org/getlink");
@@ -1078,22 +1144,47 @@
         async function requestCtextSearchViaJsonApi(normalizedKey, ctextDebug) {
             const variants = buildVariantsForClient(normalizedKey);
             const searches = [];
+            const proxyEndpoint = resolveCtextProxyEndpoint();
+            if (!proxyEndpoint && !isLocalRuntimeHost()) {
+                throw new Error("JSON mode requires ctextProxy on non-localhost. Add ?ctextProxy=https://<your-netlify-site>");
+            }
+            let successCount = 0;
+            const aggregatedErrors = [];
             for (let i = 0; i < variants.length; i += 1) {
                 const variant = variants[i];
-                const apiUrl = buildSearchtextsUrl(variant);
+                const candidateUrls = buildSearchtextsCandidateUrls(variant, proxyEndpoint);
                 try {
-                    const res = await fetch(apiUrl, {
-                        method: "GET",
-                        mode: "cors",
-                        credentials: "include",
-                        headers: { "Accept": "application/json" }
-                    });
-                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    const data = await res.json();
+                    let data = null;
+                    let usedUrl = candidateUrls[0];
+                    let lastVariantError = null;
+                    for (let j = 0; j < candidateUrls.length; j += 1) {
+                        usedUrl = candidateUrls[j];
+                        try {
+                            const res = await fetch(usedUrl, {
+                                method: "GET",
+                                mode: "cors",
+                                credentials: "omit",
+                                headers: { "Accept": "application/json" }
+                            });
+                            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                            const txt = await res.text();
+                            const parsed = tryParseJsonLoose(txt);
+                            if (!parsed) throw new Error("response is not valid JSON");
+                            data = parsed;
+                            break;
+                        } catch (err) {
+                            lastVariantError = err;
+                        }
+                    }
+                    if (!data) throw (lastVariantError || new Error("all candidate endpoints failed"));
                     if (data && data.error) {
                         throw new Error(String(data.error.code || data.error.description || "API error"));
                     }
-                    const texts = Array.isArray(data?.texts) ? data.texts : [];
+                    const payload = extractSearchtextsPayload(data);
+                    if (!payload.recognized) {
+                        throw new Error("unknown JSON schema from CText API");
+                    }
+                    const texts = payload.texts;
                     const summary = summarizeSearchtextsResult(texts);
                     const item = {
                         variant,
@@ -1109,15 +1200,17 @@
                         sourceEndpoint: "json-api-searchtexts",
                         queryUsed: variant
                     };
+                    successCount += 1;
                     if (ctextDebug) {
                         item.debug = {
-                            apiUrl,
+                            apiUrl: usedUrl,
                             textsReturned: texts.length,
                             parseStatus: "ok_json_api"
                         };
                     }
                     searches.push(item);
                 } catch (err) {
+                    aggregatedErrors.push(`${variant}: ${err?.message || "request failed"}`);
                     const failed = {
                         variant,
                         searchUrl: `https://ctext.org/mathematics/zh?if=gb&searchu=${encodeURIComponent(variant)}`,
@@ -1135,13 +1228,16 @@
                     };
                     if (ctextDebug) {
                         failed.debug = {
-                            apiUrl,
+                            apiUrl: candidateUrls.join(" | "),
                             parseStatus: "request_error_json_api",
                             error: err?.message || "request failed"
                         };
                     }
                     searches.push(failed);
                 }
+            }
+            if (successCount === 0) {
+                throw new Error(`JSON API request failed for all variants. ${aggregatedErrors[0] || "unknown error"}`);
             }
             return {
                 query: normalizedKey,

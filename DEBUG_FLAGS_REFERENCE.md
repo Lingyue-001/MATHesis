@@ -9,9 +9,14 @@ This file is auto-generated from `src/js/debugFlags.mjs`. Do not edit manually.
 | `ctextDebug` | boolean | `0`, `1` | `false` | CText lookup UI | Show CText debug details (source mode and per-variant debug block). |
 | `ctextRefresh` | boolean | `0`, `1` | `false` | CText middleware | Bypass middleware cache for this request. |
 | `ctextSource` | enum | `auto`, `json`, `middleware` | `auto` | CText data source selector | Force CText request source; auto chooses middleware on localhost and json on non-localhost. |
+| `ctextProxy` | string | `<url>` | `` | CText proxy endpoint | Proxy base URL for JSON mode. Recommended: your Netlify site domain. |
 
 ## Examples
 
 - `?ctextDebug=1`
 - `?ctextDebug=1&ctextSource=json`
 - `?ctextDebug=1&ctextRefresh=1&ctextSource=middleware`
+- `?ctextSource=json&ctextProxy=https://<your-netlify-site>`
+
+Note:
+- In non-localhost environments, `ctextSource=json` requires `ctextProxy`.
