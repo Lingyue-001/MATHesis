@@ -928,3 +928,18 @@
    - test API 试验代码已撤回，代码基线恢复为 test 系列之前状态。
 5. 复盘 / Retrospective
    - 当验证链路依赖外部部署状态但不可观测时，应先回滚试验分支，避免把失败实验长期留在主干。
+
+## [2026-03-04] 二次清基线：回滚 Netlify JSON 代理试验提交
+0. Tags / 标签
+   - ctext, infra
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 在切换到“Netlify 上运行 middleware 逻辑”前，先移除剩余 test API 试验改动，确保基线干净可控。
+3. 操作 / Actions
+   - 回滚 `48bbd16`（Netlify publish 目录修正，属 JSON 代理试验链路）。
+   - 回滚 `4d82322`（Netlify JSON 代理方案及配套文档）。
+4. 解决 / Outcome
+   - test API 第二轮试验代码已全部撤回；仓库恢复到试验前可控状态。
+5. 复盘 / Retrospective
+   - 在连续实验失败后，应分阶段清理历史试验改动，再进入下一条技术路线，避免跨方案残留互相干扰。
