@@ -5,7 +5,7 @@ const path = require("path");
 const crypto = require("crypto");
 
 const C_TEXT_RESULT_ENDPOINT = "https://ctext.org/mathematics/zh?if=gb&searchu=";
-const C_TEXT_JSON_API_ENDPOINT = "https://api.ctext.org/";
+const C_TEXT_JSON_API_ENDPOINT = "https://api.ctext.org";
 const REQUEST_GAP_MS = 120;
 const MAX_VARIANTS = 12;
 const MAX_REDIRECTS = 5;
@@ -17,7 +17,10 @@ const CACHE_TTL_MS_RAW = Number(process.env.CTEXT_CACHE_TTL_MS || 24 * 60 * 60 *
 const CACHE_TTL_MS = Number.isFinite(CACHE_TTL_MS_RAW) && CACHE_TTL_MS_RAW > 0
   ? CACHE_TTL_MS_RAW
   : 6 * 60 * 60 * 1000;
-const FETCH_MODE = String(process.env.CTEXT_FETCH_MODE || "browser").toLowerCase();
+const DEFAULT_FETCH_MODE = (process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME)
+  ? "http"
+  : "browser";
+const FETCH_MODE = String(process.env.CTEXT_FETCH_MODE || DEFAULT_FETCH_MODE).toLowerCase();
 const CTEXT_SESSION_DIR = path.resolve(process.cwd(), "tmp", "ctext_session");
 const GLOBAL_GAP_MS_RAW = Number(process.env.CTEXT_GLOBAL_GAP_MS || 1200);
 const GLOBAL_GAP_MS = Number.isFinite(GLOBAL_GAP_MS_RAW) && GLOBAL_GAP_MS_RAW >= 0
@@ -526,9 +529,8 @@ function buildStatsUrl(baseUrl) {
 }
 
 function buildJsonApiSearchtextsUrl(searchTerms) {
-  const u = new URL(C_TEXT_JSON_API_ENDPOINT);
+  const u = new URL(`${C_TEXT_JSON_API_ENDPOINT}/searchtexts`);
   u.searchParams.set("if", "gb");
-  u.searchParams.set("func", "searchtexts");
   u.searchParams.set("searchTerms", searchTerms);
   u.searchParams.set("json", "1");
   return u.toString();
@@ -536,9 +538,8 @@ function buildJsonApiSearchtextsUrl(searchTerms) {
 
 function buildJsonApiGetlinkUrl(urn) {
   if (!urn) return "";
-  const u = new URL(C_TEXT_JSON_API_ENDPOINT);
+  const u = new URL(`${C_TEXT_JSON_API_ENDPOINT}/getlink`);
   u.searchParams.set("if", "gb");
-  u.searchParams.set("func", "getlink");
   u.searchParams.set("urn", urn);
   u.searchParams.set("redirect", "1");
   return u.toString();
@@ -857,6 +858,7 @@ async function searchAcrossVariants(query) {
       continue;
     } catch (jsonErr) {
       // JSON API may be unavailable for some terms or user group; fallback to html parsing chain.
+      // keep last error on item only if fallback also fails
     }
     try {
       const { parsed, finalUrl, statusCode, attempts, queryUsed } = await fetchVariantWithRetries(variant);
