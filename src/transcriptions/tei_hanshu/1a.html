@@ -1030,22 +1030,6 @@
             return api.toString();
         }
 
-        function resolveCtextProxyEndpoint() {
-            const flags = getCtextDebugFlags();
-            const raw = String(flags?.ctextProxy || "").trim();
-            if (!raw) return "";
-            if (!/^https?:\/\//i.test(raw)) return "";
-            return raw.replace(/\/$/, "");
-        }
-
-        function buildProxySearchtextsUrl(proxyEndpoint, variant) {
-            const api = new URL(`${proxyEndpoint}/searchtexts`);
-            api.searchParams.set("if", "gb");
-            api.searchParams.set("searchTerms", variant);
-            api.searchParams.set("json", "1");
-            return api.toString();
-        }
-
         function buildGetlinkUrl(urn) {
             if (!urn) return "";
             const api = new URL("https://api.ctext.org/getlink");
@@ -1094,17 +1078,14 @@
         async function requestCtextSearchViaJsonApi(normalizedKey, ctextDebug) {
             const variants = buildVariantsForClient(normalizedKey);
             const searches = [];
-            const proxyEndpoint = resolveCtextProxyEndpoint();
             for (let i = 0; i < variants.length; i += 1) {
                 const variant = variants[i];
-                const apiUrl = proxyEndpoint
-                    ? buildProxySearchtextsUrl(proxyEndpoint, variant)
-                    : buildSearchtextsUrl(variant);
+                const apiUrl = buildSearchtextsUrl(variant);
                 try {
                     const res = await fetch(apiUrl, {
                         method: "GET",
                         mode: "cors",
-                        credentials: "omit",
+                        credentials: "include",
                         headers: { "Accept": "application/json" }
                     });
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);

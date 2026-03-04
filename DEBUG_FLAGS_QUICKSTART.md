@@ -2,7 +2,7 @@
 
 这份文档是给日常使用看的，不是技术实现文档。
 
-## 先记住这 4 个尾巴
+## 先记住这 3 个尾巴
 
 1. `?ctextDebug=1`
 - 用途：显示调试信息（例如当前走的是 `json` 还是 `middleware`）。
@@ -16,15 +16,10 @@
 - 用途：强制指定数据源。
 - 适合：你要对比“线上方案（json）”和“本地方案（middleware）”。
 
-4. `?ctextProxy=https://<你的 worker 域名>`
-- 用途：让 JSON 检索走你自己的代理（推荐线上使用）。
-- 适合：线上浏览器直连 `api.ctext.org` 失败时（`NetworkError` / CORS）。
-
 ## 常用组合（可直接复制）
 
 - 看调试信息：`?ctextDebug=1`
 - 强制走 JSON API 并看调试：`?ctextDebug=1&ctextSource=json`
-- 强制走 JSON + 你的代理：`?ctextDebug=1&ctextSource=json&ctextProxy=https://<your-worker-domain>`
 - 强制走 middleware + 跳过缓存：`?ctextDebug=1&ctextSource=middleware&ctextRefresh=1`
 
 ## 我该看哪个文件？

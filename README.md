@@ -62,12 +62,6 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - For browser mode, install dependency once:
   - `npm i -D playwright`
 
-### CText lookup (production proxy recommendation)
-- For GitHub Pages static hosting, use your own proxy endpoint in JSON mode:
-  - `?ctextSource=json&ctextProxy=https://<your-worker-domain>`
-- A minimal Cloudflare Worker template is provided at:
-  - `CLOUDFLARE_WORKER_CTEXT_PROXY.js`
-
 ## Deployment checklist (GitHub Pages)
 1) Pages source set to **GitHub Actions** (not `/docs` branch).
 2) Build output matches workflow artifact path (`dist`).
