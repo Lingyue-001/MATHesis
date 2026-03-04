@@ -21,7 +21,15 @@ export const DEBUG_FLAG_SPECS = [
     defaultValue: "auto",
     values: ["auto", "json", "middleware"],
     scope: "CText data source selector",
-    description: "Force CText request source; auto chooses middleware on localhost and json on non-localhost."
+    description: "Force CText request source; auto tries middleware first, then falls back to json."
+  },
+  {
+    key: "ctextProxyOrigin",
+    type: "string",
+    defaultValue: "",
+    values: [],
+    scope: "CText middleware endpoint",
+    description: "Optional absolute proxy origin override, e.g. https://ctext-proxy.example.com"
   }
 ];
 
@@ -37,11 +45,24 @@ export function getDebugFlagsFromSearch(search = "") {
   const ctextSource = ["json", "middleware"].includes(ctextSourceRaw)
     ? ctextSourceRaw
     : "auto";
+  const ctextProxyOriginRaw = String(params.get("ctextProxyOrigin") || "").trim();
+  let ctextProxyOrigin = "";
+  if (ctextProxyOriginRaw) {
+    try {
+      const parsed = new URL(ctextProxyOriginRaw);
+      if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+        ctextProxyOrigin = parsed.origin;
+      }
+    } catch {
+      ctextProxyOrigin = "";
+    }
+  }
 
   return {
     ctextDebug: parseBooleanFlag(params.get("ctextDebug"), false),
     ctextRefresh: parseBooleanFlag(params.get("ctextRefresh"), false),
-    ctextSource
+    ctextSource,
+    ctextProxyOrigin
   };
 }
 
@@ -54,5 +75,5 @@ export function resolveCtextSourceMode(flags, hostname = "") {
   if (flags?.ctextSource === "json" || flags?.ctextSource === "middleware") {
     return flags.ctextSource;
   }
-  return isLocalhost(hostname) ? "middleware" : "json";
+  return isLocalhost(hostname) ? "middleware" : "auto";
 }

@@ -5,6 +5,7 @@
   "scripts": {
     "generate:debug-flags-doc": "node scripts/generate-debug-flags-doc.mjs",
     "generate:log-by-tag": "node scripts/generate-log-by-tag.mjs",
+    "start:ctext-proxy": "node server/ctextProxyServer.js",
     "prestart": "npm run generate:debug-flags-doc && npm run generate:log-by-tag",
     "start": "npx eleventy --serve",
     "prebuild": "npm run generate:debug-flags-doc && npm run generate:log-by-tag",

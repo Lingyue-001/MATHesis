@@ -9,7 +9,8 @@
 - Transcriptions：已接入 `src/transcriptions/tei_hanshu/1a.html` 与 `src/transcriptions/tei_hanshu/1a.xml` 的旧逻辑入口用于验证渲染链路。
 - Transcriptions：`src/transcriptions/tei_brhat/` 已建立并可访问 `1r` 测试页。
 - 数据现状：搜索使用 `src/data.json`，可视化使用 `static/*.csv`，存在双数据源并行。
-- CText 检索现状：`/api/ctext/search` 依赖 Eleventy 本地 dev middleware（`server/ctextSearchMiddleware.js`）；当前 GitHub Pages 线上静态部署不提供该后端接口，线上仅可使用外链 fallback 查询。
+- CText 检索现状：已新增 Netlify Functions 入口（`netlify/functions/ctext-search.js` + `netlify.toml` 重写 `/api/ctext/search`），Netlify 部署可直接走 middleware 逻辑；GitHub Pages 仍不提供该后端接口。
+- CText 检索现状：本地可通过独立代理 `npm run start:ctext-proxy`（`server/ctextProxyServer.js`）复用浏览器态会话，并在页面用 `ctextProxyOrigin` 指向该代理做联调。
 - Brhat 本地编辑器现状：`src/transcriptions/tei_brhat/1r.html` 支持本地草稿编辑模式，仅在 `localhost/127.0.0.1` 且 URL 带 `?edit=1` 时显示 `Editor` 按钮；编辑结果仅写入浏览器 `localStorage`，不会改动 XML 源文件。
 
 ## 紧急 TODO（下次继续）
@@ -28,6 +29,7 @@
     - 结果浮窗支持中英切换（当前已移除空白“检索内容 / Search details”标题行）。
   - 目标：把“可运行”提升为“可长期维护”，并降低对 HTML 模板的依赖。
   - 下一步：优先推进 JSON API 迁移；保留当前链路作为 fallback，并持续观察 `parseStatus` 中的上游风控信号。
+  - 工程化待办：补齐“线上可控代理域名 + `ctextProxyOrigin` 默认注入”配置，去掉手动 debug URL 依赖。
 
 ## P0 高优先级待办（阻塞稳定性）
 - [ ] 统一唯一数据源：明确 `src/data.json` 与 `static/*.csv` 的主从关系，避免数据漂移。

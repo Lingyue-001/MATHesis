@@ -943,3 +943,26 @@
    - test API 第二轮试验代码已全部撤回；仓库恢复到试验前可控状态。
 5. 复盘 / Retrospective
    - 在连续实验失败后，应分阶段清理历史试验改动，再进入下一条技术路线，避免跨方案残留互相干扰。
+
+## [2026-03-04] Netlify middleware 接入与本地独立代理联调闭环
+0. Tags / 标签
+   - ctext, infra
+1. Time
+   - 2026-03-04
+2. 需求明确 / Goal
+   - 让 CText 检索在 Netlify 部署形态可用，并保留本地可控会话代理用于稳定复现与排障。
+3. 操作 / Actions
+   - 新增 `netlify/functions/ctext-search.js`，复用 `server/ctextSearchMiddleware.js` 作为函数处理器。
+   - 新增 `netlify.toml`，将 `/api/ctext/search` 重写到 `/.netlify/functions/ctext-search`。
+   - 新增 `server/ctextProxyServer.js` 与 `npm run start:ctext-proxy`，提供带 CORS 的本地独立代理（含 `/healthz`）。
+   - 更新 `src/js/debugFlags.mjs` 与 `src/transcriptions/tei_hanshu/1a.html`：
+     - `ctextSource=auto` 改为 middleware 优先、JSON fallback；
+     - 支持 `ctextProxyOrigin` 注入代理源；
+     - 修复 `/1a/` 路由下资源与 XML/图像相对路径解析。
+   - 调整 `.eleventy.js` 的 `pathPrefix` 逻辑：仅 GitHub Actions 构建启用 `/MATHesis/`，避免本地/Netlify 路径串扰。
+4. 解决 / Outcome
+   - 本地 `netlify dev` 与独立代理联调下，CText 变体检索可返回完整结果，`-` 占位问题已显著缓解。
+   - `1a` 页面在 `/1a/` 路由下恢复正常渲染，手稿图与站点图标可正确加载。
+5. 复盘 / Retrospective
+   - 部署形态差异（GitHub Pages 静态 / Netlify 函数 / 本地长会话代理）必须显式拆层，不应混用单一默认路径。
+   - 对外部检索链路，先保证“可观测 + 可切源 + 可回退”，再谈召回率优化，整体推进更稳。

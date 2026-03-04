@@ -5,11 +5,23 @@ const path = require("path");
 const crypto = require("crypto");
 
 const C_TEXT_RESULT_ENDPOINT = "https://ctext.org/mathematics/zh?if=gb&searchu=";
-const REQUEST_GAP_MS = 120;
-const MAX_VARIANTS = 12;
+const REQUEST_GAP_MS_RAW = Number(process.env.CTEXT_REQUEST_GAP_MS || 120);
+const REQUEST_GAP_MS = Number.isFinite(REQUEST_GAP_MS_RAW) && REQUEST_GAP_MS_RAW >= 0
+  ? REQUEST_GAP_MS_RAW
+  : 120;
+const MAX_VARIANTS_RAW = Number(process.env.CTEXT_MAX_VARIANTS || 12);
+const MAX_VARIANTS = Number.isFinite(MAX_VARIANTS_RAW) && MAX_VARIANTS_RAW > 0
+  ? Math.min(Math.floor(MAX_VARIANTS_RAW), 24)
+  : 12;
 const MAX_REDIRECTS = 5;
-const MAX_VARIANT_ATTEMPTS = 2;
-const REQUEST_TIMEOUT_MS = 15000;
+const MAX_VARIANT_ATTEMPTS_RAW = Number(process.env.CTEXT_MAX_VARIANT_ATTEMPTS || 2);
+const MAX_VARIANT_ATTEMPTS = Number.isFinite(MAX_VARIANT_ATTEMPTS_RAW) && MAX_VARIANT_ATTEMPTS_RAW > 0
+  ? Math.min(Math.floor(MAX_VARIANT_ATTEMPTS_RAW), 5)
+  : 2;
+const REQUEST_TIMEOUT_MS_RAW = Number(process.env.CTEXT_REQUEST_TIMEOUT_MS || 15000);
+const REQUEST_TIMEOUT_MS = Number.isFinite(REQUEST_TIMEOUT_MS_RAW) && REQUEST_TIMEOUT_MS_RAW > 1000
+  ? REQUEST_TIMEOUT_MS_RAW
+  : 15000;
 const CACHE_DIR = path.resolve(process.cwd(), "tmp", "ctext_cache");
 const CACHE_SCHEMA_VERSION = 7;
 const CACHE_TTL_MS_RAW = Number(process.env.CTEXT_CACHE_TTL_MS || 24 * 60 * 60 * 1000);
@@ -22,9 +34,20 @@ const GLOBAL_GAP_MS_RAW = Number(process.env.CTEXT_GLOBAL_GAP_MS || 1200);
 const GLOBAL_GAP_MS = Number.isFinite(GLOBAL_GAP_MS_RAW) && GLOBAL_GAP_MS_RAW >= 0
   ? GLOBAL_GAP_MS_RAW
   : 1200;
+const SKIP_STATS = ["1", "true", "yes"].includes(String(process.env.CTEXT_SKIP_STATS || "").toLowerCase());
+const INCLUDE_SINGLE_CHAR_VARIANTS = ["1", "true", "yes"].includes(
+  String(process.env.CTEXT_INCLUDE_SINGLE_CHAR_VARIANTS || "").toLowerCase()
+);
+const ENABLE_SINGLE_CHAR_FALLBACK_ON_EMPTY = !["0", "false", "no"].includes(
+  String(process.env.CTEXT_SINGLE_CHAR_FALLBACK_ON_EMPTY || "1").toLowerCase()
+);
+const SINGLE_CHAR_FALLBACK_MAX_RAW = Number(process.env.CTEXT_SINGLE_CHAR_FALLBACK_MAX || 2);
+const SINGLE_CHAR_FALLBACK_MAX = Number.isFinite(SINGLE_CHAR_FALLBACK_MAX_RAW) && SINGLE_CHAR_FALLBACK_MAX_RAW > 0
+  ? Math.min(Math.floor(SINGLE_CHAR_FALLBACK_MAX_RAW), 8)
+  : 2;
 const LOGIN_GATE_PATTERNS = [
-  /請\s*<a[^>]+account\.pl[^>]*>\s*登入帳戶/i,
-  /请\s*<a[^>]+account\.pl[^>]*>\s*登入账户/i,
+  /請\s*<a[^>]+account\.pl[^>]*>\s*登入帳戶<\/a>\s*以顯示這一頁/i,
+  /请\s*<a[^>]+account\.pl[^>]*>\s*登入账户<\/a>\s*以显示这一页/i,
   /嚴禁使用自動下載軟体/i,
   /严禁使用自动下载/i
 ];
@@ -168,7 +191,11 @@ function decodeBody(buffer, encoding = "") {
 
 function isLoginGatedPage(rawHtml) {
   const html = String(rawHtml || "");
-  return LOGIN_GATE_PATTERNS.some(re => re.test(html));
+  const hasGateMarker = LOGIN_GATE_PATTERNS.some(re => re.test(html));
+  if (!hasGateMarker) return false;
+  // If result header signals exist, treat this as a normal result page with login links.
+  const hasResultSignals = /(?:檢索範圍|搜索範圍|搜尋範圍|检索范围|搜索范围|條件\s*\d+|条件\s*\d+|符合次數|符合次数)/.test(html);
+  return !hasResultSignals;
 }
 
 function fetchText(url, redirectCount = 0) {
@@ -301,10 +328,13 @@ function buildVariants(term) {
     }
   }
 
-  for (const ch of chars) {
-    if (STOP_CHARS.has(ch)) continue;
-    if (/\s/.test(ch)) continue;
-    variants.add(ch);
+  // Single-character expansion causes frequent upstream gating for very broad terms.
+  if (chars.length === 1 || INCLUDE_SINGLE_CHAR_VARIANTS) {
+    for (const ch of chars) {
+      if (STOP_CHARS.has(ch)) continue;
+      if (/\s/.test(ch)) continue;
+      variants.add(ch);
+    }
   }
 
   const sorted = Array.from(variants)
@@ -312,6 +342,21 @@ function buildVariants(term) {
     .sort((a, b) => b.length - a.length);
 
   return sorted.slice(0, MAX_VARIANTS);
+}
+
+function buildSingleCharVariants(term) {
+  const base = (term || "").trim();
+  if (!base) return [];
+  const out = [];
+  const seen = new Set();
+  for (const ch of Array.from(base)) {
+    if (STOP_CHARS.has(ch)) continue;
+    if (/\s/.test(ch)) continue;
+    if (seen.has(ch)) continue;
+    seen.add(ch);
+    out.push(ch);
+  }
+  return out;
 }
 
 function extractLines(text) {
@@ -607,16 +652,22 @@ async function fetchVariantWithRetries(variant) {
         let statsUrl = "";
         let statsFetchError = "";
         let statsGroupCount = 0;
+        let statsSkipped = false;
 
-        try {
-          statsUrl = buildStatsUrl(fetched.finalUrl || searchUrl);
-          const statsFetched = await runWithGlobalThrottle(() => fetchTextByMode(statsUrl));
-          const statsGroups = parseStatsTextGroups(statsFetched.body);
-          parsed.structured.textGroups = statsGroups;
-          statsGroupCount = statsGroups.length;
-        } catch (err) {
+        if (!SKIP_STATS) {
+          try {
+            statsUrl = buildStatsUrl(fetched.finalUrl || searchUrl);
+            const statsFetched = await runWithGlobalThrottle(() => fetchTextByMode(statsUrl));
+            const statsGroups = parseStatsTextGroups(statsFetched.body);
+            parsed.structured.textGroups = statsGroups;
+            statsGroupCount = statsGroups.length;
+          } catch (err) {
+            parsed.structured.textGroups = [];
+            statsFetchError = err?.message || "stats page fetch failed";
+          }
+        } else {
           parsed.structured.textGroups = [];
-          statsFetchError = err?.message || "stats page fetch failed";
+          statsSkipped = true;
         }
 
         const status = classifyParseStatus(parsed);
@@ -631,6 +682,7 @@ async function fetchVariantWithRetries(variant) {
           statsUrl,
           statsGroupCount,
           statsFetchError,
+          statsSkipped,
           gated: Boolean(parsed?.debug?.markers?.hasLoginGate),
           parseOk,
           parseStatus: parseOk
@@ -656,13 +708,16 @@ async function fetchVariantWithRetries(variant) {
   }
 
   if (lastParsed) {
+    const hadLoginGate = Boolean(lastParsed?.debug?.markers?.hasLoginGate);
     lastParsed.debug = {
       ...(lastParsed.debug || {}),
       attempt: globalAttempt || MAX_VARIANT_ATTEMPTS,
       queryUsed: lastParsed.debug?.queryUsed || variant,
       triedQueries: queryCandidates,
       parseOk: false,
-      parseStatus: "missing_result_header_after_retries"
+      parseStatus: hadLoginGate
+        ? "upstream_login_required_or_rate_limited_after_retries"
+        : "missing_result_header_after_retries"
     };
     return {
       parsed: lastParsed,
@@ -677,25 +732,32 @@ async function fetchVariantWithRetries(variant) {
 }
 
 async function searchAcrossVariants(query) {
-  const variants = buildVariants(query);
+  const normalizedQuery = (query || "").trim();
+  const variants = buildVariants(normalizedQuery);
+  const variantQueue = [...variants];
+  const seenVariants = new Set(variantQueue);
   const searches = [];
+  const isMultiCharQuery = Array.from(normalizedQuery).length > 1;
+  let singleCharFallbackInjected = false;
 
-  for (let i = 0; i < variants.length; i += 1) {
-    const variant = variants[i];
+  for (let i = 0; i < variantQueue.length; i += 1) {
+    const variant = variantQueue[i];
     if (i > 0) await delay(REQUEST_GAP_MS);
+    let resultItem = null;
     try {
       const { parsed, finalUrl, statusCode, attempts, queryUsed } = await fetchVariantWithRetries(variant);
 
-      searches.push({
+      resultItem = {
         ...parsed,
         sourceEndpoint: attempts > 1 ? "mathematics-retry" : "mathematics",
         finalUrl,
         statusCode,
         attempts,
         queryUsed
-      });
+      };
+      searches.push(resultItem);
     } catch (err) {
-      searches.push({
+      resultItem = {
         variant,
         searchUrl: `${C_TEXT_RESULT_ENDPOINT}${encodeURIComponent(variant)}`,
         scope: "",
@@ -714,17 +776,45 @@ async function searchAcrossVariants(query) {
           parseStatus: "request_error"
         },
         error: err.message
-      });
+      };
+      searches.push(resultItem);
+    }
+
+    const isPrimaryVariant = i === 0;
+    if (
+      isPrimaryVariant
+      && isMultiCharQuery
+      && !INCLUDE_SINGLE_CHAR_VARIANTS
+      && ENABLE_SINGLE_CHAR_FALLBACK_ON_EMPTY
+      && !singleCharFallbackInjected
+    ) {
+      const hitCount = typeof resultItem?.hitCount === "number" ? resultItem.hitCount : null;
+      const parseOk = Boolean(resultItem?.debug?.parseOk);
+      const needsFallbackSingles = !parseOk || hitCount === null || hitCount === 0;
+      if (needsFallbackSingles) {
+        const remainingBudget = Math.max(0, MAX_VARIANTS - variantQueue.length);
+        const singleChars = buildSingleCharVariants(normalizedQuery)
+          .filter(v => !seenVariants.has(v))
+          .slice(0, Math.min(SINGLE_CHAR_FALLBACK_MAX, remainingBudget));
+        if (singleChars.length > 0) {
+          singleChars.forEach(v => {
+            variantQueue.push(v);
+            seenVariants.add(v);
+          });
+          singleCharFallbackInjected = true;
+        }
+      }
     }
   }
 
   return {
-    query,
+    query: normalizedQuery,
     endpoint: C_TEXT_RESULT_ENDPOINT,
-    variants,
+    variants: variantQueue,
     variantsSearched: searches.length,
     generatedAt: new Date().toISOString(),
-    searches
+    searches,
+    singleCharFallbackInjected
   };
 }
 

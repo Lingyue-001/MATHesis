@@ -8,7 +8,8 @@ This file is auto-generated from `src/js/debugFlags.mjs`. Do not edit manually.
 | --- | --- | --- | --- | --- | --- |
 | `ctextDebug` | boolean | `0`, `1` | `false` | CText lookup UI | Show CText debug details (source mode and per-variant debug block). |
 | `ctextRefresh` | boolean | `0`, `1` | `false` | CText middleware | Bypass middleware cache for this request. |
-| `ctextSource` | enum | `auto`, `json`, `middleware` | `auto` | CText data source selector | Force CText request source; auto chooses middleware on localhost and json on non-localhost. |
+| `ctextSource` | enum | `auto`, `json`, `middleware` | `auto` | CText data source selector | Force CText request source; auto tries middleware first, then falls back to json. |
+| `ctextProxyOrigin` | string |  | `` | CText middleware endpoint | Optional absolute proxy origin override, e.g. https://ctext-proxy.example.com |
 
 ## Examples
 

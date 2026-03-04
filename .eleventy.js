@@ -13,9 +13,10 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("assets");
 
   // === 环境变量判断 ===
-  // GitHub Actions 会自动注入 NODE_ENV=production
+  // Only GitHub Actions project-site builds should use /MATHesis pathPrefix.
   const isProduction = process.env.NODE_ENV === "production";
-  const pathPrefix = isProduction ? "/MATHesis/" : "/";
+  const isGitHubActionsBuild = String(process.env.GITHUB_ACTIONS || "").toLowerCase() === "true";
+  const pathPrefix = isGitHubActionsBuild ? "/MATHesis/" : "/";
 
   const ctextMiddleware = createCtextSearchMiddleware();
 

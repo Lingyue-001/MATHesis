@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/style.css" />
     <style>
         :root {
             --hanshu-main-span: 760px;
@@ -223,18 +223,18 @@
 <body>
     <header class="site-header">
         <div class="logo-container">
-            <img src="../../assets/logo.png" class="logo-icon" width="50" height="50" loading="eager" decoding="async"
+            <img src="../../../assets/logo.png" class="logo-icon" width="50" height="50" loading="eager" decoding="async"
                 alt="MATHesis logo" />
-            <img src="../../assets/logotype.svg" class="letter-logo" width="140" height="32" loading="eager"
+            <img src="../../../assets/logotype.svg" class="letter-logo" width="140" height="32" loading="eager"
                 decoding="async" alt="MATHesis" />
         </div>
         <nav class="site-nav">
-            <a href="../../">Home</a>
-            <a href="../../search/">Search</a>
-            <a href="../../transcriptions/">Transcriptions</a>
-            <a href="../../visualization/">Visualization</a>
-            <a href="../../map/">Map</a>
-            <a href="../../about/">About</a>
+            <a href="../../../">Home</a>
+            <a href="../../../search/">Search</a>
+            <a href="../../../transcriptions/">Transcriptions</a>
+            <a href="../../../visualization/">Visualization</a>
+            <a href="../../../map/">Map</a>
+            <a href="../../../about/">About</a>
         </nav>
     </header>
 
@@ -248,23 +248,45 @@
         <div id="tei-container"></div>
         <span id="lineInteractionHintHanshu" class="line-interaction-hint">Tip: single-click a highlighted matched node for details; double-click a matched node to query CText.</span>
         <div class="xml-link-block">
-            <a href="./1a.xml" target="_blank" rel="noopener">view XML</a>
+            <a id="xmlSourceLinkHanshu" href="#" target="_blank" rel="noopener">view XML</a>
         </div>
     </main>
     <script type="module">
-        import { bindNodeHitPopup, resolveNodeByTerm } from "../../js/nodeEntryPopup.js";
-        import { getDebugFlagsFromSearch, resolveCtextSourceMode } from "../../js/debugFlags.mjs";
+        import { bindNodeHitPopup, resolveNodeByTerm } from "../../../js/nodeEntryPopup.js";
+        import { getDebugFlagsFromSearch, resolveCtextSourceMode } from "../../../js/debugFlags.mjs";
 
         let nodeRecordsCache = null;
         let hanshuScriptMode = "traditional";
+        let currentTeiSourceAbsoluteUrl = "";
+
+        function resolveTeiAssetUrl(fileName) {
+            const name = String(fileName || "").replace(/^\.?\//, "");
+            if (!name) return "";
+            const pathname = window.location.pathname || "";
+            return pathname.endsWith("/") ? `../${name}` : `./${name}`;
+        }
+
+        function resolveTeiLinkedUrl(rawUrl) {
+            const raw = String(rawUrl || "").trim();
+            if (!raw) return "";
+            if (raw.startsWith("#")) return raw;
+            try {
+                return new URL(raw, currentTeiSourceAbsoluteUrl || window.location.href).toString();
+            } catch {
+                return raw;
+            }
+        }
 
         async function loadTEI(fileName, targetSelector) {
             const target = document.querySelector(targetSelector);
             if (!target) throw new Error("Target element not found: " + targetSelector);
+            const sourceUrl = resolveTeiAssetUrl(fileName);
+            if (!sourceUrl) throw new Error("Invalid TEI source file");
+            currentTeiSourceAbsoluteUrl = new URL(sourceUrl, window.location.href).toString();
 
             try {
-                const res = await fetch(`./${fileName}`, { headers: { "Accept": "application/xml" } });
-                if (!res.ok) throw new Error(`HTTP ${res.status} for ${fileName}`);
+                const res = await fetch(sourceUrl, { headers: { "Accept": "application/xml" } });
+                if (!res.ok) throw new Error(`HTTP ${res.status} for ${sourceUrl}`);
                 const xmlText = await res.text();
 
                 // Parse XML (TEI usually uses a default namespace)
@@ -292,7 +314,7 @@
                 // Fallback: show raw XML safely
                 target.textContent = "Failed to render TEI. Showing raw XML:\n\n" + (err?.message || "");
                 try {
-                    const res2 = await fetch(`./${fileName}`);
+                    const res2 = await fetch(sourceUrl);
                     const raw = await res2.text();
                     target.textContent += "\n\n" + raw;
                 } catch { }
@@ -683,6 +705,50 @@
             return getDebugFlagsFromSearch(window.location.search || "");
         }
 
+        function normalizeProxyOrigin(origin) {
+            const raw = String(origin || "").trim();
+            if (!raw) return "";
+            try {
+                const parsed = new URL(raw);
+                if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+                    return parsed.origin;
+                }
+            } catch {
+                return "";
+            }
+            return "";
+        }
+
+        function resolveCtextMiddlewareBase(flags) {
+            const proxyOriginFromFlag = normalizeProxyOrigin(flags?.ctextProxyOrigin || "");
+            if (proxyOriginFromFlag) {
+                try {
+                    window.localStorage.setItem("ctextProxyOrigin", proxyOriginFromFlag);
+                } catch { }
+                return proxyOriginFromFlag;
+            }
+            try {
+                const savedProxy = normalizeProxyOrigin(window.localStorage.getItem("ctextProxyOrigin") || "");
+                if (savedProxy) return savedProxy;
+            } catch { }
+            const globalProxy = normalizeProxyOrigin(window.__CTEXT_PROXY_ORIGIN || "");
+            if (globalProxy) {
+                return globalProxy;
+            }
+            const path = window.location.pathname || "";
+            return path.includes("/transcriptions/")
+                ? path.split("/transcriptions/")[0]
+                : "";
+        }
+
+        function resolveTranscriptionsIndexUrl() {
+            const path = window.location.pathname || "";
+            const basePrefix = path.includes("/transcriptions/")
+                ? path.split("/transcriptions/")[0]
+                : "";
+            return `${basePrefix}/transcriptions/`;
+        }
+
         function openCtextPanelWithEnterAnimation(panel) {
             if (!(panel instanceof HTMLElement)) return;
             if (panel.classList.contains("is-open")) return;
@@ -986,7 +1052,7 @@
 
             body.innerHTML = `
                 <p class="ctext-query"><strong>${t.query}</strong>${escapeHtml(term)}</p>
-                ${ctextDebug && payload?.sourceMode ? `<p class="ctext-query-sub">Source: ${escapeHtml(payload.sourceMode)}</p>` : ""}
+                ${ctextDebug && payload?.sourceMode ? `<p class="ctext-query-sub">Source: ${escapeHtml(payload.sourceMode)}${payload?.middlewareBase ? ` (${escapeHtml(payload.middlewareBase)})` : ""}</p>` : ""}
                 <p class="ctext-query-sub">${t.variantSearch}（${escapeHtml(payload?.variantsSearched ?? (payload?.variants || []).length)}）：${escapeHtml((payload.variants || []).join(" / ")) || "—"}</p>
                 ${blocks || `<p class='ctext-empty'>${t.noResult}</p>`}
             `;
@@ -1010,11 +1076,14 @@
                 }
             }
 
-            chars.forEach(ch => {
-                if (stopChars.has(ch)) return;
-                if (/\s/.test(ch)) return;
-                variants.add(ch);
-            });
+            // Avoid broad single-character variants by default; they are often rate-limited upstream.
+            if (chars.length === 1) {
+                chars.forEach(ch => {
+                    if (stopChars.has(ch)) return;
+                    if (/\s/.test(ch)) return;
+                    variants.add(ch);
+                });
+            }
 
             return Array.from(variants)
                 .filter(Boolean)
@@ -1155,27 +1224,25 @@
             };
         }
 
-        async function requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh) {
-            const apiUrl = `${basePrefix}/api/ctext/search?q=${encodeURIComponent(normalizedKey)}${ctextDebug ? "&debug=1" : ""}${forceRefresh ? "&refresh=1" : ""}`;
+        async function requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh) {
+            const apiBase = middlewareBase ? `${middlewareBase}/api/ctext/search` : "/api/ctext/search";
+            const apiUrl = `${apiBase}?q=${encodeURIComponent(normalizedKey)}${ctextDebug ? "&debug=1" : ""}${forceRefresh ? "&refresh=1" : ""}`;
             const res = await fetch(apiUrl, {
                 headers: { "Accept": "application/json" }
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const payload = await res.json();
-            return { ...payload, sourceMode: "middleware" };
+            return { ...payload, sourceMode: "middleware", middlewareBase: middlewareBase || "" };
         }
 
         async function requestCtextSearch(term, queryKey) {
-            const path = window.location.pathname || "";
-            const basePrefix = path.includes("/transcriptions/")
-                ? path.split("/transcriptions/")[0]
-                : "";
             const flags = getCtextDebugFlags();
+            const middlewareBase = resolveCtextMiddlewareBase(flags);
             const ctextDebug = flags.ctextDebug;
             const forceRefresh = flags.ctextRefresh;
             const sourceMode = resolveCtextSourceMode(flags, window.location.hostname || "");
             const normalizedKey = normalizeLookupKey(queryKey || term) || (term || "").trim();
-            const cacheKey = `q=${normalizedKey}|source=${sourceMode}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
+            const cacheKey = `q=${normalizedKey}|source=${sourceMode}|proxy=${middlewareBase}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
             if (!forceRefresh && ctextResultCache.has(cacheKey)) {
                 return ctextResultCache.get(cacheKey);
             }
@@ -1188,10 +1255,10 @@
                     return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
                 if (sourceMode === "middleware") {
-                    return requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh);
+                    return requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
                 }
                 try {
-                    return await requestCtextSearchViaMiddleware(basePrefix, normalizedKey, ctextDebug, forceRefresh);
+                    return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
                 } catch {
                     return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
@@ -1378,7 +1445,8 @@
                 }
                 case "ref": {
                     const a = el("a");
-                    const href = node.getAttribute("target") || node.getAttribute("url") || "#";
+                    const hrefRaw = node.getAttribute("target") || node.getAttribute("url") || "#";
+                    const href = resolveTeiLinkedUrl(hrefRaw);
                     a.href = href;
                     a.appendChild(renderChildren());
                     return a;
@@ -1434,7 +1502,8 @@
 
                 case "graphic": {
                     const img = document.createElement("img");
-                    const src = node.getAttribute("url") || node.getAttribute("target");
+                    const srcRaw = node.getAttribute("url") || node.getAttribute("target");
+                    const src = resolveTeiLinkedUrl(srcRaw);
 
                     img.src = src;
                     img.alt = "Manuscript image";
@@ -1606,6 +1675,11 @@
             return s.trim();
         }
 
+        const xmlSourceLink = document.getElementById("xmlSourceLinkHanshu");
+        if (xmlSourceLink instanceof HTMLAnchorElement) {
+            xmlSourceLink.href = resolveTeiAssetUrl("1a.xml");
+        }
+
         // Call it with your file name and target container
         // Example: a file at ./sample.xml -> render into #tei-container
         loadTEI("1a.xml", "#tei-container");
@@ -1625,7 +1699,7 @@
                 window.history.back();
                 return;
             }
-            window.location.href = "../../transcriptions/";
+            window.location.href = resolveTranscriptionsIndexUrl();
         });
     </script>
 
