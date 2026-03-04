@@ -29,8 +29,7 @@ lines.push("## Examples");
 lines.push("");
 lines.push("- `?ctextDebug=1`");
 lines.push("- `?ctextDebug=1&ctextSource=json`");
-lines.push("- `?ctextDebug=1&ctextSource=middleware&ctextRefresh=1`");
-lines.push("- `?ctextDebug=1&ctextSource=middleware&ctextProxy=https://mathesis.netlify.app`");
+lines.push("- `?ctextDebug=1&ctextRefresh=1&ctextSource=middleware`");
 
 const outPath = path.join(repoRoot, "DEBUG_FLAGS_REFERENCE.md");
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
