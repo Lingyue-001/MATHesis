@@ -12,6 +12,7 @@
 - CText 检索现状：已新增 Netlify Functions 入口（`netlify/functions/ctext-search.js` + `netlify.toml` 重写 `/api/ctext/search`），Netlify 部署可直接走 middleware 逻辑；GitHub Pages 仍不提供该后端接口。
 - CText 检索现状：本地可通过独立代理 `npm run start:ctext-proxy`（`server/ctextProxyServer.js`）复用浏览器态会话，并在页面用 `ctextProxyOrigin` 指向该代理做联调。
 - CText 检索现状：`/transcriptions/tei_hanshu/1a/` 与 `/transcriptions/tei_brhat/1r/` 已作为规范入口；`*.html` 路由在 Netlify 侧重定向到目录路由，避免前端变量注入与路径解析不一致。
+- 构建发布现状：`.eleventy.js` 已对 Netlify 构建（`NETLIFY=true`）强制输出 `dist`，用于消除 `publish=dist` 与产物目录不一致导致的部署失败。
 - Brhat 本地编辑器现状：`src/transcriptions/tei_brhat/1r.html` 支持本地草稿编辑模式，仅在 `localhost/127.0.0.1` 且 URL 带 `?edit=1` 时显示 `Editor` 按钮；编辑结果仅写入浏览器 `localStorage`，不会改动 XML 源文件。
 
 ## 紧急 TODO（下次继续）

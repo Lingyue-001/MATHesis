@@ -15,6 +15,7 @@ module.exports = function(eleventyConfig) {
   // === 环境变量判断 ===
   // Only GitHub Actions project-site builds should use /MATHesis pathPrefix.
   const isProduction = process.env.NODE_ENV === "production";
+  const isNetlifyBuild = String(process.env.NETLIFY || "").toLowerCase() === "true";
   const isGitHubActionsBuild = String(process.env.GITHUB_ACTIONS || "").toLowerCase() === "true";
   const pathPrefix = isGitHubActionsBuild ? "/MATHesis/" : "/";
 
@@ -36,6 +37,8 @@ module.exports = function(eleventyConfig) {
     });
   }
 
+  const outputDir = (isProduction || isNetlifyBuild) ? "dist" : "_site";
+
   // === 目录结构设置 ===
   return {
     pathPrefix,
@@ -43,7 +46,7 @@ module.exports = function(eleventyConfig) {
       input: "src",          // 源文件夹
       includes: "layouts",   // 模板所在位置
       data: "data",          // 数据目录（可选）
-      output: isProduction ? "dist" : "_site" // 🧩 动态切换输出路径
+      output: outputDir // 🧩 Netlify/GitHub Actions builds should publish from dist
     }
   };
 };

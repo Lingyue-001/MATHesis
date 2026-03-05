@@ -992,3 +992,18 @@
 5. 复盘 / Retrospective
    - 对独立页面（非统一 layout）应优先保证“规范入口 + 路由重定向”，否则同一页面会出现多套运行上下文，排障成本高。
    - 环境变量注入问题需与路由一致性联合排查，不能只盯构建注入本身。
+
+## [2026-03-05] Netlify 产物目录对齐修复（dist 输出强制化）
+0. Tags / 标签
+   - infra, ctext
+1. Time
+   - 2026-03-05
+2. 需求明确 / Goal
+   - 修复 Netlify 构建时偶发输出到 `_site` 导致 `publish=dist` 部署失败的问题。
+3. 操作 / Actions
+   - 在 `.eleventy.js` 中新增 `isNetlifyBuild` 判断；
+   - 当 `NETLIFY=true` 或 `NODE_ENV=production` 时统一输出目录为 `dist`。
+4. 解决 / Outcome
+   - 本地模拟 `NETLIFY=true npm run build` 已稳定产出 `dist/`，与 Netlify `publish=dist` 一致。
+5. 复盘 / Retrospective
+   - 托管平台的发布目录与静态站生成目录必须硬性对齐，不能依赖隐式环境变量推断。
