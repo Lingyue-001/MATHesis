@@ -1245,8 +1245,19 @@
             const res = await fetch(apiUrl, {
                 headers: { "Accept": "application/json" }
             });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const payload = await res.json();
+            const raw = await res.text();
+            let payload = {};
+            try {
+                payload = JSON.parse(raw || "{}");
+            } catch {
+                payload = {};
+            }
+            if (!res.ok) {
+                throw new Error(String(payload?.error || `HTTP ${res.status}`));
+            }
+            if (payload && payload.error) {
+                throw new Error(String(payload.error));
+            }
             return { ...payload, sourceMode: "middleware", middlewareBase: middlewareBase || "" };
         }
 
@@ -1270,7 +1281,16 @@
                     return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
                 if (sourceMode === "middleware") {
-                    return requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
+                    try {
+                        return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
+                    } catch (err) {
+                        const fallback = await requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
+                        if (ctextDebug) {
+                            fallback.fallbackFrom = "middleware_error";
+                            fallback.fallbackError = err?.message || "unknown middleware error";
+                        }
+                        return fallback;
+                    }
                 }
                 try {
                     return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
