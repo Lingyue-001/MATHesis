@@ -966,3 +966,29 @@
 5. 复盘 / Retrospective
    - 部署形态差异（GitHub Pages 静态 / Netlify 函数 / 本地长会话代理）必须显式拆层，不应混用单一默认路径。
    - 对外部检索链路，先保证“可观测 + 可切源 + 可回退”，再谈召回率优化，整体推进更稳。
+
+## [2026-03-05] CText 前端代理注入兜底与转写路由规范化
+0. Tags / 标签
+   - ctext, transcriptions
+1. Time
+   - 2026-03-05
+2. 需求明确 / Goal
+   - 解决线上 `window.CTEXT_PROXY_ORIGIN` / `window.__CTEXT_PROXY_ORIGIN` 为 `undefined` 导致双击不发请求的问题。
+   - 统一转写页入口路由，避免 `*.html` 与目录路由行为不一致。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_hanshu/1a.html` 增加注入兜底：
+     - 同时写入 `window.__CTEXT_PROXY_ORIGIN` 与 `window.CTEXT_PROXY_ORIGIN`；
+     - `resolveCtextMiddlewareBase` 支持两种变量名读取。
+   - 在 `1a.html` 增加入口规范化逻辑：
+     - 若命中 `/transcriptions/tei_hanshu/1a.html`，自动重定向到 `/transcriptions/tei_hanshu/1a/`。
+   - 在 `netlify.toml` 增加重定向：
+     - `/transcriptions/tei_hanshu/1a.html` -> `/transcriptions/tei_hanshu/1a/`
+     - `/transcriptions/tei_brhat/1r.html` -> `/transcriptions/tei_brhat/1r/`
+   - 在 `src/transcriptions/index.md` 把入口链接改为目录路由（`/1a/`、`/1r/`）。
+   - 更新 `NETLIFY_CTEXT_PROXY_SETUP.md`，明确验证时必须使用目录路由。
+4. 解决 / Outcome
+   - 前端代理地址读取链路对变量名与入口路径均具备兜底能力，降低“变量未注入”误判概率。
+   - 转写页访问路径收敛为目录路由，减少模板注入与资源路径在不同入口下的偏差。
+5. 复盘 / Retrospective
+   - 对独立页面（非统一 layout）应优先保证“规范入口 + 路由重定向”，否则同一页面会出现多套运行上下文，排障成本高。
+   - 环境变量注入问题需与路由一致性联合排查，不能只盯构建注入本身。

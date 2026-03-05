@@ -32,6 +32,11 @@ Open:
 
 - `/transcriptions/tei_hanshu/1a/?ctextDebug=1&ctextRefresh=1`
 
+Important:
+
+- use `/1a/` (directory route), not `/1a.html`.
+- `/1a.html` is now auto-redirected to `/1a/`.
+
 Then double-click a highlighted node and check:
 
 - debug line shows `Source: middleware (https://<your-proxy>.onrender.com)`
@@ -42,4 +47,3 @@ Then double-click a highlighted node and check:
 If proxy is down, you can still force JSON source via URL:
 
 - `?ctextSource=json`
-

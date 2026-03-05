@@ -8,3 +8,15 @@
   to = "/.netlify/functions/ctext-search"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/transcriptions/tei_hanshu/1a.html"
+  to = "/transcriptions/tei_hanshu/1a/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/transcriptions/tei_brhat/1r.html"
+  to = "/transcriptions/tei_brhat/1r/"
+  status = 301
+  force = true

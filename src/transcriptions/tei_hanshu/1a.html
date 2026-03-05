@@ -252,7 +252,19 @@
         </div>
     </main>
     <script>
-        window.__CTEXT_PROXY_ORIGIN = "{{ ctextProxyOrigin | escape }}";
+        (function bootstrapCtextProxyOrigin() {
+            const path = window.location.pathname || "";
+            // Canonicalize to template-rendered route so build-time env injection is reliable.
+            if (path.endsWith("/transcriptions/tei_hanshu/1a.html")) {
+                const next = path.replace(/1a\.html$/, "1a/") + (window.location.search || "") + (window.location.hash || "");
+                window.location.replace(next);
+                return;
+            }
+            const injected = "{{ ctextProxyOrigin | escape }}";
+            window.__CTEXT_PROXY_ORIGIN = injected;
+            // Backward-compatible alias for quick console checks.
+            window.CTEXT_PROXY_ORIGIN = injected;
+        })();
     </script>
     <script type="module">
         import { bindNodeHitPopup, resolveNodeByTerm } from "../../../js/nodeEntryPopup.js";
@@ -734,7 +746,7 @@
                 const savedProxy = normalizeProxyOrigin(window.localStorage.getItem("ctextProxyOrigin") || "");
                 if (savedProxy) return savedProxy;
             } catch { }
-            const globalProxy = normalizeProxyOrigin(window.__CTEXT_PROXY_ORIGIN || "");
+            const globalProxy = normalizeProxyOrigin(window.__CTEXT_PROXY_ORIGIN || window.CTEXT_PROXY_ORIGIN || "");
             if (globalProxy) {
                 return globalProxy;
             }

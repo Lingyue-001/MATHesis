@@ -4,7 +4,7 @@ Auto-generated from `LOG_已完成改动和复盘_Completed_Changes_and_Retrospe
 
 Tag set: `ctext`, `transcriptions`, `search`, `data`, `infra`, `project-docs`.
 
-Total events: 46
+Total events: 47
 
 ## ctext
 
@@ -14,10 +14,12 @@ Total events: 46
 - [2026-03-04] 回滚全部 test ctext api 提交并重置基线
 - [2026-03-04] 二次清基线：回滚 Netlify JSON 代理试验提交
 - [2026-03-04] Netlify middleware 接入与本地独立代理联调闭环
+- [2026-03-05] CText 前端代理注入兜底与转写路由规范化
 
 ## transcriptions
 
 - [2026-03-03] 文档与转写入口同步（1a 替换 + 脚本可移植性 + Editor 草稿回填修正）
+- [2026-03-05] CText 前端代理注入兜底与转写路由规范化
 
 ## search
 
