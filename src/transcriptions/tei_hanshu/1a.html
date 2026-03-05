@@ -1108,16 +1108,16 @@
 
         function buildSearchtextsUrl(variant) {
             const api = new URL("https://api.ctext.org/searchtexts");
-            api.searchParams.set("if", "gb");
-            api.searchParams.set("searchTerms", variant);
-            api.searchParams.set("json", "1");
+            api.searchParams.set("if", "zh");
+            api.searchParams.set("remap", "gb");
+            api.searchParams.set("title", variant);
             return api.toString();
         }
 
         function buildGetlinkUrl(urn) {
             if (!urn) return "";
             const api = new URL("https://api.ctext.org/getlink");
-            api.searchParams.set("if", "gb");
+            api.searchParams.set("if", "zh");
             api.searchParams.set("urn", urn);
             api.searchParams.set("redirect", "1");
             return api.toString();
@@ -1126,6 +1126,7 @@
         function summarizeSearchtextsResult(texts) {
             const groups = [];
             let hitCount = 0;
+            let hasParagraphCounts = false;
             (Array.isArray(texts) ? texts : []).forEach(textItem => {
                 const textTitle = String(textItem?.title || "").trim();
                 const textUrn = String(textItem?.urn || "").trim();
@@ -1144,8 +1145,11 @@
                     count: meta.count,
                     countUrl: ""
                 }));
-                const textCount = paragraphs.length;
-                hitCount += textCount;
+                const textCount = paragraphs.length > 0 ? paragraphs.length : null;
+                if (typeof textCount === "number") {
+                    hasParagraphCounts = true;
+                    hitCount += textCount;
+                }
                 groups.push({
                     text: {
                         label: textTitle || textUrn || "—",
@@ -1156,7 +1160,7 @@
                     chapters
                 });
             });
-            return { textGroups: groups, hitCount };
+            return { textGroups: groups, hitCount: hasParagraphCounts ? hitCount : null };
         }
 
         async function requestCtextSearchViaJsonApi(normalizedKey, ctextDebug) {
@@ -1177,7 +1181,9 @@
                     if (data && data.error) {
                         throw new Error(String(data.error.code || data.error.description || "API error"));
                     }
-                    const texts = Array.isArray(data?.texts) ? data.texts : [];
+                    const texts = Array.isArray(data?.texts)
+                        ? data.texts
+                        : (Array.isArray(data?.books) ? data.books : []);
                     const summary = summarizeSearchtextsResult(texts);
                     const item = {
                         variant,

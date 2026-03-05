@@ -1007,3 +1007,21 @@
    - 本地模拟 `NETLIFY=true npm run build` 已稳定产出 `dist/`，与 Netlify `publish=dist` 一致。
 5. 复盘 / Retrospective
    - 托管平台的发布目录与静态站生成目录必须硬性对齐，不能依赖隐式环境变量推断。
+
+## [2026-03-05] CText JSON fallback 参数修正（避免整链路失败）
+0. Tags / 标签
+   - ctext, search
+1. Time
+   - 2026-03-05
+2. 需求明确 / Goal
+   - 修复 middleware 失败后 JSON fallback 仍报错的问题，确保线上至少有可用回退结果。
+3. 操作 / Actions
+   - 在 `src/transcriptions/tei_hanshu/1a.html` 中修正 JSON API 调用参数：
+     - `searchtexts` 从错误参数改为 `title`；
+     - `if` 改为合法值 `zh`，并补 `remap=gb`；
+     - 移除无效参数 `json=1`。
+   - 返回解析兼容 `data.texts` 与 `data.books` 两种结构。
+4. 解决 / Outcome
+   - middleware 失败时不再因 fallback 参数错误而整体报错，回退链路可正常返回可解析数据。
+5. 复盘 / Retrospective
+   - 迁移到官方 API 时必须逐项对齐参数与返回结构，否则“兜底链路”会变成新的失败点。
