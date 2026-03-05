@@ -14,6 +14,7 @@
 - CText 检索现状：`/transcriptions/tei_hanshu/1a/` 与 `/transcriptions/tei_brhat/1r/` 已作为规范入口；`*.html` 路由在 Netlify 侧重定向到目录路由，避免前端变量注入与路径解析不一致。
 - 构建发布现状：`.eleventy.js` 已对 Netlify 构建（`NETLIFY=true`）强制输出 `dist`，用于消除 `publish=dist` 与产物目录不一致导致的部署失败。
 - CText 回退链路现状：当前 JSON fallback 已改用 CTP 官方参数（`searchtexts?title=...&if=zh&remap=gb`）并兼容 `books/texts` 返回，避免 middleware 失败时整链路直接报错。
+- CText 单字检索现状：`1a` 页已新增“上下文扩展候选”策略（单字自动尝试前后文拼词），用于把“黄钟可解析”的逻辑推广到单字命中场景并提升返回率。
 - Brhat 本地编辑器现状：`src/transcriptions/tei_brhat/1r.html` 支持本地草稿编辑模式，仅在 `localhost/127.0.0.1` 且 URL 带 `?edit=1` 时显示 `Editor` 按钮；编辑结果仅写入浏览器 `localStorage`，不会改动 XML 源文件。
 
 ## 紧急 TODO（下次继续）
