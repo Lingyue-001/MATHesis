@@ -54,6 +54,29 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - Netlify build-time env var for frontend default proxy:
   - `CTEXT_PROXY_ORIGIN=https://<your-proxy>.onrender.com`
 
+## GitHub Pages mode (without online proxy)
+- Build local CText cache from your stable localhost:
+  - `npm run build:ctext-cache -- --base http://127.0.0.1:8080`
+- Build only terms that are actually mapped in a target text:
+  - `npm run build:ctext-cache -- --base http://127.0.0.1:8080 --mapped-text src/transcriptions/tei_hanshu/1a.xml`
+- Quick manual term test (recommended first):
+  - `npm run build:ctext-cache -- --base http://127.0.0.1:8080 --terms 黃鐘,鐘,五 --refresh-all --timeout 12000`
+- Note:
+  - default build only collects Chinese (CJK) terms from node fields;
+  - `--mapped-text` filters terms by actual presence in the given text file(s);
+  - manual keyword补充可用 `--terms`（逗号分隔）；
+  - default run reuses middleware cache first;
+  - `--refresh-all` forces remote refresh from CText.
+- Optional:
+  - include non-CJK terms with `--include-non-cjk`.
+- Cache file output:
+  - `static/ctext-cache.json`
+- Online behavior:
+  - frontend checks `static/ctext-cache.json` first;
+  - if no cache hit, it falls back to JSON API path.
+- For full refresh:
+  - `npm run build:ctext-cache -- --base http://127.0.0.1:8080 --refresh-all`
+
 ## Log Navigation (Timeline + Tag)
 - Timeline source (primary): `LOG_已完成改动和复盘_Completed_Changes_and_Retrospective.md`
 - Tag-grouped view (auto-generated): `LOG_按标签视图_By_Tag.md`

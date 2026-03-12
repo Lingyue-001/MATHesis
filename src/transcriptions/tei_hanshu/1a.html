@@ -715,6 +715,7 @@
 
         const ctextResultCache = new Map();
         const ctextInFlightCache = new Map();
+        let ctextStaticCachePromise = null;
 
         function getCtextDebugFlags() {
             return getDebugFlagsFromSearch(window.location.search || "");
@@ -762,6 +763,47 @@
                 ? path.split("/transcriptions/")[0]
                 : "";
             return `${basePrefix}/transcriptions/`;
+        }
+
+        function resolveBasePrefixFromPath(pathname = "") {
+            const path = String(pathname || "");
+            return path.includes("/transcriptions/")
+                ? path.split("/transcriptions/")[0]
+                : "";
+        }
+
+        function isGitHubPagesHost(hostname = "") {
+            const host = String(hostname || "").toLowerCase();
+            return host.endsWith(".github.io");
+        }
+
+        async function loadCtextStaticCacheEntries() {
+            if (ctextStaticCachePromise) return ctextStaticCachePromise;
+            ctextStaticCachePromise = (async () => {
+                try {
+                    const basePrefix = resolveBasePrefixFromPath(window.location.pathname || "");
+                    const cacheUrl = `${basePrefix}/static/ctext-cache.json`;
+                    const res = await fetch(cacheUrl, { headers: { "Accept": "application/json" } });
+                    if (!res.ok) return {};
+                    const data = await res.json();
+                    const entries = data && typeof data.entries === "object" ? data.entries : {};
+                    return entries && typeof entries === "object" ? entries : {};
+                } catch {
+                    return {};
+                }
+            })();
+            return ctextStaticCachePromise;
+        }
+
+        async function getCachedCtextPayload(normalizedKey, ctextDebug) {
+            const key = String(normalizedKey || "").trim();
+            if (!key) return null;
+            const entries = await loadCtextStaticCacheEntries();
+            const hit = entries[key];
+            if (!hit || typeof hit !== "object") return null;
+            const payload = { ...hit, sourceMode: "static-cache" };
+            if (ctextDebug) payload.staticCacheHit = true;
+            return payload;
         }
 
         function openCtextPanelWithEnterAnimation(panel) {
@@ -1274,6 +1316,13 @@
             const forceRefresh = flags.ctextRefresh;
             const sourceMode = resolveCtextSourceMode(flags, window.location.hostname || "");
             const normalizedKey = normalizeLookupKey(queryKey || term) || (term || "").trim();
+
+            // Cache-first: for static deployments (e.g. GitHub Pages), prefer curated local cache.
+            if (!forceRefresh) {
+                const cachedPayload = await getCachedCtextPayload(normalizedKey, ctextDebug);
+                if (cachedPayload) return cachedPayload;
+            }
+
             const cacheKey = `q=${normalizedKey}|source=${sourceMode}|proxy=${middlewareBase}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
             if (!forceRefresh && ctextResultCache.has(cacheKey)) {
                 return ctextResultCache.get(cacheKey);
@@ -1284,6 +1333,9 @@
 
             const reqPromise = (async () => {
                 if (sourceMode === "json") {
+                    return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
+                }
+                if (sourceMode === "auto" && isGitHubPagesHost(window.location.hostname || "")) {
                     return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
                 if (sourceMode === "middleware") {

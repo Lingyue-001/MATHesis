@@ -1,0 +1,1606 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-03-12T19:35:12.728Z",
+  "sourceBase": "http://127.0.0.1:8080",
+  "totalTerms": 9,
+  "fetched": 9,
+  "skipped": 0,
+  "failureCount": 0,
+  "entries": {
+    "黄鐘": {
+      "query": "黄鐘",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "黄鐘",
+        "黄",
+        "鐘"
+      ],
+      "variantsSearched": 3,
+      "generatedAt": "2026-03-12T19:34:06.736Z",
+      "searches": [
+        {
+          "variant": "黄鐘",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%83%E9%90%98",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 4,
+            "localAttempt": 2,
+            "queryUsed": "黃鐘",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83%E9%90%98&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "黄鐘",
+              "黃鐘"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83%E9%90%98",
+          "statusCode": 403,
+          "attempts": 4,
+          "queryUsed": "黃鐘"
+        },
+        {
+          "variant": "黄",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%83",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 4,
+            "localAttempt": 2,
+            "queryUsed": "黃",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "黄",
+              "黃"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83",
+          "statusCode": 403,
+          "attempts": 4,
+          "queryUsed": "黃"
+        },
+        {
+          "variant": "鐘",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%90%98",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "鐘",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%90%98&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "鐘"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%90%98",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "鐘"
+        }
+      ],
+      "singleCharFallbackInjected": true,
+      "cached": false
+    },
+    "鐘": {
+      "query": "鐘",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "鐘"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T18:48:17.337Z",
+      "searches": [
+        {
+          "variant": "鐘",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%90%98",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"鐘\"",
+          "hitCount": 1,
+          "rangeLine": "共1段落",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%90%98&reqtype=stats",
+                  "count": 1,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%90%98"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%90%98"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E9%90%98"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E9%90%98"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 72348,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"鐘\" 符合次數：1 .",
+            "firstLines": [
+              "算書 - 鐘 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"鐘\"",
+              "hitCount": 1
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "鐘",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%90%98&reqtype=stats",
+            "statsGroupCount": 1,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%90%98",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "鐘"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": true
+    },
+    "五": {
+      "query": "五",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "五"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T19:35:03.155Z",
+      "searches": [
+        {
+          "variant": "五",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%BA%94",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "五",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%94&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "五"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%94",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "五"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": false
+    },
+    "黄钟": {
+      "query": "黄钟",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "黄钟",
+        "黄",
+        "钟"
+      ],
+      "variantsSearched": 3,
+      "generatedAt": "2026-03-12T19:33:19.322Z",
+      "searches": [
+        {
+          "variant": "黄钟",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%83%E9%92%9F",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 4,
+            "localAttempt": 2,
+            "queryUsed": "黃钟",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83%E9%92%9F&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "黄钟",
+              "黃钟"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83%E9%92%9F",
+          "statusCode": 403,
+          "attempts": 4,
+          "queryUsed": "黃钟"
+        },
+        {
+          "variant": "黄",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%83",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 4,
+            "localAttempt": 2,
+            "queryUsed": "黃",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "黄",
+              "黃"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%83",
+          "statusCode": 403,
+          "attempts": 4,
+          "queryUsed": "黃"
+        },
+        {
+          "variant": "钟",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%92%9F",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "钟",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%92%9F&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "钟"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%92%9F",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "钟"
+        }
+      ],
+      "singleCharFallbackInjected": true,
+      "cached": false
+    },
+    "二": {
+      "query": "二",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "二"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T19:34:16.084Z",
+      "searches": [
+        {
+          "variant": "二",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%BA%8C",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "二",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%8C&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "二"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%8C",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "二"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": false
+    },
+    "三": {
+      "query": "三",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "三"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T19:34:25.488Z",
+      "searches": [
+        {
+          "variant": "三",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%B8%89",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "三",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%89&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "三"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%89",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "三"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": false
+    },
+    "十": {
+      "query": "十",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "十"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T19:34:34.932Z",
+      "searches": [
+        {
+          "variant": "十",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E5%8D%81",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "十",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E5%8D%81&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "十"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E5%8D%81",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "十"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": false
+    },
+    "四": {
+      "query": "四",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "四"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T19:34:44.389Z",
+      "searches": [
+        {
+          "variant": "四",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E5%9B%9B",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "四",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E5%9B%9B&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "四"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E5%9B%9B",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "四"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": false
+    },
+    "天": {
+      "query": "天",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "天"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T19:34:53.770Z",
+      "searches": [
+        {
+          "variant": "天",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E5%A4%A9",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "天",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E5%A4%A9&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "天"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E5%A4%A9",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "天"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": false
+    },
+    "一": {
+      "query": "一",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "一"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-12T19:35:12.502Z",
+      "searches": [
+        {
+          "variant": "一",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%B8%80",
+          "scope": "",
+          "searchType": "",
+          "condition": "",
+          "hitCount": null,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "click here",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "點擊此處",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "https://ctext.org/tools/subscribe",
+              "url": "https://ctext.org/tools/subscribe"
+            },
+            {
+              "label": "機構服務",
+              "url": "https://ctext.org/tools/subscribe/zh"
+            },
+            {
+              "label": "this link",
+              "url": "https://ctext.org/hp.pl?src=403"
+            }
+          ],
+          "debug": {
+            "rawLength": 6094,
+            "scopeLine": "",
+            "conditionLine": "",
+            "firstLines": [
+              "Access unavailable",
+              "Access unavailable",
+              "Access to ctext.org is unavailable from your current location. Please note that the use of automatic download software on this website is strictly prohibited .",
+              "If you are accessing from a university, academic, or commercial network and are having difficulty accessing the site, please contact your institution (e.g. your university library staff) to arrange an institutional subscription: https://ctext.org/tools/subscribe .",
+              "If you frequently see this error and are not using automated software to access the site, this error is most likely caused by one of the following:",
+              "Software other than a web browser running on your computer that is sending automated requests to ctext.org.",
+              "Malware running on your computer - e.g. your computer itself has been compromised and is now part of a botnet. ctext.org receives millions of automated requests from these every day.",
+              "The network you are accessing from is a frequent source of network abuse. Note that this includes almost all public VPNs and open proxies, as well as networks (including home and office networks) with poor network security that fail to prevent botnets from running on them.",
+              "無法提供服務",
+              "很抱歉，暫時無法向您所在網絡位置提供服務。請留意，本網站 嚴禁使用自動下載軟体 下載或訪問本站的內容。",
+              "如果您在學校內（或機構內）網路遇到這個問題，建議您聯繫貴校（或機構）並提議他們開通 機構服務 ，以免再次遇到這種問題。",
+              "如果您經常看到此錯誤，且並未使用自動化軟體存取本網站，則此錯誤最有可能由以下其中一項原因造成：",
+              "在您的電腦上執行的非網頁瀏覽器軟體，正在向ctext.org發送自動化請求。",
+              "您的電腦上正在執行惡意軟體——例如您的電腦本身已遭入侵，並成為殭屍網路的一部分。ctext.org每天都會收到來自這些來源的數百萬筆自動化請求。",
+              "您目前使用的網路是網路濫用的常見來源。請注意，這包括幾乎所有公共VPN與開放式代理伺服器，以及（包括家庭與辦公室網路在內）網路安全性不足、未能防止殭屍網路在其中運作的網路。",
+              "Robots and scrapers: feel free to follow this link and include it in your next index."
+            ],
+            "extracted": {
+              "scope": "",
+              "searchType": "",
+              "condition": "",
+              "hitCount": null
+            },
+            "markers": {
+              "hasSearchContent": false,
+              "hasScopeKeyword": false,
+              "hasConditionKeyword": false,
+              "hasHitCountKeyword": false,
+              "hasLoginGate": true
+            },
+            "attempt": 2,
+            "localAttempt": 2,
+            "queryUsed": "一",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%80&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "gated": true,
+            "parseOk": false,
+            "parseStatus": "upstream_login_required_or_rate_limited_after_retries",
+            "triedQueries": [
+              "一"
+            ]
+          },
+          "sourceEndpoint": "mathematics-retry",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%80",
+          "statusCode": 403,
+          "attempts": 2,
+          "queryUsed": "一"
+        }
+      ],
+      "singleCharFallbackInjected": false,
+      "cached": false
+    }
+  },
+  "failures": {}
+}

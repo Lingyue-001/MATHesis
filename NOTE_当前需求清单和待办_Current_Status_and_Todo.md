@@ -15,6 +15,8 @@
 - 构建发布现状：`.eleventy.js` 已对 Netlify 构建（`NETLIFY=true`）强制输出 `dist`，用于消除 `publish=dist` 与产物目录不一致导致的部署失败。
 - CText 回退链路现状：当前 JSON fallback 已改用 CTP 官方参数（`searchtexts?title=...&if=zh&remap=gb`）并兼容 `books/texts` 返回，避免 middleware 失败时整链路直接报错。
 - CText 单字检索现状：已回退“上下文拼词候选”策略，当前恢复为仅按原词查询，避免产生噪声双词结果（如无语义邻字组合）。
+- CText GitHub 发布现状：`1a` 页前端已支持 `static/ctext-cache.json` 的 cache-first 读取；静态托管（无后端）时优先命中本地缓存，未命中再走 JSON fallback。
+- CText 缓存构建现状：新增 `scripts/build-ctext-cache.mjs`（支持 `--terms` 手动补词、`--mapped-text` 按目标文本筛词、默认仅 CJK 词）；当前已生成一版 `static/ctext-cache.json`（10 entries，failureCount=0）用于上线验证。
 - Brhat 本地编辑器现状：`src/transcriptions/tei_brhat/1r.html` 支持本地草稿编辑模式，仅在 `localhost/127.0.0.1` 且 URL 带 `?edit=1` 时显示 `Editor` 按钮；编辑结果仅写入浏览器 `localStorage`，不会改动 XML 源文件。
 
 ## 紧急 TODO（下次继续）
