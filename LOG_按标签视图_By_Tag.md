@@ -4,7 +4,7 @@ Auto-generated from `LOG_已完成改动和复盘_Completed_Changes_and_Retrospe
 
 Tag set: `ctext`, `transcriptions`, `search`, `data`, `infra`, `project-docs`.
 
-Total events: 50
+Total events: 51
 
 ## ctext
 
@@ -18,6 +18,7 @@ Total events: 50
 - [2026-03-05] Netlify 产物目录对齐修复（dist 输出强制化）
 - [2026-03-05] CText JSON fallback 参数修正（避免整链路失败）
 - [2026-03-05] CText 单字词上下文扩展检索（仿黄钟逻辑推广）
+- [2026-03-05] 回退单字上下文拼词策略（消除噪声双词结果）
 
 ## transcriptions
 
@@ -30,6 +31,7 @@ Total events: 50
 - [2026-03-04] CText JSON API 试点落地（静态托管可用 + 双源对照）
 - [2026-03-05] CText JSON fallback 参数修正（避免整链路失败）
 - [2026-03-05] CText 单字词上下文扩展检索（仿黄钟逻辑推广）
+- [2026-03-05] 回退单字上下文拼词策略（消除噪声双词结果）
 
 ## data
 

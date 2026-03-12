@@ -1106,59 +1106,6 @@
                 .slice(0, 12);
         }
 
-        function hasUsableSearchData(payload) {
-            const searches = Array.isArray(payload?.searches) ? payload.searches : [];
-            return searches.some(item => {
-                if (typeof item?.hitCount === "number" && Number.isFinite(item.hitCount)) return true;
-                if (String(item?.scope || "").trim()) return true;
-                if (Array.isArray(item?.structured?.textGroups) && item.structured.textGroups.length > 0) return true;
-                if (item?.debug?.parseOk) return true;
-                return false;
-            });
-        }
-
-        function normalizeContextVariant(raw) {
-            const term = String(raw || "").trim();
-            if (!term) return "";
-            if (!/[\u3400-\u9fff]/u.test(term)) return "";
-            if (term.length < 2) return "";
-            return normalizeLookupKey(term) || term;
-        }
-
-        function extractAdjacentChar(rawText, fromEnd = false) {
-            const chars = Array.from(String(rawText || ""));
-            const iter = fromEnd ? chars.reverse() : chars;
-            for (const ch of iter) {
-                if (!ch.trim()) continue;
-                if (/[\p{P}\p{S}]/u.test(ch)) continue;
-                return ch;
-            }
-            return "";
-        }
-
-        function buildContextVariantsFromHit(hit, term) {
-            if (!(hit instanceof HTMLElement)) return [];
-            const base = String(term || "").trim();
-            if (!base || Array.from(base).length !== 1) return [];
-            const prevText = hit.previousSibling?.textContent || "";
-            const nextText = hit.nextSibling?.textContent || "";
-            const prevChar = extractAdjacentChar(prevText, true);
-            const nextChar = extractAdjacentChar(nextText, false);
-            const candidates = [];
-            if (prevChar) candidates.push(prevChar + base);
-            if (nextChar) candidates.push(base + nextChar);
-            if (prevChar && nextChar) candidates.push(prevChar + base + nextChar);
-            const out = [];
-            const seen = new Set();
-            candidates.forEach(raw => {
-                const v = normalizeContextVariant(raw);
-                if (!v || seen.has(v)) return;
-                seen.add(v);
-                out.push(v);
-            });
-            return out.slice(0, 3);
-        }
-
         function buildSearchtextsUrl(variant) {
             const api = new URL("https://api.ctext.org/searchtexts");
             api.searchParams.set("if", "zh");
@@ -1320,77 +1267,51 @@
             return { ...payload, sourceMode: "middleware", middlewareBase: middlewareBase || "" };
         }
 
-        async function requestCtextSearch(term, queryKey, options = {}) {
+        async function requestCtextSearch(term, queryKey) {
             const flags = getCtextDebugFlags();
             const middlewareBase = resolveCtextMiddlewareBase(flags);
             const ctextDebug = flags.ctextDebug;
             const forceRefresh = flags.ctextRefresh;
             const sourceMode = resolveCtextSourceMode(flags, window.location.hostname || "");
             const normalizedKey = normalizeLookupKey(queryKey || term) || (term || "").trim();
-            const contextVariants = Array.isArray(options?.contextVariants) ? options.contextVariants : [];
-            const queryCandidates = [normalizedKey];
-            if (Array.from(normalizedKey).length === 1) {
-                contextVariants.forEach(v => {
-                    const n = normalizeContextVariant(v);
-                    if (!n) return;
-                    if (!queryCandidates.includes(n)) queryCandidates.push(n);
-                });
+            const cacheKey = `q=${normalizedKey}|source=${sourceMode}|proxy=${middlewareBase}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
+            if (!forceRefresh && ctextResultCache.has(cacheKey)) {
+                return ctextResultCache.get(cacheKey);
+            }
+            if (ctextInFlightCache.has(cacheKey)) {
+                return ctextInFlightCache.get(cacheKey);
             }
 
-            const fetchSingle = async (lookupKey) => {
-                const cacheKey = `q=${lookupKey}|source=${sourceMode}|proxy=${middlewareBase}|debug=${ctextDebug ? 1 : 0}|refresh=${forceRefresh ? 1 : 0}`;
-                if (!forceRefresh && ctextResultCache.has(cacheKey)) {
-                    return ctextResultCache.get(cacheKey);
+            const reqPromise = (async () => {
+                if (sourceMode === "json") {
+                    return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
-                if (ctextInFlightCache.has(cacheKey)) {
-                    return ctextInFlightCache.get(cacheKey);
-                }
-                const reqPromise = (async () => {
-                    if (sourceMode === "json") {
-                        return requestCtextSearchViaJsonApi(lookupKey, ctextDebug);
-                    }
-                    if (sourceMode === "middleware") {
-                        try {
-                            return await requestCtextSearchViaMiddleware(middlewareBase, lookupKey, ctextDebug, forceRefresh);
-                        } catch (err) {
-                            const fallback = await requestCtextSearchViaJsonApi(lookupKey, ctextDebug);
-                            if (ctextDebug) {
-                                fallback.fallbackFrom = "middleware_error";
-                                fallback.fallbackError = err?.message || "unknown middleware error";
-                            }
-                            return fallback;
-                        }
-                    }
+                if (sourceMode === "middleware") {
                     try {
-                        return await requestCtextSearchViaMiddleware(middlewareBase, lookupKey, ctextDebug, forceRefresh);
-                    } catch {
-                        return requestCtextSearchViaJsonApi(lookupKey, ctextDebug);
+                        return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
+                    } catch (err) {
+                        const fallback = await requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
+                        if (ctextDebug) {
+                            fallback.fallbackFrom = "middleware_error";
+                            fallback.fallbackError = err?.message || "unknown middleware error";
+                        }
+                        return fallback;
                     }
-                })();
-                ctextInFlightCache.set(cacheKey, reqPromise);
+                }
                 try {
-                    const payload = await reqPromise;
-                    if (!forceRefresh) ctextResultCache.set(cacheKey, payload);
-                    return payload;
-                } finally {
-                    ctextInFlightCache.delete(cacheKey);
+                    return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
+                } catch {
+                    return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
-            };
-
-            let lastPayload = null;
-            for (let i = 0; i < queryCandidates.length; i += 1) {
-                const lookupKey = queryCandidates[i];
-                const payload = await fetchSingle(lookupKey);
-                lastPayload = payload;
-                if (hasUsableSearchData(payload)) {
-                    if (ctextDebug && i > 0) {
-                        payload.queryFallbackUsed = lookupKey;
-                        payload.queryFallbackFrom = normalizedKey;
-                    }
-                    return payload;
-                }
+            })();
+            ctextInFlightCache.set(cacheKey, reqPromise);
+            try {
+                const payload = await reqPromise;
+                if (!forceRefresh) ctextResultCache.set(cacheKey, payload);
+                return payload;
+            } finally {
+                ctextInFlightCache.delete(cacheKey);
             }
-            return lastPayload || { query: normalizedKey, searches: [], variants: [], variantsSearched: 0 };
         }
 
         function initCtextLookupForNodeHits(container) {
@@ -1408,8 +1329,7 @@
                 event.stopPropagation();
                 renderCtextLoading(term);
                 try {
-                    const contextVariants = buildContextVariantsFromHit(hit, term);
-                    const data = await requestCtextSearch(term, queryKey, { contextVariants });
+                    const data = await requestCtextSearch(term, queryKey);
                     renderCtextResults(term, data);
                 } catch (err) {
                     renderCtextError(term, err?.message || "request failed");
