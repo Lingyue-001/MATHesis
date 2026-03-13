@@ -498,7 +498,6 @@
                     left: "14px",
                     top: "88px"
                 },
-                deferSingleClickMs: 220,
                 valueFilter: ({ key }) => key !== "value",
                 resolveNode: async ({ term }) => {
                     const nodes = await loadNodeRecords();
@@ -665,8 +664,6 @@
                 if (!container.contains(target)) return;
                 if (target.closest(".tei-node-hit, a, button, summary, details, .node-hit-summary")) return;
 
-                const nodePanel = document.getElementById("hanshuNodePanel");
-                if (nodePanel instanceof HTMLElement) nodePanel.classList.remove("is-open");
                 const ctextPanel = document.getElementById("ctextResultPanel");
                 if (ctextPanel instanceof HTMLElement) ctextPanel.classList.remove("is-open");
             });

@@ -2,6 +2,7 @@ import { collectNodeDisplayRows, buildUnifiedEntryName } from "./nodeEntrySchema
 
 const DEFAULT_EXCLUDE_KEYS = new Set(["name_sa", "transliteration", "name_zh", "name_en"]);
 const PANEL_STYLE_ID = "node-entry-popup-style";
+const DEFAULT_NODE_HIT_SINGLE_CLICK_DELAY_MS = 300;
 
 function escapeHtml(input) {
   return String(input || "")
@@ -328,7 +329,7 @@ export function bindNodeHitPopup(options = {}) {
     excludeKeys = DEFAULT_EXCLUDE_KEYS,
     valueFilter = null,
     stopPropagation = false,
-    deferSingleClickMs = 0
+    deferSingleClickMs = DEFAULT_NODE_HIT_SINGLE_CLICK_DELAY_MS
   } = options;
 
   if (!(root instanceof Element)) return;
@@ -358,6 +359,15 @@ export function bindNodeHitPopup(options = {}) {
     if (stopPropagation) event.stopPropagation();
 
     if (deferSingleClickMs > 0) {
+      // Browsers fire click before dblclick; treat multi-click as a signal to cancel
+      // the pending single-click action instead of scheduling it again.
+      if ((event.detail || 0) > 1) {
+        if (pendingClickTimer) {
+          window.clearTimeout(pendingClickTimer);
+          pendingClickTimer = null;
+        }
+        return;
+      }
       if (pendingClickTimer) {
         window.clearTimeout(pendingClickTimer);
       }
@@ -381,6 +391,17 @@ export function bindNodeHitPopup(options = {}) {
       }
     });
   }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const panel = document.getElementById(panelId);
+    if (!(panel instanceof HTMLElement) || !panel.classList.contains("is-open")) return;
+    if (panel.contains(target)) return;
+    const hit = target.closest?.(hitSelector);
+    if (hit && root.contains(hit)) return;
+    panel.classList.remove("is-open");
+  });
 }
 
 export function resolveNodeByTerm(nodes, term, options = {}) {
