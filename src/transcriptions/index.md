@@ -25,7 +25,7 @@ title: Transcriptions
   <article class="manuscript-card" data-tags="chinese coming" data-title="hanshu lulizhi liuyuanqi">
     <div class="card-header">
       <h2>漢書 Hanshu</h2>
-      <p class="card-subtitle">Chinese · Calendrical/Mathematical · Eastern Han (1st c. CE)</p>
+      <p class="card-subtitle">Chinese · Calendrical Astronomy · Eastern Han (1st c. CE)</p>
     </div>
     <div class="card-body">
       <p>Selected section: 律历志 Lüli zhi</p>
@@ -40,7 +40,7 @@ title: Transcriptions
   <article class="manuscript-card" data-tags="sanskrit coming" data-title="brhatsamhita">
     <div class="card-header">
       <h2>बृहत्संहिता BṛhatSaṃhitā</h2>
-      <p class="card-subtitle">Sanskrit · Divinatory · 6th c. CE</p>
+      <p class="card-subtitle">Sanskrit · Astrology · 6th c. CE</p>
     </div>
     <div class="card-body">
       <p>Selected chapter(s):</p>

@@ -717,6 +717,7 @@
     </main>
     <script type="module">
         import { bindNodeHitPopup } from "../../../js/nodeEntryPopup.js";
+        import { bindTranscriptionSplitLayout } from "../../../js/transcriptionSplitLayout.js";
 
         let brhatAbLineCounter = 0;
         const BRHAT_LINE_IMAGE_BASE = "../../../assets/tei_brhat/1r_lines";
@@ -2140,6 +2141,8 @@
         const cudlStatus = document.getElementById("cudlStatus");
         const cudlPlaceholder = document.getElementById("cudlPlaceholder");
         const cudlPanel = document.querySelector(".cudl-panel");
+        const transcriptionLayout = document.querySelector(".transcription-layout");
+        const transcriptionViewer = document.querySelector(".transcription-viewer");
         const transcriptionMain = document.getElementById("transcriptionMain");
         const transcriptionTools = document.getElementById("transcriptionTools");
         const folioChapterSpan = document.getElementById("folioChapterSpan");
@@ -2153,6 +2156,15 @@
         const floatingMenuToggle = document.getElementById("floatingMenuToggle");
         const floatingSideNav = document.getElementById("floatingSideNav");
         const floatingNavBackdrop = document.getElementById("floatingNavBackdrop");
+        const splitLayoutController = bindTranscriptionSplitLayout({
+            layout: transcriptionLayout,
+            main: transcriptionMain,
+            side: transcriptionViewer,
+            mobileQuery: viewerMediaQuery,
+            initialMainRatio: 0.58,
+            minMainPx: 500,
+            minSidePx: 360
+        });
 
         function closeFloatingNav() {
             if (!(floatingSideNav instanceof HTMLElement)) return;
@@ -2232,6 +2244,7 @@
                 if (transcriptionTools && viewer.nextElementSibling !== transcriptionTools) {
                     viewer.insertAdjacentElement("afterend", transcriptionTools);
                 }
+                splitLayoutController?.sync();
                 return;
             }
 
@@ -2248,6 +2261,7 @@
                     transcriptionMain.insertBefore(transcriptionTools, teiContainer);
                 }
             }
+            splitLayoutController?.sync();
         }
 
         async function renderCurrentFolio() {

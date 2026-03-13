@@ -6,6 +6,17 @@
 }
 
 /* === Base / Global === */
+:root {
+  --accent-fade-opacity-rest: 0.62;
+  --accent-fade-filter-rest: grayscale(1) contrast(0.82);
+  --accent-fade-opacity-active: 1;
+  --accent-fade-filter-active: sepia(1) saturate(8) hue-rotate(-18deg) brightness(0.95) contrast(1.08);
+  --accent-fade-transition: filter 0.2s ease, opacity 0.2s ease;
+  --editorial-mark-brown: #86582b;
+  --editorial-mark-brown-rgb: 134, 88, 43;
+  --editorial-mark-brown-strong: #a56300;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -1055,15 +1066,15 @@ body.home-floating-nav main {
 .contact-pill img {
   width: 22px;
   height: 22px;
-  opacity: 0.62;
-  filter: grayscale(1) contrast(0.82);
-  transition: filter 0.2s ease, opacity 0.2s ease;
+  opacity: var(--accent-fade-opacity-rest);
+  filter: var(--accent-fade-filter-rest);
+  transition: var(--accent-fade-transition);
 }
 
 .contact-pill:hover img,
 .contact-pill:focus-visible img {
-  opacity: 1;
-  filter: sepia(1) saturate(8) hue-rotate(-18deg) brightness(0.95) contrast(1.08);
+  opacity: var(--accent-fade-opacity-active);
+  filter: var(--accent-fade-filter-active);
 }
 
 @media (max-width: 900px) {
