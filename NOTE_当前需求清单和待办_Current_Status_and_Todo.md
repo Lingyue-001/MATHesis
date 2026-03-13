@@ -80,6 +80,13 @@
 - [ ] 节点词命中的数字语境精细规则：在保留“阿拉伯数字默认不匹配”的基础上，为常用汉字数字建立语境过滤。
   - 参考思路：对常见序数/结构搭配词做正则过滤（例如 `一曰/二曰/三曰`、条目编号、枚举序号等），避免把结构词误判为概念节点命中。
   - 目标：保留象数语境中的有效数字词命中，降低格式性数字用法的误命中。
+- [ ] GitHub Pages 项目 URL 品牌化收敛：
+  - 当前可行但未执行的低风险方案：将仓库转移到 `mathesis` organization，保留仓库名 `MATHesis`，地址可变为 `https://mathesis.github.io/MATHesis/`，可去掉个人用户名，原则上不需要代码改动。
+  - 若目标是进一步改为根网址 `https://mathesis.github.io/`，则需要后续专门实施：
+    - 仓库改为组织主页仓库名 `mathesis.github.io`；
+    - Eleventy `pathPrefix` 从 `/MATHesis/` 调整为 `/`；
+    - 同步检查 Pages 配置、仓库 remote、文档中的旧仓库链接与部署说明。
+  - 当前决定：暂不转移 organization，等后续统一评估“仅去名”还是“改为根网址”后再实施。
 
 ## 可实现但暂缓需求（Deferred but Feasible）
 - [暂缓] 抽象统一 TEI 渲染层（`tei-renderer.js + tei.css`）：
