@@ -23,7 +23,8 @@ const REQUEST_TIMEOUT_MS = Number.isFinite(REQUEST_TIMEOUT_MS_RAW) && REQUEST_TI
   ? REQUEST_TIMEOUT_MS_RAW
   : 15000;
 const CACHE_DIR = path.resolve(process.cwd(), "tmp", "ctext_cache");
-const CACHE_SCHEMA_VERSION = 7;
+// Bump cache schema after stats parser changes so stale empty textGroups payloads are ignored.
+const CACHE_SCHEMA_VERSION = 8;
 const CACHE_TTL_MS_RAW = Number(process.env.CTEXT_CACHE_TTL_MS || 24 * 60 * 60 * 1000);
 const CACHE_TTL_MS = Number.isFinite(CACHE_TTL_MS_RAW) && CACHE_TTL_MS_RAW > 0
   ? CACHE_TTL_MS_RAW
@@ -35,6 +36,9 @@ const GLOBAL_GAP_MS = Number.isFinite(GLOBAL_GAP_MS_RAW) && GLOBAL_GAP_MS_RAW >=
   ? GLOBAL_GAP_MS_RAW
   : 1200;
 const SKIP_STATS = ["1", "true", "yes"].includes(String(process.env.CTEXT_SKIP_STATS || "").toLowerCase());
+const REQUIRE_STATS_GROUPS_FOR_POSITIVE_HITS = !["0", "false", "no"].includes(
+  String(process.env.CTEXT_REQUIRE_STATS_GROUPS || "1").toLowerCase()
+);
 const INCLUDE_SINGLE_CHAR_VARIANTS = ["1", "true", "yes"].includes(
   String(process.env.CTEXT_INCLUDE_SINGLE_CHAR_VARIANTS || "").toLowerCase()
 );
@@ -407,9 +411,44 @@ function toAbsoluteCtextUrl(href) {
     : `https://ctext.org${decodedHref.startsWith("/") ? decodedHref : `/${decodedHref}`}`;
 }
 
-function normalizeBookLabel(input) {
+function isStatsMetaNoiseText(input) {
   const raw = String(input || "").trim().replace(/^《\s*|\s*》$/g, "");
-  return raw ? `《${raw}》` : "";
+  if (!raw) return true;
+  if (/^顯示原文$/u.test(raw) || /^显示原文$/u.test(raw)) return true;
+  if (/^(檢索範圍|搜索範圍|搜尋範圍|检索范围|搜索范围)\s*[:：]/u.test(raw)) return true;
+  if (/^(檢索類型|搜索類型|搜尋類型|检索类型|搜索类型)\s*[:：]/u.test(raw)) return true;
+  if (/^(條件\s*\d+|条件\s*\d+)\s*[:：]/u.test(raw)) return true;
+  if (/(符合次數|符合次数)\s*[:：]/u.test(raw)) return true;
+  return false;
+}
+
+function normalizeBookLabel(input, href = "", options = {}) {
+  const raw = String(input || "").trim();
+  if (!raw) return "";
+  if (isStatsMetaNoiseText(raw)) return "";
+
+  const bracketMatch = raw.match(/《\s*([^》]+?)\s*》/u);
+  if (bracketMatch && !isStatsMetaNoiseText(bracketMatch[1])) {
+    const core = bracketMatch[1].trim();
+    return core ? `《${core}》` : "";
+  }
+
+  if (/^卷[一二三四五六七八九十百千上中下0-9]+$/u.test(raw)) {
+    return `《${raw}》`;
+  }
+
+  const plain = raw.replace(/^《\s*|\s*》$/g, "").trim();
+  if (!plain || isStatsMetaNoiseText(plain)) return "";
+  if (!/[\u3400-\u9fff]/u.test(plain)) return "";
+  if (/[：:]/.test(plain)) return "";
+  if (plain.length > 40) return "";
+  if (href) return `《${plain}》`;
+  if (options.allowPlainText) {
+    return /^卷[一二三四五六七八九十百千上中下0-9]+$/u.test(plain)
+      ? `《${plain}》`
+      : plain;
+  }
+  return "";
 }
 
 function parseStatsCountCell(cellHtml) {
@@ -428,78 +467,151 @@ function parseStatsCountCell(cellHtml) {
   };
 }
 
+function extractStatsLabelFromCell(cellHtml, options = {}) {
+  const cell = String(cellHtml || "");
+  const linkRegex = /<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a>/gi;
+  let match;
+  while ((match = linkRegex.exec(cell))) {
+    const labelRaw = stripHtml(match[4] || "");
+    const href = match[1] || match[2] || match[3] || "";
+    const label = normalizeBookLabel(labelRaw, href, options);
+    if (!label) continue;
+    return {
+      label,
+      url: href ? toAbsoluteCtextUrl(href) : ""
+    };
+  }
+
+  const plainRaw = stripHtml(cell);
+  const plainLabel = normalizeBookLabel(plainRaw, "", options);
+  if (!plainLabel) return null;
+  return {
+    label: plainLabel,
+    url: ""
+  };
+}
+
+function parseStatsCountFromCells(cells, labelCellIndex) {
+  const candidates = [];
+  for (let i = 0; i < cells.length; i += 1) {
+    if (i === labelCellIndex) continue;
+    const parsed = parseStatsCountCell(cells[i]);
+    if (typeof parsed.count === "number" || parsed.countUrl) {
+      candidates.push(parsed);
+    }
+  }
+  if (!candidates.length) return { count: null, countUrl: "" };
+  const withCount = candidates.find(x => typeof x.count === "number");
+  return withCount || candidates[0];
+}
+
 function parseStatsTextGroups(rawHtml) {
   const html = String(rawHtml || "");
   const tableBlocks = html.match(/<table\b[^>]*>[\s\S]*?<\/table>/gi) || [];
-  const statsTable = tableBlocks.find(block => {
-    const txt = stripHtml(block || "").replace(/\s+/g, " ").trim();
-    return /(?:範圍|范围)\s+[^\s]+/.test(txt);
-  }) || "";
+  const explicitStatsTables = tableBlocks.filter(block =>
+    /class\s*=\s*["'][^"']*\b(?:statstable|result-list|stats)\b/i.test(block)
+  );
+  const statsTables = explicitStatsTables.length
+    ? explicitStatsTables
+    : tableBlocks.filter(block => {
+      const txt = stripHtml(block || "").replace(/\s+/g, " ").trim();
+      return /(?:範圍|范围|檢索範圍|检索范围)/.test(txt)
+        || /library\.pl/i.test(block);
+    });
+  if (!statsTables.length) return [];
 
-  if (!statsTable) return [];
-
-  const rows = statsTable.match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi) || [];
   const groups = [];
   let currentGroup = null;
   const seenTextKeys = new Set();
 
-  for (const row of rows) {
-    const cells = row.match(/<t[dh]\b[^>]*>[\s\S]*?<\/t[dh]>/gi) || [];
-    if (cells.length < 2) continue;
-    const leftCell = cells[0];
-    const rightCell = cells[1];
+  for (const table of statsTables) {
+    const rows = table.match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi) || [];
+    for (const row of rows) {
+      const cells = row.match(/<t[dh]\b[^>]*>[\s\S]*?<\/t[dh]>/gi) || [];
+      if (cells.length < 1) continue;
+      const rowIsChild = /class\s*=\s*["'][^"']*\b(?:resrow|resrowalt|child|sub)\b/i.test(row);
 
-    const leftTextRaw = stripHtml(leftCell || "").replace(/\r?\n/g, " ");
-    const leftTextTrimmed = leftTextRaw.trim();
-    if (!leftTextTrimmed || /^(?:範圍|范围)$/.test(leftTextTrimmed)) continue;
+      let labelCellIndex = -1;
+      let labelMeta = null;
+      for (let i = 0; i < cells.length; i += 1) {
+        const found = extractStatsLabelFromCell(cells[i], { allowPlainText: true });
+        if (!found || !found.label) continue;
+        labelCellIndex = i;
+        labelMeta = found;
+        break;
+      }
+      if (labelCellIndex < 0 || !labelMeta) continue;
 
-    const leftLinkMatch = leftCell.match(
-      /<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a>/i
-    );
-    const leftHref = leftLinkMatch ? (leftLinkMatch[1] || leftLinkMatch[2] || leftLinkMatch[3] || "") : "";
-    const leftLabelRaw = leftLinkMatch ? stripHtml(leftLinkMatch[4] || "") : leftTextTrimmed;
-    const label = normalizeBookLabel(leftLabelRaw);
-    if (!label) continue;
+      const labelCell = cells[labelCellIndex];
+      const leftTextRaw = stripHtml(labelCell || "").replace(/\r?\n/g, " ");
+      const leftTextTrimmed = leftTextRaw.trim();
+      if (!leftTextTrimmed || /^(?:範圍|范围)$/.test(leftTextTrimmed)) continue;
 
-    const { count, countUrl } = parseStatsCountCell(rightCell);
-    const hasIndent = /^[\s　]/.test(leftTextRaw)
-      || /(?:&nbsp;|&#160;|　)/.test(leftCell);
+      const label = labelMeta.label;
+      const { count, countUrl } = parseStatsCountFromCells(cells, labelCellIndex);
+      if (typeof count !== "number" && !countUrl) continue;
+      const hasIndent = rowIsChild
+        || /^[\s　]/.test(leftTextRaw)
+        || /(?:&nbsp;|&#160;|　)/.test(labelCell)
+        || /padding-left\s*:\s*\d/i.test(labelCell)
+        || /text-indent\s*:\s*\d/i.test(labelCell)
+        || /class\s*=\s*["'][^"']*(?:indent|sub|child)/i.test(labelCell);
+      const resolvedUrl = labelMeta.url || (hasIndent ? countUrl : "");
+      const chapterLike = /《卷/.test(label);
 
-    if (!hasIndent) {
-      const textUrl = leftHref ? toAbsoluteCtextUrl(leftHref) : "";
-      const textKey = `${label}|${textUrl}`;
-      if (seenTextKeys.has(textKey)) {
-        currentGroup = groups.find(g => `${g.text.label}|${g.text.url}` === textKey) || null;
+      if (!hasIndent && !chapterLike) {
+        const textKey = `${label}|${resolvedUrl}`;
+        if (seenTextKeys.has(textKey)) {
+          currentGroup = groups.find(g => `${g.text.label}|${g.text.url}` === textKey) || null;
+          continue;
+        }
+        currentGroup = {
+          text: {
+            label,
+            url: resolvedUrl,
+            count,
+            countUrl
+          },
+          chapters: []
+        };
+        groups.push(currentGroup);
+        seenTextKeys.add(textKey);
         continue;
       }
-      currentGroup = {
-        text: {
-          label,
-          url: textUrl,
-          count,
-          countUrl
-        },
-        chapters: []
-      };
-      groups.push(currentGroup);
-      seenTextKeys.add(textKey);
-      continue;
-    }
 
-    if (!currentGroup) continue;
-    const chapterUrl = leftHref ? toAbsoluteCtextUrl(leftHref) : "";
-    const chapterKey = `${label}|${chapterUrl}`;
-    const exists = currentGroup.chapters.some(c => `${c.label}|${c.url}` === chapterKey);
-    if (exists) continue;
-    currentGroup.chapters.push({
-      label,
-      url: chapterUrl,
-      count,
-      countUrl
-    });
+      if (!currentGroup) continue;
+      const chapterKey = `${label}|${resolvedUrl}`;
+      const exists = currentGroup.chapters.some(c => `${c.label}|${c.url}` === chapterKey);
+      if (exists) continue;
+      currentGroup.chapters.push({
+        label,
+        url: resolvedUrl,
+        count,
+        countUrl
+      });
+    }
   }
 
   return groups;
+}
+
+function parseStatsTextGroupsDetailed(rawHtml) {
+  const html = String(rawHtml || "");
+  const gated = isLoginGatedPage(html);
+  if (gated) {
+    return {
+      groups: [],
+      gated: true,
+      status: "stats_login_gate_or_rate_limited"
+    };
+  }
+
+  const groups = parseStatsTextGroups(html);
+  return {
+    groups,
+    gated: false,
+    status: groups.length > 0 ? "ok" : "stats_no_groups_found"
+  };
 }
 
 function buildStatsUrl(baseUrl) {
@@ -622,6 +734,26 @@ function hasParsedResultSignals(parsed) {
   return hasStatsLine || hasCount || hasRange || hasCoreFields;
 }
 
+function hasPositiveHitCount(parsed) {
+  return typeof parsed?.hitCount === "number"
+    && Number.isFinite(parsed.hitCount)
+    && parsed.hitCount > 0;
+}
+
+function hasStatsGroups(parsed) {
+  const groups = parsed?.structured?.textGroups;
+  return Array.isArray(groups) && groups.length > 0;
+}
+
+function isStatsCompleteForParsedResult(parsed, statsMeta = {}) {
+  if (!REQUIRE_STATS_GROUPS_FOR_POSITIVE_HITS) return true;
+  if (SKIP_STATS) return true;
+  if (!hasPositiveHitCount(parsed)) return true;
+  if (statsMeta.status === "ok") return true;
+  if (hasStatsGroups(parsed)) return true;
+  return false;
+}
+
 function classifyParseStatus(parsed) {
   if (!parsed) return "parse_empty";
   if (hasParsedResultSignals(parsed)) return "ok";
@@ -653,25 +785,43 @@ async function fetchVariantWithRetries(variant) {
         let statsFetchError = "";
         let statsGroupCount = 0;
         let statsSkipped = false;
+        let statsStatus = "stats_not_requested";
+        let statsGated = false;
 
         if (!SKIP_STATS) {
           try {
             statsUrl = buildStatsUrl(fetched.finalUrl || searchUrl);
             const statsFetched = await runWithGlobalThrottle(() => fetchTextByMode(statsUrl));
-            const statsGroups = parseStatsTextGroups(statsFetched.body);
-            parsed.structured.textGroups = statsGroups;
-            statsGroupCount = statsGroups.length;
+            const statsParsed = parseStatsTextGroupsDetailed(statsFetched.body);
+            parsed.structured.textGroups = statsParsed.groups;
+            statsGroupCount = statsParsed.groups.length;
+            statsStatus = statsParsed.status;
+            statsGated = Boolean(statsParsed.gated);
           } catch (err) {
             parsed.structured.textGroups = [];
             statsFetchError = err?.message || "stats page fetch failed";
+            statsStatus = "stats_fetch_error";
           }
         } else {
           parsed.structured.textGroups = [];
           statsSkipped = true;
+          statsStatus = "stats_skipped";
         }
 
         const status = classifyParseStatus(parsed);
-        const parseOk = hasParsedResultSignals(parsed);
+        const hasMainResult = hasParsedResultSignals(parsed);
+        const statsComplete = isStatsCompleteForParsedResult(parsed, { status: statsStatus });
+        const parseOk = hasMainResult && statsComplete;
+        let parseStatus = status;
+        if (parseOk) {
+          parseStatus = queryUsed === variant ? "ok" : "ok_via_query_normalization";
+        } else if (hasMainResult && !statsComplete) {
+          if (statsGated || /login_gate|rate_limited/.test(String(statsStatus || ""))) {
+            parseStatus = "upstream_login_required_or_rate_limited_stats";
+          } else {
+            parseStatus = "stats_missing_groups_for_positive_hits";
+          }
+        }
         parsed.debug = {
           ...(parsed.debug || {}),
           attempt: globalAttempt,
@@ -683,11 +833,11 @@ async function fetchVariantWithRetries(variant) {
           statsGroupCount,
           statsFetchError,
           statsSkipped,
+          statsParseStatus: statsStatus,
+          statsGated,
           gated: Boolean(parsed?.debug?.markers?.hasLoginGate),
           parseOk,
-          parseStatus: parseOk
-            ? (queryUsed === variant ? "ok" : "ok_via_query_normalization")
-            : status
+          parseStatus
         };
         lastParsed = parsed;
         lastFinalUrl = fetched.finalUrl;
@@ -709,14 +859,19 @@ async function fetchVariantWithRetries(variant) {
 
   if (lastParsed) {
     const hadLoginGate = Boolean(lastParsed?.debug?.markers?.hasLoginGate);
+    const hadStatsGate = Boolean(lastParsed?.debug?.statsGated)
+      || /login_gate|rate_limited/.test(String(lastParsed?.debug?.statsParseStatus || ""));
+    const hadStatsMiss = String(lastParsed?.debug?.parseStatus || "") === "stats_missing_groups_for_positive_hits";
     lastParsed.debug = {
       ...(lastParsed.debug || {}),
       attempt: globalAttempt || MAX_VARIANT_ATTEMPTS,
       queryUsed: lastParsed.debug?.queryUsed || variant,
       triedQueries: queryCandidates,
       parseOk: false,
-      parseStatus: hadLoginGate
+      parseStatus: (hadLoginGate || hadStatsGate)
         ? "upstream_login_required_or_rate_limited_after_retries"
+        : hadStatsMiss
+          ? "stats_missing_groups_after_retries"
         : "missing_result_header_after_retries"
     };
     return {
@@ -871,5 +1026,6 @@ function createCtextSearchMiddleware() {
 }
 
 module.exports = {
-  createCtextSearchMiddleware
+  createCtextSearchMiddleware,
+  parseStatsTextGroupsDetailed
 };

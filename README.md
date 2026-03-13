@@ -70,6 +70,29 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - For browser mode, install dependency once:
   - `npm i -D playwright`
 
+### Static CText cache build (for GitHub Pages)
+- Step 1, build a candidate cache from local middleware results:
+  - `npm run build:ctext-cache -- --base http://127.0.0.1:8080 --mapped-text src/transcriptions/tei_hanshu/1a.xml --timeout 90000 --delay 250`
+- Step 2, inspect the candidate outputs:
+  - Candidate cache: `tmp/ctext-static-build/ctext-cache.candidate.json`
+  - Build report: `tmp/ctext-static-build/ctext-cache.report.json`
+- Step 3, publish the inspected candidate to the frontend cache file:
+  - `npm run promote:ctext-cache`
+- Manual补词（例如单独补 `黃鐘,鐘,五`）:
+  - `npm run build:ctext-cache -- --base http://127.0.0.1:8080 --terms 黃鐘,鐘,五 --timeout 30000`
+- Safe-build rules:
+  - The builder bypasses middleware cache by default (`refresh=1`) so stale localhost results are not reused.
+  - The builder rebuilds from scratch by default and does not merge the existing published cache unless `--merge-existing` is passed.
+  - The builder uses `curl` for localhost collection by default; pass `--transport fetch` only for debugging transport differences.
+  - Entries with positive `hitCount` but empty `stats` text groups are rejected and never promoted.
+- Published frontend cache file:
+  - `static/ctext-cache.json`
+- Frontend source mode:
+  - `ctextSource=auto`: localhost uses middleware; non-localhost uses static cache.
+  - Optional override: `?ctextSource=middleware` or `?ctextSource=json` or `?ctextSource=cache`.
+- Parser fixture tests:
+  - `npm run test:ctext-stats-parser`
+
 ## Deployment checklist (GitHub Pages)
 1) Pages source set to **GitHub Actions** (not `/docs` branch).
 2) Build output matches workflow artifact path (`dist`).

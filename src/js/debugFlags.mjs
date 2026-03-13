@@ -19,9 +19,9 @@ export const DEBUG_FLAG_SPECS = [
     key: "ctextSource",
     type: "enum",
     defaultValue: "auto",
-    values: ["auto", "json", "middleware"],
+    values: ["auto", "cache", "json", "middleware"],
     scope: "CText data source selector",
-    description: "Force CText request source; auto tries middleware first, then falls back to json."
+    description: "Force CText request source; auto uses middleware on localhost and static cache elsewhere."
   },
   {
     key: "ctextProxyOrigin",
@@ -42,7 +42,7 @@ export function parseBooleanFlag(value, defaultValue = false) {
 export function getDebugFlagsFromSearch(search = "") {
   const params = new URLSearchParams(search || "");
   const ctextSourceRaw = String(params.get("ctextSource") || "").toLowerCase();
-  const ctextSource = ["json", "middleware"].includes(ctextSourceRaw)
+  const ctextSource = ["cache", "json", "middleware"].includes(ctextSourceRaw)
     ? ctextSourceRaw
     : "auto";
   const ctextProxyOriginRaw = String(params.get("ctextProxyOrigin") || "").trim();
@@ -72,8 +72,8 @@ export function isLocalhost(hostname = "") {
 }
 
 export function resolveCtextSourceMode(flags, hostname = "") {
-  if (flags?.ctextSource === "json" || flags?.ctextSource === "middleware") {
+  if (flags?.ctextSource === "cache" || flags?.ctextSource === "json" || flags?.ctextSource === "middleware") {
     return flags.ctextSource;
   }
-  return isLocalhost(hostname) ? "middleware" : "auto";
+  return isLocalhost(hostname) ? "middleware" : "cache";
 }

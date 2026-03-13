@@ -1061,3 +1061,41 @@
    - 检索恢复为“按原词本身查询”，不再展示由邻字拼接得到的噪声组合词结果。
 5. 复盘 / Retrospective
    - 当“召回提升”引入明显语义噪声时，应优先回退到稳定基线，再以可控词表策略逐步恢复召回。
+
+## [2026-03-13] CText stats 解析回归修复与安全静态缓存导出链路
+0. Tags / 标签
+   - ctext, infra
+1. Time
+   - 2026-03-13
+2. 需求明确 / Goal
+   - 修复 `1a` 页面里 CText 文本名/章节名被错误标题覆盖或直接显示 `—` 的回归问题。
+   - 在不破坏当前 localhost 检索与显示逻辑的前提下，把“本地正确结果”安全导出为可发布的静态缓存，供线上站点复用。
+3. 操作 / Actions
+   - 在 `server/ctextSearchMiddleware.js` 修正当前 live `reqtype=stats` 解析：
+     - 放宽对 `searchu/reqtype` 链接的过滤，恢复合法 stats 行识别；
+     - 兼容纯文本章节标签（如 `方田/粟米/卷上`）与右侧计数链接补 URL；
+     - 将运行时缓存 schema 升级到 `8`，淘汰旧的空 `textGroups` 缓存。
+   - 在 `src/transcriptions/tei_hanshu/1a.html` 移除错误 fallback：
+     - 当 `textGroups` 缺失时，不再使用主结果页首个标题冒充文本名/章节名。
+   - 新增当前 CText 统计表 fixture 与 parser test：
+     - `tests/fixtures/ctext-stats/current-statstable.html`
+     - `tests/ctext-stats-parser.test.mjs`
+   - 新增 `scripts/build-ctext-cache.mjs` 与发布流程：
+     - 默认从 localhost middleware 强制 `refresh=1` 抓取；
+     - 默认全量重建，不合并现有正式缓存；
+     - 先写 `candidate` 与 `report`，通过后再 `promote` 到 `static/ctext-cache.json`；
+     - 对正命中但 `textGroups` 为空、gated、parse fail 的条目直接拒收。
+   - 将构建 transport 从 Node `fetch` 切到默认 `curl`，避免 localhost 批量采集阶段出现整批 `fetch failed`。
+   - 更新 `README.md`、`package.json`、`DEBUG_FLAGS_REFERENCE.md`，补齐静态缓存构建与当前 source 行为说明。
+4. 解决 / Outcome
+   - localhost 的 CText 检索已恢复按真实文本名/章节名显示，不再被 `《九章算術細草圖說》` 这类错误标题整体污染，也不再因旧缓存导致统一显示 `—`。
+   - 已建立独立于运行时缓存的发布缓存流程，并成功从 `1a.xml` 映射词生成 9 条有效静态缓存，`failureCount=0`，静态缓存模式下与 localhost 动态结果一致。
+5. 复盘 / Retrospective
+   - 失败经验：
+     - 不能把“parser 修复、前端 fallback、旧缓存复用”混在一起判断；这三层一旦同时带病，会制造看似随机、实则被缓存放大的假象。
+     - 直接在正式 `ctext-cache.json` 上边抓边改风险很高；一旦中途失败或混入旧值，线上文件会立刻被污染，且难以回溯是哪一步写坏的。
+     - 这次也验证了 localhost 批量采集里 Node `fetch` 并不比手动抓取更稳；对本机场景，`curl` 更接近人工验证路径，也更容易排障。
+   - 方案收获：
+     - 最稳的思路不是“继续补 fallback”，而是明确分层：localhost middleware 负责真实检索，发布缓存只做单向导出，不反向影响运行时判断。
+     - 运行时缓存 `tmp/ctext_cache/` 与发布缓存 `static/ctext-cache.json` 必须分离，并且发布流程要坚持“candidate -> report -> promote”的原子替换模型。
+     - 对外部检索做静态化时，质量门槛要前置到构建阶段；宁可拒收有疑点的条目，也不要让错误标题或空分组进入正式发布缓存。

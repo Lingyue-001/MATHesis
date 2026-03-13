@@ -4,7 +4,7 @@ Auto-generated from `LOG_已完成改动和复盘_Completed_Changes_and_Retrospe
 
 Tag set: `ctext`, `transcriptions`, `search`, `data`, `infra`, `project-docs`.
 
-Total events: 51
+Total events: 52
 
 ## ctext
 
@@ -19,6 +19,7 @@ Total events: 51
 - [2026-03-05] CText JSON fallback 参数修正（避免整链路失败）
 - [2026-03-05] CText 单字词上下文扩展检索（仿黄钟逻辑推广）
 - [2026-03-05] 回退单字上下文拼词策略（消除噪声双词结果）
+- [2026-03-13] CText stats 解析回归修复与安全静态缓存导出链路
 
 ## transcriptions
 
@@ -45,6 +46,7 @@ Total events: 51
 - [2026-03-04] 二次清基线：回滚 Netlify JSON 代理试验提交
 - [2026-03-04] Netlify middleware 接入与本地独立代理联调闭环
 - [2026-03-05] Netlify 产物目录对齐修复（dist 输出强制化）
+- [2026-03-13] CText stats 解析回归修复与安全静态缓存导出链路
 
 ## project-docs
 
@@ -91,4 +93,3 @@ Total events: 51
 - [2026-02-10] Brhat 行图片预览联动：对应行常亮直到关闭/切换
 - [2026-02-10] Brhat 本地专用 Editor 模式（?edit=1）
 - [2026-02-10] Brhat Editor 加固：限制为 localhost 可见
-

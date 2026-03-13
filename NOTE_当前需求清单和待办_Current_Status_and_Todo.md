@@ -15,6 +15,8 @@
 - 构建发布现状：`.eleventy.js` 已对 Netlify 构建（`NETLIFY=true`）强制输出 `dist`，用于消除 `publish=dist` 与产物目录不一致导致的部署失败。
 - CText 回退链路现状：当前 JSON fallback 已改用 CTP 官方参数（`searchtexts?title=...&if=zh&remap=gb`）并兼容 `books/texts` 返回，避免 middleware 失败时整链路直接报错。
 - CText 单字检索现状：已回退“上下文拼词候选”策略，当前恢复为仅按原词查询，避免产生噪声双词结果（如无语义邻字组合）。
+- CText 统计页解析现状：已按当前 CText live `reqtype=stats` 表格结构修复文本/章节提取，并移除前端对主结果页标题的误 fallback；当前 localhost 可恢复正确显示文本名与章节名。
+- CText 静态缓存现状：已建立“localhost 正确结果 -> candidate/report -> promote -> `static/ctext-cache.json`”的独立导出链路；默认 `refresh=1`、全量重建、不合并旧正式缓存，避免旧/错缓存污染线上发布文件。
 - Brhat 本地编辑器现状：`src/transcriptions/tei_brhat/1r.html` 支持本地草稿编辑模式，仅在 `localhost/127.0.0.1` 且 URL 带 `?edit=1` 时显示 `Editor` 按钮；编辑结果仅写入浏览器 `localStorage`，不会改动 XML 源文件。
 
 ## 紧急 TODO（下次继续）
@@ -34,6 +36,10 @@
   - 目标：把“可运行”提升为“可长期维护”，并降低对 HTML 模板的依赖。
   - 下一步：优先推进 JSON API 迁移；保留当前链路作为 fallback，并持续观察 `parseStatus` 中的上游风控信号。
   - 工程化待办：补齐“线上可控代理域名 + `ctextProxyOrigin` 默认注入”配置，去掉手动 debug URL 依赖。
+- [ ] CText 静态缓存扩展与上线验证（高优先）：
+  - 现状：`1a.xml` 映射出的 9 个词已通过 localhost 构建、candidate 检查与 promote，静态缓存模式下显示与动态 middleware 一致。
+  - 下一步：扩大词集覆盖，继续按“candidate -> 抽查 -> promote”流程构建，并在真实线上环境抽查 `Source=static-cache`、文本名/章节名与 localhost 一致。
+  - 约束：保持 localhost 默认链路不变，不把运行时缓存目录 `tmp/ctext_cache/` 与发布缓存 `static/ctext-cache.json` 混用。
 
 ## P0 高优先级待办（阻塞稳定性）
 - [ ] 统一唯一数据源：明确 `src/data.json` 与 `static/*.csv` 的主从关系，避免数据漂移。

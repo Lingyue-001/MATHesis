@@ -1,0 +1,4144 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-03-13T15:37:27.685Z",
+  "sourceBase": "http://127.0.0.1:8080",
+  "entryCount": 9,
+  "entries": {
+    "黄钟": {
+      "query": "黄钟",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "黄钟",
+        "黄",
+        "钟"
+      ],
+      "variantsSearched": 3,
+      "generatedAt": "2026-03-13T15:36:41.414Z",
+      "searches": [
+        {
+          "variant": "黄钟",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%84%E9%92%9F",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"黄钟\"",
+          "hitCount": 0,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E9%BB%84%E9%92%9F"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E9%BB%84%E9%92%9F"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 66821,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"黄钟\" 符合次數：0 .",
+            "firstLines": [
+              "算書 - 黄钟 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"黄钟\"",
+              "hitCount": 0
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "黄钟",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84%E9%92%9F&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "stats_no_groups_found",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84%E9%92%9F",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "黄钟"
+        },
+        {
+          "variant": "黄",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%84",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"黄\"",
+          "hitCount": 14,
+          "rangeLine": "共5段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E9%BB%84&reqtype=stats",
+                  "count": 10,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E9%BB%84"
+                },
+                "chapters": [
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E9%BB%84",
+                    "count": 4,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E9%BB%84"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E9%BB%84",
+                    "count": 6,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E9%BB%84"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E9%BB%84&reqtype=stats",
+                  "count": 2,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E9%BB%84"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E9%BB%84",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E9%BB%84"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E9%BB%84",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E9%BB%84"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%BB%84&reqtype=stats",
+                  "count": 2,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%BB%84"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%BB%84",
+                    "count": 2,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%BB%84"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E9%BB%84"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E9%BB%84"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 91634,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"黄\" 符合次數：14 .",
+            "firstLines": [
+              "算書 - 黄 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"黄\"",
+              "hitCount": 14
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "黄",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84&reqtype=stats",
+            "statsGroupCount": 3,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "黄"
+        },
+        {
+          "variant": "钟",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%92%9F",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"钟\"",
+          "hitCount": 1,
+          "rangeLine": "共1段落",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%92%9F&reqtype=stats",
+                  "count": 1,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%92%9F"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%92%9F",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%92%9F"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E9%92%9F"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E9%92%9F"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 72220,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"钟\" 符合次數：1 .",
+            "firstLines": [
+              "算書 - 钟 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"钟\"",
+              "hitCount": 1
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "钟",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%92%9F&reqtype=stats",
+            "statsGroupCount": 1,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%92%9F",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "钟"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "黄鐘": {
+      "query": "黄鐘",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "黄鐘",
+        "黄",
+        "鐘"
+      ],
+      "variantsSearched": 3,
+      "generatedAt": "2026-03-13T15:36:54.768Z",
+      "searches": [
+        {
+          "variant": "黄鐘",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%84%E9%90%98",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"黄鐘\"",
+          "hitCount": 0,
+          "rangeLine": "",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": []
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E9%BB%84%E9%90%98"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E9%BB%84%E9%90%98"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 66821,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"黄鐘\" 符合次數：0 .",
+            "firstLines": [
+              "算書 - 黄鐘 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"黄鐘\"",
+              "hitCount": 0
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "黄鐘",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84%E9%90%98&reqtype=stats",
+            "statsGroupCount": 0,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "stats_no_groups_found",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84%E9%90%98",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "黄鐘"
+        },
+        {
+          "variant": "黄",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%BB%84",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"黄\"",
+          "hitCount": 14,
+          "rangeLine": "共5段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E9%BB%84&reqtype=stats",
+                  "count": 10,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E9%BB%84"
+                },
+                "chapters": [
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E9%BB%84",
+                    "count": 4,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E9%BB%84"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E9%BB%84",
+                    "count": 6,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E9%BB%84"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E9%BB%84&reqtype=stats",
+                  "count": 2,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E9%BB%84"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E9%BB%84",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E9%BB%84"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E9%BB%84",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E9%BB%84"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%BB%84&reqtype=stats",
+                  "count": 2,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%BB%84"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%BB%84",
+                    "count": 2,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%BB%84"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E9%BB%84"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E9%BB%84"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 91634,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"黄\" 符合次數：14 .",
+            "firstLines": [
+              "算書 - 黄 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"黄\"",
+              "hitCount": 14
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "黄",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84&reqtype=stats",
+            "statsGroupCount": 3,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%BB%84",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "黄"
+        },
+        {
+          "variant": "鐘",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E9%90%98",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"鐘\"",
+          "hitCount": 1,
+          "rangeLine": "共1段落",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%90%98&reqtype=stats",
+                  "count": 1,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E9%90%98"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%90%98",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E9%90%98"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E9%90%98"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E9%90%98"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 72220,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"鐘\" 符合次數：1 .",
+            "firstLines": [
+              "算書 - 鐘 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"鐘\"",
+              "hitCount": 1
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "鐘",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E9%90%98&reqtype=stats",
+            "statsGroupCount": 1,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E9%90%98",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "鐘"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "二": {
+      "query": "二",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "二"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-13T15:36:59.406Z",
+      "searches": [
+        {
+          "variant": "二",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%BA%8C",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"二\"",
+          "hitCount": 1106,
+          "rangeLine": "共373段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《海島算經》",
+                  "url": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%BA%8C&reqtype=stats",
+                  "count": 29,
+                  "countUrl": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%BA%8C"
+                },
+                "chapters": []
+              },
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E4%BA%8C&reqtype=stats",
+                  "count": 614,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E4%BA%8C"
+                },
+                "chapters": [
+                  {
+                    "label": "方田",
+                    "url": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%BA%8C",
+                    "count": 62,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "粟米",
+                    "url": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%BA%8C",
+                    "count": 98,
+                    "countUrl": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "衰分",
+                    "url": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%BA%8C",
+                    "count": 53,
+                    "countUrl": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "少廣",
+                    "url": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%BA%8C",
+                    "count": 97,
+                    "countUrl": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "商功",
+                    "url": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%BA%8C",
+                    "count": 61,
+                    "countUrl": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "均輸",
+                    "url": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%BA%8C",
+                    "count": 121,
+                    "countUrl": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%BA%8C",
+                    "count": 40,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%BA%8C",
+                    "count": 63,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "勾股",
+                    "url": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%BA%8C",
+                    "count": 19,
+                    "countUrl": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%BA%8C"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%BA%8C&reqtype=stats",
+                  "count": 355,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%BA%8C"
+                },
+                "chapters": [
+                  {
+                    "label": "序",
+                    "url": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E4%BA%8C",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%BA%8C",
+                    "count": 142,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "《卷中》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%BA%8C",
+                    "count": 109,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%BA%8C",
+                    "count": 103,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%BA%8C"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%BA%8C&reqtype=stats",
+                  "count": 108,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%BA%8C"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%BA%8C",
+                    "count": 48,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%BA%8C"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%BA%8C",
+                    "count": 60,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%BA%8C"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E4%BA%8C"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E4%BA%8C"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 113565,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"二\" 符合次數：1106 .",
+            "firstLines": [
+              "算書 - 二 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"二\"",
+              "hitCount": 1106
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "二",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%8C&reqtype=stats",
+            "statsGroupCount": 4,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%8C",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "二"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "三": {
+      "query": "三",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "三"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-13T15:37:04.104Z",
+      "searches": [
+        {
+          "variant": "三",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%B8%89",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"三\"",
+          "hitCount": 959,
+          "rangeLine": "共339段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《海島算經》",
+                  "url": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%B8%89&reqtype=stats",
+                  "count": 14,
+                  "countUrl": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%B8%89"
+                },
+                "chapters": []
+              },
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E4%B8%89&reqtype=stats",
+                  "count": 533,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E4%B8%89"
+                },
+                "chapters": [
+                  {
+                    "label": "方田",
+                    "url": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%B8%89",
+                    "count": 57,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "粟米",
+                    "url": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%B8%89",
+                    "count": 59,
+                    "countUrl": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "衰分",
+                    "url": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%B8%89",
+                    "count": 62,
+                    "countUrl": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "少廣",
+                    "url": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%B8%89",
+                    "count": 73,
+                    "countUrl": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "商功",
+                    "url": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%B8%89",
+                    "count": 57,
+                    "countUrl": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "均輸",
+                    "url": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%B8%89",
+                    "count": 97,
+                    "countUrl": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%B8%89",
+                    "count": 55,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%B8%89",
+                    "count": 44,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "勾股",
+                    "url": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%B8%89",
+                    "count": 29,
+                    "countUrl": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%B8%89"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%B8%89&reqtype=stats",
+                  "count": 278,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%B8%89"
+                },
+                "chapters": [
+                  {
+                    "label": "序",
+                    "url": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E4%B8%89",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%B8%89",
+                    "count": 79,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "《卷中》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%B8%89",
+                    "count": 103,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%B8%89",
+                    "count": 95,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%B8%89"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%B8%89&reqtype=stats",
+                  "count": 134,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%B8%89"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%B8%89",
+                    "count": 60,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%B8%89"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%B8%89",
+                    "count": 74,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%B8%89"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E4%B8%89"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E4%B8%89"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 111481,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"三\" 符合次數：959 .",
+            "firstLines": [
+              "算書 - 三 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"三\"",
+              "hitCount": 959
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "三",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%89&reqtype=stats",
+            "statsGroupCount": 4,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%89",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "三"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "十": {
+      "query": "十",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "十"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-13T15:37:08.733Z",
+      "searches": [
+        {
+          "variant": "十",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E5%8D%81",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"十\"",
+          "hitCount": 1950,
+          "rangeLine": "共395段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《海島算經》",
+                  "url": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E5%8D%81&reqtype=stats",
+                  "count": 15,
+                  "countUrl": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E5%8D%81"
+                },
+                "chapters": []
+              },
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E5%8D%81&reqtype=stats",
+                  "count": 987,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E5%8D%81"
+                },
+                "chapters": [
+                  {
+                    "label": "方田",
+                    "url": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E5%8D%81",
+                    "count": 100,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "粟米",
+                    "url": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E5%8D%81",
+                    "count": 146,
+                    "countUrl": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "衰分",
+                    "url": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E5%8D%81",
+                    "count": 95,
+                    "countUrl": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "少廣",
+                    "url": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E5%8D%81",
+                    "count": 173,
+                    "countUrl": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "商功",
+                    "url": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E5%8D%81",
+                    "count": 78,
+                    "countUrl": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "均輸",
+                    "url": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E5%8D%81",
+                    "count": 198,
+                    "countUrl": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E5%8D%81",
+                    "count": 89,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E5%8D%81",
+                    "count": 79,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "勾股",
+                    "url": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E5%8D%81",
+                    "count": 29,
+                    "countUrl": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E5%8D%81"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E5%8D%81&reqtype=stats",
+                  "count": 667,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E5%8D%81"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E5%8D%81",
+                    "count": 278,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "《卷中》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E5%8D%81",
+                    "count": 191,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E5%8D%81",
+                    "count": 198,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E5%8D%81"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E5%8D%81&reqtype=stats",
+                  "count": 281,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E5%8D%81"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E5%8D%81",
+                    "count": 114,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E5%8D%81"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E5%8D%81",
+                    "count": 167,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E5%8D%81"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E5%8D%81"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E5%8D%81"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 107160,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"十\" 符合次數：1950 .",
+            "firstLines": [
+              "算書 - 十 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"十\"",
+              "hitCount": 1950
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "十",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E5%8D%81&reqtype=stats",
+            "statsGroupCount": 4,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E5%8D%81",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "十"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "四": {
+      "query": "四",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "四"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-13T15:37:13.400Z",
+      "searches": [
+        {
+          "variant": "四",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E5%9B%9B",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"四\"",
+          "hitCount": 788,
+          "rangeLine": "共308段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《海島算經》",
+                  "url": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E5%9B%9B&reqtype=stats",
+                  "count": 15,
+                  "countUrl": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E5%9B%9B"
+                },
+                "chapters": []
+              },
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E5%9B%9B&reqtype=stats",
+                  "count": 342,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E5%9B%9B"
+                },
+                "chapters": [
+                  {
+                    "label": "方田",
+                    "url": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E5%9B%9B",
+                    "count": 33,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "粟米",
+                    "url": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E5%9B%9B",
+                    "count": 35,
+                    "countUrl": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "衰分",
+                    "url": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E5%9B%9B",
+                    "count": 30,
+                    "countUrl": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "少廣",
+                    "url": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E5%9B%9B",
+                    "count": 73,
+                    "countUrl": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "商功",
+                    "url": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E5%9B%9B",
+                    "count": 52,
+                    "countUrl": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "均輸",
+                    "url": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E5%9B%9B",
+                    "count": 46,
+                    "countUrl": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E5%9B%9B",
+                    "count": 31,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E5%9B%9B",
+                    "count": 26,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "勾股",
+                    "url": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E5%9B%9B",
+                    "count": 16,
+                    "countUrl": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E5%9B%9B"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E5%9B%9B&reqtype=stats",
+                  "count": 318,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E5%9B%9B"
+                },
+                "chapters": [
+                  {
+                    "label": "序",
+                    "url": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E5%9B%9B",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E5%9B%9B",
+                    "count": 127,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "《卷中》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E5%9B%9B",
+                    "count": 89,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E5%9B%9B",
+                    "count": 101,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E5%9B%9B"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E5%9B%9B&reqtype=stats",
+                  "count": 113,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E5%9B%9B"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E5%9B%9B",
+                    "count": 45,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E5%9B%9B"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E5%9B%9B",
+                    "count": 68,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E5%9B%9B"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E5%9B%9B"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E5%9B%9B"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 111303,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"四\" 符合次數：788 .",
+            "firstLines": [
+              "算書 - 四 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"四\"",
+              "hitCount": 788
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "四",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E5%9B%9B&reqtype=stats",
+            "statsGroupCount": 4,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E5%9B%9B",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "四"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "天": {
+      "query": "天",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "天"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-13T15:37:18.068Z",
+      "searches": [
+        {
+          "variant": "天",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E5%A4%A9",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"天\"",
+          "hitCount": 74,
+          "rangeLine": "共28段落",
+          "structured": {
+            "corpus": null,
+            "text": null,
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E5%A4%A9&reqtype=stats",
+                  "count": 3,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E5%A4%A9"
+                },
+                "chapters": [
+                  {
+                    "label": "序",
+                    "url": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E5%A4%A9",
+                    "count": 2,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E5%A4%A9"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E5%A4%A9",
+                    "count": 1,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E5%A4%A9"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E5%A4%A9&reqtype=stats",
+                  "count": 71,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E5%A4%A9"
+                },
+                "chapters": [
+                  {
+                    "label": "序",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/xu/zh?searchu=%E5%A4%A9",
+                    "count": 9,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/xu/zh?searchu=%E5%A4%A9"
+                  },
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E5%A4%A9",
+                    "count": 15,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E5%A4%A9"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E5%A4%A9",
+                    "count": 47,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E5%A4%A9"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E5%A4%A9"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E5%A4%A9"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 99167,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"天\" 符合次數：74 .",
+            "firstLines": [
+              "算書 - 天 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"天\"",
+              "hitCount": 74
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "天",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E5%A4%A9&reqtype=stats",
+            "statsGroupCount": 2,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E5%A4%A9",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "天"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "五": {
+      "query": "五",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "五"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-13T15:37:22.762Z",
+      "searches": [
+        {
+          "variant": "五",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%BA%94",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"五\"",
+          "hitCount": 910,
+          "rangeLine": "共327段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《海島算經》",
+                  "url": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%BA%94&reqtype=stats",
+                  "count": 14,
+                  "countUrl": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%BA%94"
+                },
+                "chapters": []
+              },
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E4%BA%94&reqtype=stats",
+                  "count": 501,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E4%BA%94"
+                },
+                "chapters": [
+                  {
+                    "label": "方田",
+                    "url": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%BA%94",
+                    "count": 45,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "粟米",
+                    "url": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%BA%94",
+                    "count": 80,
+                    "countUrl": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "衰分",
+                    "url": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%BA%94",
+                    "count": 48,
+                    "countUrl": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "少廣",
+                    "url": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%BA%94",
+                    "count": 62,
+                    "countUrl": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "商功",
+                    "url": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%BA%94",
+                    "count": 57,
+                    "countUrl": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "均輸",
+                    "url": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%BA%94",
+                    "count": 81,
+                    "countUrl": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%BA%94",
+                    "count": 43,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%BA%94",
+                    "count": 56,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "勾股",
+                    "url": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%BA%94",
+                    "count": 29,
+                    "countUrl": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%BA%94"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%BA%94&reqtype=stats",
+                  "count": 278,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%BA%94"
+                },
+                "chapters": [
+                  {
+                    "label": "序",
+                    "url": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E4%BA%94",
+                    "count": 2,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/xu/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%BA%94",
+                    "count": 93,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "《卷中》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%BA%94",
+                    "count": 84,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%BA%94",
+                    "count": 99,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%BA%94"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%BA%94&reqtype=stats",
+                  "count": 117,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%BA%94"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%BA%94",
+                    "count": 39,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%BA%94"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%BA%94",
+                    "count": 78,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%BA%94"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E4%BA%94"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E4%BA%94"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 110611,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"五\" 符合次數：910 .",
+            "firstLines": [
+              "算書 - 五 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"五\"",
+              "hitCount": 910
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "五",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%94&reqtype=stats",
+            "statsGroupCount": 4,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%BA%94",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "五"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    },
+    "一": {
+      "query": "一",
+      "endpoint": "https://ctext.org/mathematics/zh?if=gb&searchu=",
+      "variants": [
+        "一"
+      ],
+      "variantsSearched": 1,
+      "generatedAt": "2026-03-13T15:37:27.430Z",
+      "searches": [
+        {
+          "variant": "一",
+          "searchUrl": "https://ctext.org/mathematics/zh?if=gb&searchu=%E4%B8%80",
+          "scope": "算書",
+          "searchType": "段落",
+          "condition": "包含字詞\"一\"",
+          "hitCount": 1950,
+          "rangeLine": "共414段落",
+          "structured": {
+            "corpus": null,
+            "text": {
+              "label": "《九章算術細草圖說》",
+              "url": "https://ctext.org/library.pl?if=gb&amp;res=3022"
+            },
+            "chapter": null,
+            "textGroups": [
+              {
+                "text": {
+                  "label": "《海島算經》",
+                  "url": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%B8%80&reqtype=stats",
+                  "count": 41,
+                  "countUrl": "https://ctext.org/hai-dao-suan-jing/zh?searchu=%E4%B8%80"
+                },
+                "chapters": []
+              },
+              {
+                "text": {
+                  "label": "《九章算術》",
+                  "url": "https://ctext.org/nine-chapters/zh?searchu=%E4%B8%80&reqtype=stats",
+                  "count": 1267,
+                  "countUrl": "https://ctext.org/nine-chapters/zh?searchu=%E4%B8%80"
+                },
+                "chapters": [
+                  {
+                    "label": "方田",
+                    "url": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%B8%80",
+                    "count": 80,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-tian/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "粟米",
+                    "url": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%B8%80",
+                    "count": 144,
+                    "countUrl": "https://ctext.org/nine-chapters/su-mi/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "衰分",
+                    "url": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%B8%80",
+                    "count": 113,
+                    "countUrl": "https://ctext.org/nine-chapters/shuai-fen/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "少廣",
+                    "url": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%B8%80",
+                    "count": 262,
+                    "countUrl": "https://ctext.org/nine-chapters/shao-guang/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "商功",
+                    "url": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%B8%80",
+                    "count": 104,
+                    "countUrl": "https://ctext.org/nine-chapters/shang-gong/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "均輸",
+                    "url": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%B8%80",
+                    "count": 261,
+                    "countUrl": "https://ctext.org/nine-chapters/jun-shu/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "盈不足",
+                    "url": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%B8%80",
+                    "count": 94,
+                    "countUrl": "https://ctext.org/nine-chapters/ying-bu-zu/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "方程",
+                    "url": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%B8%80",
+                    "count": 164,
+                    "countUrl": "https://ctext.org/nine-chapters/fang-cheng/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "勾股",
+                    "url": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%B8%80",
+                    "count": 45,
+                    "countUrl": "https://ctext.org/nine-chapters/gou-gu/zh?searchu=%E4%B8%80"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《孫子算經》",
+                  "url": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%B8%80&reqtype=stats",
+                  "count": 471,
+                  "countUrl": "https://ctext.org/sunzi-suan-jing/zh?searchu=%E4%B8%80"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%B8%80",
+                    "count": 202,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-shang/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "《卷中》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%B8%80",
+                    "count": 138,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-zhong/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%B8%80",
+                    "count": 131,
+                    "countUrl": "https://ctext.org/sunzi-suan-jing/juan-xia/zh?searchu=%E4%B8%80"
+                  }
+                ]
+              },
+              {
+                "text": {
+                  "label": "《周髀算經》",
+                  "url": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%B8%80&reqtype=stats",
+                  "count": 171,
+                  "countUrl": "https://ctext.org/zhou-bi-suan-jing/zh?searchu=%E4%B8%80"
+                },
+                "chapters": [
+                  {
+                    "label": "《卷上》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%B8%80",
+                    "count": 76,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-shang/zh?searchu=%E4%B8%80"
+                  },
+                  {
+                    "label": "《卷下》",
+                    "url": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%B8%80",
+                    "count": 95,
+                    "countUrl": "https://ctext.org/zhou-bi-suan-jing/juan-xia/zh?searchu=%E4%B8%80"
+                  }
+                ]
+              }
+            ]
+          },
+          "links": [
+            {
+              "label": "简体",
+              "url": "https://ctext.org/mathematics/zhs?searchu=%E4%B8%80"
+            },
+            {
+              "label": "English",
+              "url": "https://ctext.org/mathematics?searchu=%E4%B8%80"
+            },
+            {
+              "label": "本站介紹",
+              "url": "https://ctext.org/zh"
+            },
+            {
+              "label": "簡介",
+              "url": "https://ctext.org/introduction/zh"
+            },
+            {
+              "label": "字體試驗頁",
+              "url": "https://ctext.org/font-test-page/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "協助",
+              "url": "https://ctext.org/help-us/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "常見問答集",
+              "url": "https://ctext.org/faq/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "使用說明",
+              "url": "https://ctext.org/instructions/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "工具",
+              "url": "https://ctext.org/tools/zh"
+            },
+            {
+              "label": "系統統計",
+              "url": "https://ctext.org/system-statistics/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "數位人文",
+              "url": "https://ctext.org/digital-humanities/zh"
+            },
+            {
+              "label": "先秦兩漢",
+              "url": "https://ctext.org/pre-qin-and-han/zh"
+            },
+            {
+              "label": "儒家",
+              "url": "https://ctext.org/confucianism/zh"
+            },
+            {
+              "label": "顯示資料來源",
+              "url": "https://ctext.org/#"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "論語",
+              "url": "https://ctext.org/analects/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "孟子",
+              "url": "https://ctext.org/mengzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "禮記",
+              "url": "https://ctext.org/liji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "荀子",
+              "url": "https://ctext.org/xunzi/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "孝經",
+              "url": "https://ctext.org/xiao-jing/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "說苑",
+              "url": "https://ctext.org/shuo-yuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "春秋繁露",
+              "url": "https://ctext.org/chun-qiu-fan-lu/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "韓詩外傳",
+              "url": "https://ctext.org/han-shi-wai-zhuan/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "大戴禮記",
+              "url": "https://ctext.org/da-dai-li-ji/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "白虎通德論",
+              "url": "https://ctext.org/bai-hu-tong/zh"
+            },
+            {
+              "label": "+",
+              "url": "https://ctext.org/xin-shu/zh"
+            }
+          ],
+          "debug": {
+            "rawLength": 113911,
+            "scopeLine": "檢索範圍: 算書 檢索類型: 段落",
+            "conditionLine": "條件1: 包含字詞\"一\" 符合次數：1950 .",
+            "firstLines": [
+              "算書 - 一 - 中國哲學書電子化計劃",
+              "简体 English",
+              "本站介紹",
+              "簡介",
+              "字體試驗頁",
+              "+",
+              "協助",
+              "+",
+              "常見問答集",
+              "+",
+              "使用說明",
+              "+",
+              "工具",
+              "系統統計",
+              "+",
+              "數位人文"
+            ],
+            "extracted": {
+              "scope": "算書",
+              "searchType": "段落",
+              "condition": "包含字詞\"一\"",
+              "hitCount": 1950
+            },
+            "markers": {
+              "hasSearchContent": true,
+              "hasScopeKeyword": true,
+              "hasConditionKeyword": true,
+              "hasHitCountKeyword": true,
+              "hasLoginGate": false
+            },
+            "attempt": 1,
+            "localAttempt": 1,
+            "queryUsed": "一",
+            "fetchMode": "browser",
+            "browserFallbackError": "",
+            "statsUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%80&reqtype=stats",
+            "statsGroupCount": 4,
+            "statsFetchError": "",
+            "statsSkipped": false,
+            "statsParseStatus": "ok",
+            "statsGated": false,
+            "gated": false,
+            "parseOk": true,
+            "parseStatus": "ok"
+          },
+          "sourceEndpoint": "mathematics",
+          "finalUrl": "https://ctext.org/mathematics/zh?searchu=%E4%B8%80",
+          "statusCode": 200,
+          "attempts": 1,
+          "queryUsed": "一"
+        }
+      ],
+      "cached": false,
+      "sourceMode": "static-cache"
+    }
+  }
+}

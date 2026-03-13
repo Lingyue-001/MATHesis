@@ -715,6 +715,88 @@
 
         const ctextResultCache = new Map();
         const ctextInFlightCache = new Map();
+        const ctextStaticCacheState = {
+            loaded: false,
+            loading: null,
+            entries: {},
+            url: ""
+        };
+
+        function resolveSiteBasePrefix() {
+            const rawBase = String(document.documentElement?.getAttribute("data-baseurl") || "").trim();
+            if (rawBase) {
+                try {
+                    const parsed = new URL(rawBase, window.location.origin);
+                    const pathname = String(parsed.pathname || "/");
+                    return pathname === "/" ? "" : pathname.replace(/\/+$/, "");
+                } catch {
+                    const cleaned = rawBase.replace(/^https?:\/\/[^/]+/i, "");
+                    if (cleaned && cleaned !== "/") return cleaned.replace(/\/+$/, "");
+                }
+            }
+            const path = window.location.pathname || "";
+            return path.includes("/transcriptions/")
+                ? path.split("/transcriptions/")[0]
+                : "";
+        }
+
+        function hasUsableCtextSearch(payload) {
+            const searches = Array.isArray(payload?.searches) ? payload.searches : [];
+            if (!searches.length) return false;
+            return searches.some((item) => {
+                const debug = item?.debug || {};
+                const parseStatus = String(debug.parseStatus || "");
+                const parseOk = debug.parseOk === true || /^ok/.test(parseStatus);
+                if (parseOk && debug.gated !== true) return true;
+                const hasStructure = Boolean(String(item?.scope || "").trim()) || Boolean(String(item?.condition || "").trim());
+                const hasHit = typeof item?.hitCount === "number" && Number.isFinite(item.hitCount);
+                return (hasStructure || hasHit) && debug.gated !== true;
+            });
+        }
+
+        async function loadStaticCtextEntries() {
+            if (ctextStaticCacheState.loaded) return ctextStaticCacheState.entries;
+            if (ctextStaticCacheState.loading) return ctextStaticCacheState.loading;
+
+            ctextStaticCacheState.loading = (async () => {
+                const basePrefix = resolveSiteBasePrefix();
+                const cacheUrl = `${basePrefix}/static/ctext-cache.json`;
+                const res = await fetch(cacheUrl, { headers: { "Accept": "application/json" } });
+                if (!res.ok) throw new Error(`static cache HTTP ${res.status}`);
+                const payload = await res.json();
+                const entries = payload && typeof payload.entries === "object" ? payload.entries : {};
+                ctextStaticCacheState.loaded = true;
+                ctextStaticCacheState.entries = entries;
+                ctextStaticCacheState.url = cacheUrl;
+                return entries;
+            })();
+
+            try {
+                return await ctextStaticCacheState.loading;
+            } finally {
+                ctextStaticCacheState.loading = null;
+            }
+        }
+
+        async function getCachedCtextPayload(normalizedKey, ctextDebug) {
+            const entries = await loadStaticCtextEntries();
+            const candidates = Array.from(new Set([
+                normalizedKey,
+                ...buildVariantsForClient(normalizedKey).map(v => normalizeLookupKey(v))
+            ].filter(Boolean)));
+
+            for (const key of candidates) {
+                const hit = entries[key];
+                if (!hit || !hasUsableCtextSearch(hit)) continue;
+                const payload = { ...hit, sourceMode: "static-cache", cached: true };
+                if (ctextDebug) {
+                    payload.cacheMatchedKey = key;
+                    payload.cacheUrl = ctextStaticCacheState.url || "";
+                }
+                return payload;
+            }
+            return null;
+        }
 
         function getCtextDebugFlags() {
             return getDebugFlagsFromSearch(window.location.search || "");
@@ -915,10 +997,14 @@
 
         function renderCtextLoading(term, fromRerender = false) {
             const panel = ensureCtextResultPanel();
+            const flags = getCtextDebugFlags();
+            const sourceMode = resolveCtextSourceMode(flags, window.location.hostname || "");
             const lang = window.__ctextLang || "zh";
             const t = {
                 query: lang === "en" ? "Query: " : "词条：",
-                loading: lang === "en" ? "Searching (backend variant pipeline)..." : "检索中（后端分词变体顺序查询）..."
+                loading: sourceMode === "cache"
+                    ? (lang === "en" ? "Searching (static cache)..." : "检索中（静态缓存）...")
+                    : (lang === "en" ? "Searching (backend variant pipeline)..." : "检索中（后端分词变体顺序查询）...")
             };
             if (!fromRerender) window.__ctextPanelState = { mode: "loading", term, payload: null, err: "" };
             const body = panel.querySelector("#ctextPanelBody");
@@ -1283,26 +1369,15 @@
             }
 
             const reqPromise = (async () => {
+                if (sourceMode === "cache") {
+                    const cachedPayload = await getCachedCtextPayload(normalizedKey, ctextDebug);
+                    if (cachedPayload) return cachedPayload;
+                    throw new Error(`static cache miss: ${normalizedKey}`);
+                }
                 if (sourceMode === "json") {
                     return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
                 }
-                if (sourceMode === "middleware") {
-                    try {
-                        return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
-                    } catch (err) {
-                        const fallback = await requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
-                        if (ctextDebug) {
-                            fallback.fallbackFrom = "middleware_error";
-                            fallback.fallbackError = err?.message || "unknown middleware error";
-                        }
-                        return fallback;
-                    }
-                }
-                try {
-                    return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
-                } catch {
-                    return requestCtextSearchViaJsonApi(normalizedKey, ctextDebug);
-                }
+                return await requestCtextSearchViaMiddleware(middlewareBase, normalizedKey, ctextDebug, forceRefresh);
             })();
             ctextInFlightCache.set(cacheKey, reqPromise);
             try {
