@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/style.css" />
     <style>
         :root {
             --transcription-mini-heading-size: 1.2rem;
@@ -472,7 +472,7 @@
             background-position: center;
             background-size: contain;
             background-repeat: no-repeat;
-            background-image: var(--folio-bg-url, url("../../assets/tei_brhat/1r.jpg"));
+            background-image: var(--folio-bg-url, url("../../../assets/tei_brhat/1r.jpg"));
             border: none;
             box-shadow: none;
         }
@@ -643,12 +643,12 @@
         aria-controls="floatingSideNav" aria-expanded="false">☰</button>
     <div id="floatingNavBackdrop" class="floating-nav-backdrop" hidden></div>
     <nav id="floatingSideNav" class="floating-side-nav" aria-label="Primary">
-        <a href="../../">Home</a>
-        <a href="../../search/">Search</a>
-        <a href="../../transcriptions/">Transcriptions</a>
-        <a href="../../visualization/">Visualization</a>
-        <a href="../../map/">Map</a>
-        <a href="../../about/">About</a>
+        <a href="../../../">Home</a>
+        <a href="../../../search/">Search</a>
+        <a href="../../../transcriptions/">Transcriptions</a>
+        <a href="../../../visualization/">Visualization</a>
+        <a href="../../../map/">Map</a>
+        <a href="../../../about/">About</a>
     </nav>
 
     <main class="tei-page">
@@ -683,7 +683,7 @@
                     node for details;
                     double-click a line to compare segmented image.</span>
                 <div class="xml-link-block">
-                    <a href="./1r.xml" target="_blank" rel="noopener">View XML</a>
+                    <a href="../1r.xml" target="_blank" rel="noopener">View XML</a>
                 </div>
             </div>
             <aside class="transcription-viewer">
@@ -705,7 +705,7 @@
                             Open CUDL page
                         </a>
                         <span class="cudl-caption-inline">Cambridge University Library, MS Add.2329, fol. 1r</span>
-                        <a href="../../assets/tei_brhat/1r.jpg" download="MS-Add-2329_fol-1r.jpg">
+                        <a href="../../../assets/tei_brhat/1r.jpg" download="MS-Add-2329_fol-1r.jpg">
                             Download image
                         </a>
                     </div>
@@ -716,10 +716,10 @@
         </div>
     </main>
     <script type="module">
-        import { bindNodeHitPopup } from "../../js/nodeEntryPopup.js";
+        import { bindNodeHitPopup } from "../../../js/nodeEntryPopup.js";
 
         let brhatAbLineCounter = 0;
-        const BRHAT_LINE_IMAGE_BASE = "../../assets/tei_brhat/1r_lines";
+        const BRHAT_LINE_IMAGE_BASE = "../../../assets/tei_brhat/1r_lines";
         let activeLinePreview = null;
         let activePreviewLineEl = null;
         let transcriptionScriptMode = "latin";
@@ -737,15 +737,15 @@
         const FOLIOS = [
             {
                 key: "1r",
-                image: "../../assets/tei_brhat/1r.jpg",
+                image: "../../../assets/tei_brhat/1r.jpg",
                 xml: "1r.xml",
                 hasTei: true,
                 cudlPage: 1,
                 chapterSpanCompact: "Upanayanadhyayah -> early Samvatsarasutradhyayah",
                 chapterSpanTitle: "upanayanādhyāyaḥ -> first half of sāṃvatsarasūtrādhyāyaḥ"
             },
-            { key: "1v", image: "../../assets/tei_brhat/1v.jpg", xml: null, hasTei: false, cudlPage: 2 },
-            { key: "2r", image: "../../assets/tei_brhat/2r.jpg", xml: null, hasTei: false, cudlPage: 3 },
+            { key: "1v", image: "../../../assets/tei_brhat/1v.jpg", xml: null, hasTei: false, cudlPage: 2 },
+            { key: "2r", image: "../../../assets/tei_brhat/2r.jpg", xml: null, hasTei: false, cudlPage: 3 },
         ];
         let currentFolioIndex = 0;
         const BRHAT_EDITOR_PARAM = "edit";
@@ -850,7 +850,7 @@
             if (!target) throw new Error("Target element not found: " + targetSelector);
 
             try {
-                const res = await fetch(`./${fileName}`, { headers: { "Accept": "application/xml" } });
+                const res = await fetch(`../${fileName}`, { headers: { "Accept": "application/xml" } });
                 if (!res.ok) throw new Error(`HTTP ${res.status} for ${fileName}`);
                 const xmlText = await res.text();
 
@@ -885,7 +885,7 @@
                 // Fallback: show raw XML safely
                 target.textContent = "Failed to render TEI. Showing raw XML:\n\n" + (err?.message || "");
                 try {
-                    const res2 = await fetch(`./${fileName}`);
+                    const res2 = await fetch(`../${fileName}`);
                     const raw = await res2.text();
                     target.textContent += "\n\n" + raw;
                 } catch { }
@@ -2113,7 +2113,7 @@
                 window.history.back();
                 return;
             }
-            window.location.href = "../../transcriptions/";
+            window.location.href = "../../../transcriptions/";
         });
         const legacyBack = document.querySelector(".legacy-back");
 
