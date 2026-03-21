@@ -1,0 +1,3 @@
+# Python dependency for `generate_simp_trad_map.py`
+# Import name: `opencc`
+opencc-python-reimplemented==0.1.7

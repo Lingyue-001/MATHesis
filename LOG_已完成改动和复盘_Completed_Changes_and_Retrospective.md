@@ -1099,3 +1099,32 @@
      - 最稳的思路不是“继续补 fallback”，而是明确分层：localhost middleware 负责真实检索，发布缓存只做单向导出，不反向影响运行时判断。
      - 运行时缓存 `tmp/ctext_cache/` 与发布缓存 `static/ctext-cache.json` 必须分离，并且发布流程要坚持“candidate -> report -> promote”的原子替换模型。
      - 对外部检索做静态化时，质量门槛要前置到构建阶段；宁可拒收有疑点的条目，也不要让错误标题或空分组进入正式发布缓存。
+
+## [2026-03-21] Windows 迁移基线固化与本地验证补齐
+0. Tags / 标签
+   - infra, project-docs
+1. Time
+   - 2026-03-21
+2. 需求明确 / Goal
+   - 在旧 Mac 仍可用时，把迁移到 Windows 后继续开发所需的环境锚点、变量模板与验证步骤固化到仓库里。
+   - 确认当前代码是否存在写死的旧 Mac 绝对路径，并验证项目在 Node 20 基线下仍可测试与构建。
+3. 操作 / Actions
+   - 审计仓库中的构建配置、脚本与转写页面资源路径，确认当前运行路径主要基于相对仓库路径或相对网页路由，而非 `/Users/...` 这类机器绝对路径。
+   - 新增环境与迁移文件：
+     - `/.nvmrc` 固定 Node 主版本为 `20`；
+     - `/.env.example` 汇总 `CTEXT_*`、`PORT`、`HOST` 等变量模板，并明确项目当前不会自动加载 `.env`；
+     - `/requirements.txt` 固定 `generate_simp_trad_map.py` 依赖的 `opencc-python-reimplemented==0.1.7`；
+     - `/迁移说明_Windows环境与验证.md`，集中记录迁移策略、不会随 Git 迁移的本地状态、Windows 安装步骤与验证清单。
+   - 更新 `README.md`，增加环境与迁移入口说明。
+   - 利用旧 Mac 上已安装但未自动进入当前 shell PATH 的 Node 20 路径，完成本地验证：
+     - 运行 `scripts/generate-debug-flags-doc.mjs`；
+     - 运行 `scripts/generate-log-by-tag.mjs`；
+     - 运行 `node --test tests/ctext-stats-parser.test.mjs`；
+     - 运行生产构建 `NODE_ENV=production eleventy`。
+4. 解决 / Outcome
+   - 仓库内已具备最小可复现的迁移基线说明，Windows 新机器可直接按 `git clone -> npm ci -> pip install -r requirements.txt -> verify` 路线启动。
+   - 本轮未发现写死到旧 Mac 文件系统的运行路径；当前主要风险已明确为 `.env`、`tmp/`、浏览器 `localStorage` 等不会随 Git 迁移的本地状态。
+   - Node 20 基线下 parser test 与生产构建均验证通过，可作为迁移前的稳定参考点。
+5. 复盘 / Retrospective
+   - “当前机器能跑”不等于“仓库已足够可迁移”；真正需要固化的是版本锚点、环境变量清单、不会随 Git 迁移的本地状态边界。
+   - 对跨系统迁移，最稳的工作方式仍是“仓库提交完整基线 + 新机器重新安装依赖 + 原机器保留整目录备份”，而不是直接复用旧机器生成物。

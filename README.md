@@ -34,6 +34,13 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - Debug query flags reference: `DEBUG_FLAGS_REFERENCE.md` (auto-generated from `src/js/debugFlags.mjs`)
 - Beginner quick guide: `DEBUG_FLAGS_QUICKSTART.md`
 
+## Environment And Migration
+- Node version pin: `.nvmrc` (`20`)
+- Environment variable template: `.env.example`
+- Python dependency snapshot: `requirements.txt`
+- Windows migration + verification notes: `迁移说明_Windows环境与验证.md`
+- Important: this project does **not** auto-load `.env`; use it as a template and export variables in your shell or configure them in your deploy platform.
+
 ## Debug Flags Navigation (Quick Index)
 - If you want a simple “what should I click/use now” guide:
   - `DEBUG_FLAGS_QUICKSTART.md`

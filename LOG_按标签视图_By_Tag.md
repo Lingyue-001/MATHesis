@@ -4,7 +4,7 @@ Auto-generated from `LOG_已完成改动和复盘_Completed_Changes_and_Retrospe
 
 Tag set: `ctext`, `transcriptions`, `search`, `data`, `infra`, `project-docs`.
 
-Total events: 52
+Total events: 53
 
 ## ctext
 
@@ -47,11 +47,13 @@ Total events: 52
 - [2026-03-04] Netlify middleware 接入与本地独立代理联调闭环
 - [2026-03-05] Netlify 产物目录对齐修复（dist 输出强制化）
 - [2026-03-13] CText stats 解析回归修复与安全静态缓存导出链路
+- [2026-03-21] Windows 迁移基线固化与本地验证补齐
 
 ## project-docs
 
 - [2026-03-04] CText 调试参数治理与协作边界固化
 - [2026-03-04] 日志体系精简与根目录收敛（Timeline + Tag）
+- [2026-03-21] Windows 迁移基线固化与本地验证补齐
 
 ## untagged
 
@@ -93,3 +95,4 @@ Total events: 52
 - [2026-02-10] Brhat 行图片预览联动：对应行常亮直到关闭/切换
 - [2026-02-10] Brhat 本地专用 Editor 模式（?edit=1）
 - [2026-02-10] Brhat Editor 加固：限制为 localhost 可见
+
