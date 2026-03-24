@@ -1128,3 +1128,26 @@
 5. 复盘 / Retrospective
    - “当前机器能跑”不等于“仓库已足够可迁移”；真正需要固化的是版本锚点、环境变量清单、不会随 Git 迁移的本地状态边界。
    - 对跨系统迁移，最稳的工作方式仍是“仓库提交完整基线 + 新机器重新安装依赖 + 原机器保留整目录备份”，而不是直接复用旧机器生成物。
+
+## [2026-03-24] 环境迁移自动化与跨平台安装基线
+0. Tags / 标签
+   - infra, project-docs
+1. Time
+   - 2026-03-24
+2. 需求明确 / Goal
+   - 把“旧 Mac -> 新 Windows”迁移从手工记忆型流程收敛为仓库内可追溯的环境清单、跨平台安装脚本与统一验收脚本，降低换机后的环境对齐成本。
+3. 操作 / Actions
+   - 新增环境矩阵文档 `环境清单_安装矩阵_Environment_Matrix.md`，明确共享依赖真相源、旧 Mac 已知基线、Windows 对应安装方式与脚本职责。
+   - 新增 `scripts/setup-mac.sh` 与 `scripts/setup-windows.ps1`，统一使用 `.nvmrc` 目标版本安装 Node，并串联 `npm ci`、Python 依赖安装、Playwright Chromium 安装与安装后验收。
+   - 新增 `scripts/verify-install.mjs`，检查 Node/Python/OpenCC/Playwright/关键文件存在性，并自动执行 `npm run test:ctext-stats-parser` 与 `npm run build`。
+   - 新增 `scripts/load-local-env.cjs`，让本地 Node 入口自动读取 `.env` / `.env.local`，同时保持 shell 或部署平台已有环境变量优先，不做覆盖。
+   - 更新 `.eleventy.js`、CText middleware / proxy / Netlify function 与静态缓存构建脚本，使本地环境变量加载逻辑在主要 Node 入口上一致；同步更新 `README.md`、`.env.example`、`.gitignore` 与 `迁移说明_Windows环境与验证.md`。
+   - 在旧 Mac 上执行 `npm run verify:install`，确认 parser test、生产构建以及 Playwright Chromium 可执行文件检查全部通过。
+4. 解决 / Outcome
+   - 仓库具备了面向新 Mac / 新 Windows 的统一迁移基线，clone 后可以通过系统对应脚本快速安装并验收整站基础环境。
+   - 本地环境变量从“每次手工 export”收敛为“模板 + 自动加载 + 机器私有覆盖”模式，降低换机后遗漏配置的概率。
+   - 这轮改动未触及前端页面 UI 与 canonical data 源文件，主要影响限定在安装、文档与本地 Node 运行入口。
+5. 复盘 / Retrospective
+   - 环境真相源必须保持共享，不能按操作系统拆成两套依赖清单；更稳妥的做法是“共享依赖文件 + 按系统分开的安装包装脚本 + 统一验收器”。
+   - `.env` 自动加载应当作为低风险本地增强实现，前提是不覆盖 shell / CI / 部署平台已有变量，否则会引入新的排障成本。
+   - 安装自动化能显著降低迁移风险，但不能替代实机验证；像 CText 动态链路这类受网络和上游站点影响的部分，仍需在新机器完成首次运行后单独确认。

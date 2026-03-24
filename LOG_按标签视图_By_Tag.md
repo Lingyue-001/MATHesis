@@ -4,7 +4,7 @@ Auto-generated from `LOG_已完成改动和复盘_Completed_Changes_and_Retrospe
 
 Tag set: `ctext`, `transcriptions`, `search`, `data`, `infra`, `project-docs`.
 
-Total events: 53
+Total events: 54
 
 ## ctext
 
@@ -48,12 +48,14 @@ Total events: 53
 - [2026-03-05] Netlify 产物目录对齐修复（dist 输出强制化）
 - [2026-03-13] CText stats 解析回归修复与安全静态缓存导出链路
 - [2026-03-21] Windows 迁移基线固化与本地验证补齐
+- [2026-03-24] 环境迁移自动化与跨平台安装基线
 
 ## project-docs
 
 - [2026-03-04] CText 调试参数治理与协作边界固化
 - [2026-03-04] 日志体系精简与根目录收敛（Timeline + Tag）
 - [2026-03-21] Windows 迁移基线固化与本地验证补齐
+- [2026-03-24] 环境迁移自动化与跨平台安装基线
 
 ## untagged
 

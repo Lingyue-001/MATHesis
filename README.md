@@ -39,7 +39,12 @@ A research website built with Eleventy to explore symbolic math, calendrical sys
 - Environment variable template: `.env.example`
 - Python dependency snapshot: `requirements.txt`
 - Windows migration + verification notes: `迁移说明_Windows环境与验证.md`
-- Important: this project does **not** auto-load `.env`; use it as a template and export variables in your shell or configure them in your deploy platform.
+- Environment matrix and installer notes: `环境清单_安装矩阵_Environment_Matrix.md`
+- Local Node scripts now auto-load `.env` and `.env.local` without overriding existing shell or deploy-platform env vars.
+- One-command helpers:
+  - `npm run setup:mac`
+  - `npm run setup:windows`
+  - `npm run verify:install`
 
 ## Debug Flags Navigation (Quick Index)
 - If you want a simple “what should I click/use now” guide:

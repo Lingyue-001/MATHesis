@@ -1,5 +1,7 @@
 "use strict";
 
+require("../scripts/load-local-env.cjs");
+
 const http = require("http");
 const { createCtextSearchMiddleware } = require("./ctextSearchMiddleware");
 

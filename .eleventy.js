@@ -1,3 +1,5 @@
+require("./scripts/load-local-env.cjs");
+
 const { createCtextSearchMiddleware } = require("./server/ctextSearchMiddleware");
 
 module.exports = function(eleventyConfig) {

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import "./load-local-env.cjs";
+
 import fs from "fs/promises";
 import path from "path";
 import process from "process";

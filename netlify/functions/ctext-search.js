@@ -1,5 +1,7 @@
 "use strict";
 
+require("../../scripts/load-local-env.cjs");
+
 // Netlify Functions run in serverless where browser automation is not expected.
 if (!process.env.CTEXT_FETCH_MODE) {
   process.env.CTEXT_FETCH_MODE = "http";

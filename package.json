@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A symbolic math exploration site using Eleventy",
   "scripts": {
+    "setup:mac": "bash scripts/setup-mac.sh",
+    "setup:windows": "powershell -ExecutionPolicy Bypass -File scripts/setup-windows.ps1",
+    "verify:install": "node scripts/verify-install.mjs",
     "generate:debug-flags-doc": "node scripts/generate-debug-flags-doc.mjs",
     "generate:log-by-tag": "node scripts/generate-log-by-tag.mjs",
     "build:ctext-cache": "node scripts/build-ctext-cache.mjs",

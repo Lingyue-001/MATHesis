@@ -1,3 +1,5 @@
+require("../scripts/load-local-env.cjs");
+
 const https = require("https");
 const zlib = require("zlib");
 const fs = require("fs");

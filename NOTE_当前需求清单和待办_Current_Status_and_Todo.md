@@ -13,7 +13,7 @@
 - CText 检索现状：本地可通过独立代理 `npm run start:ctext-proxy`（`server/ctextProxyServer.js`）复用浏览器态会话，并在页面用 `ctextProxyOrigin` 指向该代理做联调。
 - CText 检索现状：`/transcriptions/tei_hanshu/1a/` 与 `/transcriptions/tei_brhat/1r/` 已作为规范入口；`*.html` 路由在 Netlify 侧重定向到目录路由，避免前端变量注入与路径解析不一致。
 - 构建发布现状：`.eleventy.js` 已对 Netlify 构建（`NETLIFY=true`）强制输出 `dist`，用于消除 `publish=dist` 与产物目录不一致导致的部署失败。
-- 环境迁移现状：已补 `/.nvmrc`、`/.env.example`、`/requirements.txt` 与 `迁移说明_Windows环境与验证.md`，并在旧 Mac 上按 Node 20 基线完成 parser test 与生产构建验证；Windows 端建议以 `git clone + npm ci` 作为正式工作副本启动方式。
+- 环境迁移现状：已补 `/.nvmrc`、`/.env.example`、`/requirements.txt`、`环境清单_安装矩阵_Environment_Matrix.md`、`scripts/setup-mac.sh`、`scripts/setup-windows.ps1`、`scripts/verify-install.mjs`，并为本地 Node 入口接入 `.env` / `.env.local` 自动加载；旧 Mac 上 `npm run verify:install` 已通过，Windows 端待在新机器完成首次实机安装验证。
 - CText 回退链路现状：当前 JSON fallback 已改用 CTP 官方参数（`searchtexts?title=...&if=zh&remap=gb`）并兼容 `books/texts` 返回，避免 middleware 失败时整链路直接报错。
 - CText 单字检索现状：已回退“上下文拼词候选”策略，当前恢复为仅按原词查询，避免产生噪声双词结果（如无语义邻字组合）。
 - CText 统计页解析现状：已按当前 CText live `reqtype=stats` 表格结构修复文本/章节提取，并移除前端对主结果页标题的误 fallback；当前 localhost 可恢复正确显示文本名与章节名。

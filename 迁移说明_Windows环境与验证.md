@@ -12,10 +12,14 @@
   - 依据是当前 GitHub Actions 构建使用 Node 20。
 - `.env.example`
   - 汇总了仓库里实际用到的 `CTEXT_*`、`PORT`、`HOST` 等环境变量。
-  - 注意：本项目当前**不会自动读取** `.env`，这个文件主要是模板和备忘录。
+  - 当前本地 Node 脚本已支持自动读取 `.env` 与 `.env.local`，但不会覆盖 shell 或部署平台中已存在的环境变量。
 - `requirements.txt`
   - 固定 Python 侧目前唯一已确认依赖：`opencc-python-reimplemented==0.1.7`。
   - `generate_simp_trad_map.py` 的导入名是 `opencc`，对应的 pip 包名不是 `opencc`，而是 `opencc-python-reimplemented`。
+- `环境清单_安装矩阵_Environment_Matrix.md`
+  - 汇总跨平台共享依赖、当前旧 Mac 实际基线、Windows 对应安装方式，以及自动化脚本职责。
+- `scripts/setup-mac.sh` / `scripts/setup-windows.ps1` / `scripts/verify-install.mjs`
+  - 分别负责新机器安装、跨平台依赖统一校验与基础构建验收。
 
 ## 当前可确认的版本信息
 
@@ -35,6 +39,8 @@
 这些内容即使仓库已同步，也不会自动跟着到新电脑：
 
 - `.env`
+  - 被 `.gitignore` 忽略。
+- `.env.local`
   - 被 `.gitignore` 忽略。
 - `tmp/`
   - 被 `.gitignore` 忽略。
@@ -81,6 +87,17 @@
   - 如果要跑 `CTEXT_FETCH_MODE=browser`，建议执行：
   - `npx playwright install chromium`
 
+## 自动化安装与验证入口
+
+如需尽量接近“一键装好”，优先使用仓库内脚本：
+
+- 新 Mac：
+  - `bash scripts/setup-mac.sh`
+- 新 Windows：
+  - `powershell -ExecutionPolicy Bypass -File scripts/setup-windows.ps1`
+- 仅做当前机器校验：
+  - `node scripts/verify-install.mjs`
+
 ## Windows 迁移步骤
 
 ### 1. 拉取仓库
@@ -93,6 +110,14 @@
 不要依赖旧 Mac 的目录结构。
 
 ### 2. 安装依赖
+
+优先建议直接运行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-windows.ps1
+```
+
+如需手动分步执行，再参考下面命令：
 
 PowerShell 示例：
 
@@ -110,18 +135,19 @@ py -m pip install -r requirements.txt
 
 ### 3. 如需环境变量，按模板配置
 
-本仓库当前没有 `dotenv` 自动加载。
+本仓库当前已支持本地 Node 脚本自动读取 `.env` / `.env.local`。
 
 这意味着：
 
-- `.env.example` 是模板，不是“放进去就自动生效”的配置文件。
-- 本地要么手动 `set` / `$env:...` 导出变量，要么在部署平台里设置。
+- `.env.example` 复制为 `.env` 后，可直接被本地 `npm run start`、`npm run build`、`npm run build:ctext-cache` 等入口读取。
+- shell 或部署平台里已存在的同名变量优先，不会被 `.env` 覆盖。
+- 如果某台机器需要额外覆盖值，建议写在 `.env.local`。
 
 PowerShell 示例：
 
 ```powershell
-$env:CTEXT_FETCH_MODE = "browser"
-$env:CTEXT_PROXY_ORIGIN = "https://your-proxy.example.com"
+Copy-Item .env.example .env
+# 然后编辑 .env
 npm run start
 ```
 
