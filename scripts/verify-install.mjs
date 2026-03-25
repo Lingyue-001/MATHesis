@@ -27,11 +27,14 @@ function commandFor(base) {
 
 function run(command, args, options = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn(commandFor(command), args, {
+    const resolvedCommand = commandFor(command);
+    const needsShell = process.platform === "win32" && /\.(cmd|bat)$/i.test(resolvedCommand);
+
+    const child = spawn(resolvedCommand, args, {
       cwd: repoRoot,
       stdio: options.stdio || "pipe",
       env: process.env,
-      shell: false
+      shell: needsShell
     });
 
     let stdout = "";

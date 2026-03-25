@@ -4,7 +4,7 @@ Auto-generated from `LOG_已完成改动和复盘_Completed_Changes_and_Retrospe
 
 Tag set: `ctext`, `transcriptions`, `search`, `data`, `infra`, `project-docs`.
 
-Total events: 54
+Total events: 55
 
 ## ctext
 
@@ -49,6 +49,7 @@ Total events: 54
 - [2026-03-13] CText stats 解析回归修复与安全静态缓存导出链路
 - [2026-03-21] Windows 迁移基线固化与本地验证补齐
 - [2026-03-24] 环境迁移自动化与跨平台安装基线
+- [2026-03-25] Windows 新机器实机验收与 VS Code 终端收口
 
 ## project-docs
 
@@ -56,6 +57,7 @@ Total events: 54
 - [2026-03-04] 日志体系精简与根目录收敛（Timeline + Tag）
 - [2026-03-21] Windows 迁移基线固化与本地验证补齐
 - [2026-03-24] 环境迁移自动化与跨平台安装基线
+- [2026-03-25] Windows 新机器实机验收与 VS Code 终端收口
 
 ## untagged
 

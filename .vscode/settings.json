@@ -1,0 +1,13 @@
+{
+  "terminal.integrated.defaultProfile.windows": "PowerShell (fnm)",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell (fnm)": {
+      "source": "PowerShell",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "& (Join-Path $env:LOCALAPPDATA 'Microsoft\\WinGet\\Packages\\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe\\fnm.exe') env --use-on-cd --shell powershell | Out-String | Invoke-Expression"
+      ]
+    }
+  }
+}

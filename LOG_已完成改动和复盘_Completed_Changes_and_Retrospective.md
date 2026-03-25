@@ -1151,3 +1151,31 @@
    - 环境真相源必须保持共享，不能按操作系统拆成两套依赖清单；更稳妥的做法是“共享依赖文件 + 按系统分开的安装包装脚本 + 统一验收器”。
    - `.env` 自动加载应当作为低风险本地增强实现，前提是不覆盖 shell / CI / 部署平台已有变量，否则会引入新的排障成本。
    - 安装自动化能显著降低迁移风险，但不能替代实机验证；像 CText 动态链路这类受网络和上游站点影响的部分，仍需在新机器完成首次运行后单独确认。
+
+## [2026-03-25] Windows 新机器实机验收与 VS Code 终端收口
+0. Tags / 标签
+   - infra, project-docs
+1. Time
+   - 2026-03-25
+2. 需求明确 / Goal
+   - 在用户从旧 Mac 切换到新 Windows 机器后，完成首次实机环境安装与验收，确认站点可在本机稳定启动，并收口 VS Code 内新开终端仍无法直接使用 `node` / `npm` 的最后一段落差。
+3. 操作 / Actions
+   - 在新 Windows 机器上实际执行 `scripts/setup-windows.ps1`，通过 winget / fnm 安装并接通 Git、Python 3.11、Node 20、npm 依赖、OpenCC 与 Playwright Chromium。
+   - 修正 `scripts/verify-install.mjs` 的 Windows 子进程启动方式，使 `npm.cmd` / `npx.cmd` 可在验收脚本中正常执行，恢复 `npm run verify:install` 的完整链路。
+   - 加固 `scripts/setup-windows.ps1`：
+     - 新增统一命令失败检查，避免安装中途失败却继续输出“Setup complete”；
+     - 将 Node 路径固化为 fnm 管理下的稳定安装目录，而非临时 multishell 路径；
+     - 清理 PATH 中旧的 fnm 临时目录残留。
+   - 新增 `.vscode/settings.json`，为本仓库内新开的 VS Code PowerShell 终端自动注入 `fnm env`，减少用户在仅使用 VS Code 时反复手动刷新 PATH 的负担。
+   - 在新机器上做实机验证：
+     - 运行 `npm run verify:install`；
+     - 运行本地 `npm run start`；
+     - 验证 `/`、`/transcriptions/`、`/transcriptions/tei_hanshu/1a/`、`/transcriptions/tei_brhat/1r/` 以及对应 XML / 图片资源可返回 `200`。
+4. 解决 / Outcome
+   - 新 Windows 机器上的环境安装、验收、构建与本地启动已全部打通，站点可以在本机正常运行。
+   - `npm run verify:install` 现已在 Windows 上通过，补齐了此前只在旧 Mac 上验证通过的缺口。
+   - VS Code 工作区内后续新开的终端可自动接通 fnm 环境；即使在旧终端未关闭的情况下，也可以通过一次性刷新 PATH 临时继续工作。
+5. 复盘 / Retrospective
+   - “脚本能跑通一次”不等于“用户日常工作流已打通”；这次最后真正卡住的不是依赖本身，而是 VS Code 已打开终端的环境继承与新终端 PATH 注入体验。
+   - Windows 上通过 fnm 管理 Node 时，应优先写入稳定安装目录，而不是依赖临时 multishell 路径；否则表面看似装好了，实际在新终端里仍会随机失效。
+   - 对迁移类任务，最稳的收口方式不是只看安装日志，而是把“命令能否直接在用户实际使用的 IDE 终端里启动”也纳入验收标准。

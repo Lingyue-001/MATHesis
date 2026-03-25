@@ -20,6 +20,49 @@ function Refresh-Path {
   $env:Path = "$machinePath;$userPath"
 }
 
+function Ensure-UserPathEntry {
+  param(
+    [string]$Entry,
+    [string]$CleanupPattern = ""
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Entry)) {
+    return
+  }
+
+  $normalizedEntry = $Entry.Trim().TrimEnd("\")
+  $currentUserPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+  $segments = @()
+
+  foreach ($segment in (($currentUserPath -split ";") | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })) {
+    $normalizedSegment = $segment.Trim().TrimEnd("\")
+    if ($CleanupPattern -and $normalizedSegment -match $CleanupPattern) {
+      continue
+    }
+    if ($normalizedSegment -ieq $normalizedEntry) {
+      continue
+    }
+    $segments += $segment.Trim()
+  }
+
+  $segments += $normalizedEntry
+  [System.Environment]::SetEnvironmentVariable("Path", ($segments -join ";"), "User")
+  Refresh-Path
+}
+
+function Invoke-CheckedCommand {
+  param(
+    [string]$Command,
+    [string[]]$Arguments = @()
+  )
+
+  & $Command @Arguments
+  if ($LASTEXITCODE -ne 0) {
+    $joinedArgs = if ($Arguments.Count -gt 0) { " $($Arguments -join ' ')" } else { "" }
+    throw ("Command failed with exit code {0}: {1}{2}" -f $LASTEXITCODE, $Command, $joinedArgs)
+  }
+}
+
 function Ensure-WingetPackage {
   param(
     [string]$Id,
@@ -37,7 +80,16 @@ function Ensure-WingetPackage {
   }
 
   Write-Log "Installing $Label with winget."
-  winget install --exact --id $Id --source winget --accept-package-agreements --accept-source-agreements
+  Invoke-CheckedCommand -Command "winget" -Arguments @(
+    "install",
+    "--exact",
+    "--id",
+    $Id,
+    "--source",
+    "winget",
+    "--accept-package-agreements",
+    "--accept-source-agreements"
+  )
 }
 
 function Ensure-NodeVersion {
@@ -50,8 +102,43 @@ function Ensure-NodeVersion {
 
   $nodeVersion = (Get-Content (Join-Path $RepoRoot ".nvmrc") -Raw).Trim()
   Write-Log "Installing and using Node $nodeVersion via fnm."
-  & fnm install $nodeVersion
-  & fnm use $nodeVersion
+  Invoke-CheckedCommand -Command "fnm" -Arguments @("install", $nodeVersion)
+  Invoke-CheckedCommand -Command "fnm" -Arguments @("use", $nodeVersion)
+
+  $fnmNodeRoot = Join-Path $env:APPDATA "fnm\node-versions"
+  $targetMajor = [int]($nodeVersion -replace "^v", "").Split(".")[0]
+  $nodeInstallDir = Get-ChildItem $fnmNodeRoot -Directory -ErrorAction Stop |
+  Where-Object { $_.Name -match "^v\d" } |
+  ForEach-Object {
+    $versionText = $_.Name.TrimStart("v")
+    $version = $null
+    if ([Version]::TryParse($versionText, [ref]$version)) {
+      [PSCustomObject]@{
+        Version    = $version
+        InstallDir = Join-Path $_.FullName "installation"
+      }
+    }
+  } |
+  Where-Object {
+    $_ -and
+    $_.Version.Major -eq $targetMajor -and
+    (Test-Path (Join-Path $_.InstallDir "node.exe"))
+  } |
+  Sort-Object Version -Descending |
+  Select-Object -ExpandProperty InstallDir -First 1
+
+  if (-not $nodeInstallDir) {
+    throw "Could not resolve a stable fnm Node installation directory for major version $targetMajor."
+  }
+
+  $fnmMultiShellRoot = Join-Path $env:LOCALAPPDATA "fnm_multishells"
+  $cleanupPatterns = @(
+    [Regex]::Escape($fnmNodeRoot) + ".*\\installation\\?$",
+    [Regex]::Escape($fnmMultiShellRoot) + ".*$"
+  )
+  $cleanupPattern = "(" + ($cleanupPatterns -join ")|(") + ")"
+  Ensure-UserPathEntry -Entry $nodeInstallDir -CleanupPattern $cleanupPattern
+  Write-Log "Ensured Node is available in new shells via user PATH: $nodeInstallDir"
 }
 
 function Ensure-EnvFile {
@@ -85,17 +172,17 @@ Ensure-NodeVersion
 Ensure-EnvFile
 
 Write-Log "Installing npm dependencies."
-& npm ci
+Invoke-CheckedCommand -Command "npm" -Arguments @("ci")
 
 $pythonCommand = Resolve-PythonCommand
 Write-Log "Installing Python dependencies."
-& $pythonCommand[0] $pythonCommand[1] pip install --upgrade pip
-& $pythonCommand[0] $pythonCommand[1] pip install -r requirements.txt
+Invoke-CheckedCommand -Command $pythonCommand[0] -Arguments @($pythonCommand[1], "pip", "install", "--upgrade", "pip")
+Invoke-CheckedCommand -Command $pythonCommand[0] -Arguments @($pythonCommand[1], "pip", "install", "-r", "requirements.txt")
 
 Write-Log "Installing Playwright Chromium browser."
-& npx playwright install chromium
+Invoke-CheckedCommand -Command "npx" -Arguments @("playwright", "install", "chromium")
 
 Write-Log "Running installation verification."
-& node scripts/verify-install.mjs
+Invoke-CheckedCommand -Command "node" -Arguments @("scripts/verify-install.mjs")
 
 Write-Log "Setup complete."
